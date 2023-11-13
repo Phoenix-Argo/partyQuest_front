@@ -1,12 +1,15 @@
 <script setup>
-import Header from './components/molecules/Header.vue';
-import Footer from './components/molecules/Footer.vue';
+import Header from "./components/molecules/Header.vue";
+import Footer from "./components/molecules/Footer.vue";
 </script>
 
 <template>
-    <Header/>
-    <Footer/>
+  <Header />
+
+  <router-view></router-view>
+
+  <Footer />
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>
+
