@@ -4,6 +4,7 @@ import "./assets/template/bacchusCss.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./assets/template/templatemo.css";
 import "./assets/template/fontawesome.min.css";
+import "./assets/template/dongil.css";
 
 import { createApp } from "vue";
 import { createPinia } from "pinia";
