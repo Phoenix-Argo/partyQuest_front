@@ -83,8 +83,12 @@
                 <label class="form-label"> 간편 회원가입 </label>
               </div>
               <div class="d-flex justify-content-center">
-                <a href="#"><img src="http://placehold.it/50X50" alt="#" /></a>
-                <a href="#"><img src="http://placehold.it/50X50" alt="#" /></a>
+                <a href="#"
+                  ><img class="google" src="/img/Google_logo.png" alt="#"
+                /></a>
+                <a href="#"
+                  ><img class="kakao" src="/img/kakaotalk_logo.png" alt="#"
+                /></a>
               </div>
             </section>
           </section>

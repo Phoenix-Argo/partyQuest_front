@@ -182,3 +182,23 @@
 #wantSkill {
   clear: left;
 }
+
+/*간편회원가입 아이콘*/
+.google {
+  padding-right: 5px;
+  width: 50px;
+}
+.kakao {
+  border: 1px solid gray;
+  border-radius: 18%;
+  width: 45px;
+}
+
+/*Login*/
+#loginDiv {
+  margin: 0 auto;
+  width: 300px;
+}
+#loginSec {
+  margin: 0 auto;
+}

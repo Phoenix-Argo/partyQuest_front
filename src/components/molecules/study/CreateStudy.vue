@@ -330,7 +330,6 @@ const create = () => {
                         name="product-quanity"
                         id="product-quanity"
                         value="1"
-                        v-model="memberUpperLimit"
                       />
                     </li>
                     <li class="list-inline-item">
