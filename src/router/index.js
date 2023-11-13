@@ -1,8 +1,9 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Main from "../components/molecules/Main.vue";
-import Profile from "../components/molecules/Profile.vue";
-import Register from "../components/molecules/Register.vue";
-import createStudy from "../components/molecules/CreateStudy.vue";
+import Profile from "../components/molecules/member/Profile.vue";
+import Register from "../components/molecules/member/Register.vue";
+import WaitingList from "../components/molecules/member/WaitingList.vue";
+import createStudy from "../components/molecules/study/CreateStudy.vue";
 
 // router 인스턴스 생성
 const router = createRouter({
@@ -12,6 +13,7 @@ const router = createRouter({
     { path: "/index", component: Main },
     { path: "/profile", component: Profile },
     { path: "/register", component: Register },
+    { path: "/waitingList", component: WaitingList },
     { path: "/createStudy", component: createStudy }, // 대문자 안됨
   ],
 });

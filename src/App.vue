@@ -7,7 +7,6 @@ import Footer from "./components/molecules/Footer.vue";
   <Header />
 
   <router-view></router-view>
-
   <Footer />
 </template>
 
