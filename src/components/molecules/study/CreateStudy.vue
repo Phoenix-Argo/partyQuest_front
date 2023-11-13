@@ -1,11 +1,59 @@
-<script setup>
+<script>
 import { ref } from "vue";
 import axios from "axios";
 
 const hostId = ref("");
 const title = ref("");
+const description = ref("");
+const partyOnOff = ref("");
+const locationId = ref("");
+const recruitOption = ref("");
+const memberUpperLimit = ref("");
+const middleCateIds = ref("");
+const smallCateIds = ref("");
+const recruitStartAt = ref("");
+const recruitEndAt = ref("");
+const studyStartDate = ref("");
+const studyEndDate = ref("");
 
-const study = () => {
+export default {
+  name: "createStudyForm",
+  data() {
+    return {
+      form: {
+        hostId: 1,
+        title: "",
+        description: "",
+        partyOnOff: "",
+        locationId: "",
+        recruitOption: [],
+        memberUpperLimit: "",
+        middleCateIds: "5",
+        smallCateIds: [],
+        recruitStartAt: "",
+        recruitEndAt: "",
+        studyStartDate: "",
+        studyEndDate: "",
+      },
+    };
+  },
+  methods: {
+    submitForm() {
+      axios
+        .post("/contact", this.form)
+        .then((res) => {
+          //Perform Success Action
+        })
+        .catch((error) => {
+          // error.response.status Check status code
+        })
+        .finally(() => {
+          //Perform action in always
+        });
+    },
+  },
+};
+const create = () => {
   const BASE_URL = "http://localhost:8080";
   axios
     .post(BASE_URL + "/api/study/create", {
@@ -34,7 +82,12 @@ const study = () => {
           </div>
         </div>
 
-        <form class="col-md-9 m-auto" method="post" role="form">
+        <form
+          class="col-md-9 m-auto"
+          method="post"
+          role="form"
+          v-on:submit.prevent="submitForm"
+        >
           <hr class="sectionLine" />
           <label class="form-label">스터디명*</label>
           <div id="studyName" class="form-text">
@@ -57,6 +110,7 @@ const study = () => {
             id="title"
             class="form-control"
             aria-describedby="studyName"
+            v-model="title"
           />
 
           <hr class="sectionLine" />
@@ -276,6 +330,7 @@ const study = () => {
                         name="product-quanity"
                         id="product-quanity"
                         value="1"
+                        v-model="memberUpperLimit"
                       />
                     </li>
                     <li class="list-inline-item">
@@ -324,13 +379,14 @@ const study = () => {
               name="message"
               placeholder="Message"
               rows="8"
+              v-model="description"
             ></textarea>
           </div>
           <hr class="sectionLine" />
 
           <div class="row">
             <div class="d-grid gap-2">
-              <button class="btn btn-danger" type="button">파티신청</button>
+              <button class="btn btn-danger" type="submit">파티신청</button>
             </div>
           </div>
         </form>
