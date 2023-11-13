@@ -124,3 +124,61 @@
 #createCharacter {
   width: 200%;
 }
+
+/* Study View Party Member Introduce */
+#partyMemberMain {
+}
+
+#partyMemberMain > div {
+  display: inline-block;
+  float: left;
+}
+
+#partyMemberPicture {
+  width: 20%;
+}
+#partyMemberPicture > img {
+  overflow: hidden;
+  margin: 15px;
+  border-radius: 70%;
+}
+#partyMemberProfileName {
+  width: 80%;
+}
+#viewTitle > div {
+  display: inline-block;
+  float: left;
+}
+#hostProfile {
+  width: 50%;
+  float: left;
+}
+#hostProfile > div {
+  display: inline-block;
+  float: left;
+}
+#titleThumb {
+  width: 400px;
+  height: 300px;
+  float: left;
+}
+
+#hostPicture {
+  width: 30%;
+}
+#viewTitle {
+  height: 20px;
+  float: left;
+}
+#viewInfo {
+  width: 30%;
+  height: 50px;
+  float: left;
+}
+#hostNick {
+  margin-left: 30%;
+  margin-top: -15%;
+}
+#wantSkill {
+  clear: left;
+}

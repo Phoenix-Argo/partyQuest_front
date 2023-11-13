@@ -3,6 +3,7 @@ import Main from "../components/molecules/Main.vue";
 import Profile from "../components/molecules/member/Profile.vue";
 import Register from "../components/molecules/member/Register.vue";
 import WaitingList from "../components/molecules/member/WaitingList.vue";
+import StudyView from "../components/molecules/study/StudyView.vue";
 import createStudy from "../components/molecules/study/CreateStudy.vue";
 
 // router 인스턴스 생성
@@ -14,6 +15,7 @@ const router = createRouter({
     { path: "/profile", component: Profile },
     { path: "/register", component: Register },
     { path: "/waitingList", component: WaitingList },
+    { path: "/studyView", component: StudyView },
     { path: "/createStudy", component: createStudy }, // 대문자 안됨
   ],
 });

@@ -1,0 +1,41 @@
+.infomation {
+  border-top: 1px solid black;
+  display: flex;
+}
+
+.contents {
+  width: 80%;
+  min-height: 1000px;
+}
+.side-nav {
+  width: 20%;
+  text-align: center;
+  flex: 1;
+}
+.description {
+  box-sizing: border-box;
+  background-color: lightgray;
+  height: 40%;
+  position: sticky;
+  top: 0px; /* 원하는 디자인에 맞게 이 값을 조정하세요 */
+  margin-bottom: 10%;
+}
+.contents img {
+  max-width: 100%; /* Ensures the image does not exceed the width of its container */
+  height: auto; /* Maintains the image's aspect ratio */
+}
+
+.btn-accept {
+  width: 100%;
+  color: #fff;
+  background-color: #d62600;
+  border-color: #d62600;
+}
+
+#studyInfo {
+  padding: 5%;
+  height: 80%;
+  width: 80%;
+  background-color: #fff;
+  margin: auto;
+}
