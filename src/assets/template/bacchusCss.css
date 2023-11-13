@@ -1,0 +1,126 @@
+#sectionLine {
+  width: 100%;
+  color: black;
+  border: thin solid black;
+}
+#cate1 {
+  margin: 10px;
+}
+#cate2 {
+  margin: 10px;
+}
+#cate3 {
+  margin: 10px;
+}
+#addBtn {
+  margin: 10px;
+}
+#groupLocation1 {
+  margin: 10px;
+}
+#groupLocation2 {
+  margin: 10px;
+}
+#verification {
+  float: left;
+  margin: 10px;
+}
+#verificationSwitch {
+  margin: 10px;
+}
+#personnel {
+  margin: 10px;
+}
+
+#groupHead {
+  background-color: rgb(223, 80, 80, 0.4);
+  height: 140px;
+}
+#groupHead > label {
+  margin-top: 30px;
+  margin-left: 20px;
+  color: white;
+}
+#StudyGroup {
+  margin-left: 35px;
+  color: rgb(241, 241, 241);
+}
+
+/* Profile */
+.set-date {
+  margin: 10px;
+}
+.set-date > span {
+  margin-right: 20px;
+}
+.set-date > span > input {
+  width: 200px;
+  margin-left: 15px;
+}
+#memberNum {
+  padding-top: 7px;
+}
+#message {
+  resize: none;
+  height: 400px;
+}
+#profileMain {
+  border-bottom: solid 1px gray;
+}
+#profileMain > div {
+  display: inline-block;
+  float: left;
+}
+#pictureDiv {
+  width: 20%;
+  border-right: solid 1px gray;
+}
+#profileMainSection {
+  width: 80%;
+  height: 50px;
+  border-bottom: solid 1px gray;
+}
+#myPicture {
+  overflow: hidden;
+  margin: 15px;
+  border-radius: 70%;
+}
+#nickName {
+  font-size: 30px;
+}
+#profileSec {
+  margin-top: 20px;
+}
+#introBox {
+  float: left;
+}
+#insertIntro {
+  float: left;
+}
+#insertBtn {
+  margin-left: 10px;
+}
+#portfolioBox {
+  float: left;
+}
+#pfInsertBtn {
+  margin-left: 10px;
+}
+#registerDiv {
+  margin: 0 auto;
+}
+.rowCreate > * {
+  flex-shrink: 0;
+  width: 50%;
+  max-width: 100%;
+  padding-right: calc(var(--bs-gutter-x) / 2);
+  padding-left: calc(var(--bs-gutter-x) / 2);
+  margin-top: var(--bs-gutter-y);
+}
+#registerSec {
+  margin: 0 auto;
+}
+
+#createCharacter {
+  width: 200%;
+}
