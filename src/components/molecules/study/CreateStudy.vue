@@ -1,4 +1,24 @@
-<script setup></script>
+<script setup>
+import { ref } from "vue";
+import axios from "axios";
+
+const hostId = ref("");
+const title = ref("");
+
+const study = () => {
+  const BASE_URL = "http://localhost:8080";
+  axios
+    .post(BASE_URL + "/api/study/create", {
+      hostId: 1,
+      title: "타이틀",
+      partyOnOff: "ON",
+      recruitOption: "FCFS",
+    })
+    .then((res) => {
+      console.log(res);
+    });
+};
+</script>
 <style scoped></style>
 
 <template>
