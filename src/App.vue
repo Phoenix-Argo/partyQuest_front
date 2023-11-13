@@ -12,4 +12,3 @@ import Footer from "./components/molecules/Footer.vue";
 </template>
 
 <style scoped></style>
-
