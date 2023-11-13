@@ -1,114 +1,127 @@
+<script>
+export default {
+  methods: {
+    onClickLogin() {
+      this.$router.push("/login"); // Vue Router를 사용하여 '/register' 경로로 이동
+    },
+    onClickRegister() {
+      this.$router.push("/register"); // Vue Router를 사용하여 '/register' 경로로 이동
+    },
+  },
+};
+</script>
 <template>
-        <nav
-          class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block"
-          id="templatemo_nav_top"
-        >
-          <div class="container text-light">
-            <div class="w-100 d-flex justify-content-between">
-              <div>
-                <i class="fa fa-envelope mx-2"></i>
-                <a
-                  class="navbar-sm-brand text-light text-decoration-none"
-                  href="mailto:info@company.com"
-                  >info@partyquest.com</a
-                >
-                <i class="fa fa-phone mx-2"></i>
-                <a
-                  class="navbar-sm-brand text-light text-decoration-none"
-                  href="tel:010-020-0340"
-                  >010-000-0000</a
-                >
-              </div>
-              <div>
-                <a
-                  class="text-light"
-                  href="https://fb.com/templatemo"
-                  target="_blank"
-                  rel="sponsored"
-                  ><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i
-                ></a>
-                <a
-                  class="text-light"
-                  href="https://www.instagram.com/"
-                  target="_blank"
-                  ><i class="fab fa-instagram fa-sm fa-fw me-2"></i
-                ></a>
-                <a class="text-light" href="https://twitter.com/" target="_blank"
-                  ><i class="fab fa-twitter fa-sm fa-fw me-2"></i
-                ></a>
-                <a
-                  class="text-light"
-                  href="https://www.linkedin.com/"
-                  target="_blank"
-                  ><i class="fab fa-linkedin fa-sm fa-fw"></i
-                ></a>
+  <nav
+    class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block"
+    id="templatemo_nav_top"
+  >
+    <div class="container text-light">
+      <div class="w-100 d-flex justify-content-between">
+        <div>
+          <i class="fa fa-envelope mx-2"></i>
+          <a
+            class="navbar-sm-brand text-light text-decoration-none"
+            href="mailto:info@company.com"
+            >info@partyquest.com</a
+          >
+          <i class="fa fa-phone mx-2"></i>
+          <a
+            class="navbar-sm-brand text-light text-decoration-none"
+            href="tel:010-020-0340"
+            >010-000-0000</a
+          >
+        </div>
+        <div>
+          <a
+            class="text-light"
+            href="https://fb.com/templatemo"
+            target="_blank"
+            rel="sponsored"
+            ><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i
+          ></a>
+          <a
+            class="text-light"
+            href="https://www.instagram.com/"
+            target="_blank"
+            ><i class="fab fa-instagram fa-sm fa-fw me-2"></i
+          ></a>
+          <a class="text-light" href="https://twitter.com/" target="_blank"
+            ><i class="fab fa-twitter fa-sm fa-fw me-2"></i
+          ></a>
+          <a class="text-light" href="https://www.linkedin.com/" target="_blank"
+            ><i class="fab fa-linkedin fa-sm fa-fw"></i
+          ></a>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <!-- Close Top Nav -->
+
+  <!-- Header -->
+  <nav class="navbar navbar-expand-lg navbar-light shadow">
+    <div class="container d-flex justify-content-between align-items-center">
+      <a href="/index"><img class="logo" src="/img/logo_with_name3.png" /></a>
+
+      <button
+        class="navbar-toggler border-0"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#templatemo_main_nav"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div
+        class="align-self-center collapse navbar-collapse flex-fill d-lg-flex justify-content-lg-between"
+        id="templatemo_main_nav"
+      >
+        <div class="flex-fill">
+          <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/createStudy">스터디 모임</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="about.html">프로젝트 모임</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="shop.html">커뮤니티</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="contact.html">스터디룸</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="contact.html">공지사항</a>
+            </li>
+          </ul>
+        </div>
+        <div class="navbar align-self-center d-flex">
+          <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
+            <div class="input-group">
+              <input
+                type="text"
+                class="form-control"
+                id="inputMobileSearch"
+                placeholder="Search ..."
+              />
+              <div class="input-group-text">
+                <i class="fa fa-fw fa-search"></i>
               </div>
             </div>
           </div>
-        </nav>
-        <!-- Close Top Nav -->
-    
-        <!-- Header -->
-        <nav class="navbar navbar-expand-lg navbar-light shadow">
-          <div class="container d-flex justify-content-between align-items-center">
-            <a><img class="logo" src="/img/logo_with_name3.png" /></a>
-    
-            <button
-              class="navbar-toggler border-0"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#templatemo_main_nav"
-              aria-controls="navbarSupportedContent"
-              aria-expanded="false"
-              aria-label="Toggle navigation"
-            >
-              <span class="navbar-toggler-icon"></span>
-            </button>
-    
-            <div
-              class="align-self-center collapse navbar-collapse flex-fill d-lg-flex justify-content-lg-between"
-              id="templatemo_main_nav"
-            >
-              <div class="flex-fill">
-                <ul
-                  class="nav navbar-nav d-flex justify-content-between mx-lg-auto"
-                >
-                  <li class="nav-item">
-                    <a class="nav-link" href="index.html">스터디 모임</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="about.html">프로젝트 모임</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="shop.html">커뮤니티</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="contact.html">스터디룸</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="contact.html">공지사항</a>
-                  </li>
-                </ul>
-              </div>
-              <div class="navbar align-self-center d-flex">
-                <div
-                  class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3"
-                >
-                  <div class="input-group">
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="inputMobileSearch"
-                      placeholder="Search ..."
-                    />
-                    <div class="input-group-text">
-                      <i class="fa fa-fw fa-search"></i>
-                    </div>
-                  </div>
-                </div>
-                <button type="button" class="btn btn-light">로그인</button>
-                <button type="button" class="btn btn-danger">회원가입</button>
-                <!--<a
+          <button type="button" class="btn btn-light" @click="onClickLogin()">
+            로그인
+          </button>
+          <button
+            type="button"
+            class="btn btn-danger"
+            @click="onClickRegister()"
+          >
+            회원가입
+          </button>
+          <!--<a
                   class="nav-icon d-none d-lg-inline"
                   href="#"
                   data-bs-toggle="modal"
@@ -130,16 +143,10 @@
                     >+99</span
                   >
                 </a>-->
-              </div>
-            </div>
-          </div>
-        </nav>
+        </div>
+      </div>
+    </div>
+  </nav>
 </template>
 
-<script setup>
-
-</script>
-
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>
