@@ -67,8 +67,11 @@
               <label class="form-label" id="registerTerm">
                 가입 시, 통합 계정으로 파티퀘스트가 제공하는 서비스를 모두
                 이용하실 수 있습니다.<br />
-                <a>통합 계정</a> 및 <a>서비스 이용약관</a>,
-                <a>개인정보처리방침</a>에 동의합니다.<br />
+                <a>통합 계정</a> 및
+                <routerLink to="/TermsServicePolicy">서비스 이용약관</routerLink
+                >,
+                <routerLink to="PrivacyPolicy">개인정보처리방침</routerLink>에
+                동의합니다.<br />
               </label>
               <div id="termsSpan" class="form-text">
                 <input type="checkbox" /> 파티 퀘스트의 혜택 및 유용한 소식을
