@@ -63,7 +63,7 @@ https://templatemo.com/tm-559-zay-shop
           <div class="infomation">
             <div class="contents">
               <p>스터디 내용</p>
-              <img src="/assets/img/bia.jpg" alt="비아" />
+              <img src="http://placehold.it/800X1000" alt="#" />
             </div>
             <div class="side-nav">
               <div class="description">
@@ -194,12 +194,7 @@ https://templatemo.com/tm-559-zay-shop
               <div class="col">
                 <div class="card px-4 py-2">
                   <div class="div1 row py-2 px-2">
-                    <img
-                      src="./assets/img/banner_notice_1.png"
-                      height="130px"
-                      width="auto"
-                      alt=""
-                    />
+                    <img src="http://placehold.it/400X300" alt="#" />
                   </div>
                   <div class="py-2">
                     <p id="desc">모임</p>
@@ -217,12 +212,7 @@ https://templatemo.com/tm-559-zay-shop
               <div class="col">
                 <div class="card px-4 py-2">
                   <div class="div1 row py-2 px-2">
-                    <img
-                      src="./assets/img/banner_notice_1.png"
-                      height="130px"
-                      width="auto"
-                      alt=""
-                    />
+                    <img src="http://placehold.it/400X300" alt="#" />
                   </div>
                   <div class="py-2">
                     <p id="desc">모임</p>
@@ -239,12 +229,7 @@ https://templatemo.com/tm-559-zay-shop
               <div class="col">
                 <div class="card px-4 py-2">
                   <div class="div1 row py-2 px-2">
-                    <img
-                      src="./assets/img/banner_notice_1.png"
-                      height="130px"
-                      width="auto"
-                      alt=""
-                    />
+                    <img src="http://placehold.it/400X300" alt="#" />
                   </div>
                   <div class="py-2">
                     <p id="desc">모임</p>
@@ -261,12 +246,7 @@ https://templatemo.com/tm-559-zay-shop
               <div class="col">
                 <div class="card px-4 py-2">
                   <div class="div1 row py-2 px-2">
-                    <img
-                      src="./assets/img/banner_notice_1.png"
-                      height="130px"
-                      width="auto"
-                      alt=""
-                    />
+                    <img src="http://placehold.it/400X300" alt="#" />
                   </div>
                   <div class="py-2">
                     <p id="desc">모임</p>
