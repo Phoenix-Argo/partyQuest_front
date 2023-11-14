@@ -1,12 +1,14 @@
 <script setup>
-import { ref, reactive } from "vue";
+import { ref, reactive, onMounted } from "vue";
 import axios from "axios";
 
 const BASE_URL = "http://localhost:8080";
 const cates = ref([]);
+const switchState = ref({ PNP: false });
 const newStudy = reactive({
   data: {},
 });
+
 const btnGetCate = () => {
   axios({
     url: BASE_URL + "/api/category/allCate",
@@ -23,6 +25,10 @@ const btnGetCate = () => {
       console.log(err);
     });
 };
+onMounted(() => {
+  fetchData();
+});
+
 const submitForm = () => {
   console.log(newStudy);
   axios
@@ -34,6 +40,11 @@ const submitForm = () => {
     .catch((err) => {
       console.log(err);
     });
+};
+/* 승인제 토글 */
+const handleToggleChange = () => {
+  switchState.FCFS = !switchState.FCFS;
+  console.log("새로운 상태:", switchState.FCFS);
 };
 
 /*const create = () => {
@@ -114,38 +125,38 @@ const submitForm = () => {
             <section>
               <div class="btn-group">
                 <div id="majorCate">
-                  <button
+                  <select
                     @click="btnGetCate"
+                    v-model="selectedCate1"
+                    @change="handleCate1Change"
                     type="button"
                     id="cate1"
                     class="btn dropdown-toggle btn-outline-danger"
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
+                    value="MajorCate"
                   >
-                    MajorCate
-                  </button>
-                  <ul class="dropdown-menu" v-for="cate in cates">
-                    <li>
-                      <a class="dropdown-item" href="#">{{ cate.name }}</a>
-                    </li>
-                  </ul>
+                    <option class="dropdown-item" v-for="major in cates">
+                      {{ major.majorName }}
+                    </option>
+                  </select>
                 </div>
 
                 <div id="middleCate">
-                  <button
+                  <select
+                    @click="btnGetCate"
+                    v-model="selectedCate2"
                     type="button"
-                    id="cate2"
+                    id="cate1"
                     class="btn dropdown-toggle btn-outline-danger"
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
+                    value="middleCate"
                   >
-                    MiddleCate
-                  </button>
-                  <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">CATE2</a></li>
-                    <li><a class="dropdown-item" href="#">백엔드</a></li>
-                    <li><a class="dropdown-item" href="#">프론트엔드</a></li>
-                  </ul>
+                    <option class="dropdown-item" v-for="middle in cates">
+                      {{ middle.middleName }}
+                    </option>
+                  </select>
                 </div>
 
                 <div id="SmallCate">
@@ -286,8 +297,10 @@ const submitForm = () => {
                   style="width: 70px; height: 30px"
                   type="checkbox"
                   role="switch"
-                  checked
+                  v-model="switchState"
+                  @change="handleToggleChange"
                 />
+                <p>현재 상태: {{ switchState ? "Off" : "On" }}</p>
                 <ul class="list-inline pb-3" id="memberNum">
                   <li class="list-inline-item text-right">
                     파티원 수
