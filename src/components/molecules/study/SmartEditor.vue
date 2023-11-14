@@ -1,0 +1,77 @@
+<template>
+  <ck-editor v-model="editorContent" :editor="editor" :config="editorConfig" />
+</template>
+
+<script>
+import { defineComponent } from "vue";
+import CKEditor from "@ckeditor/ckeditor5-vue";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+//import UploadAdapter from "../../../../shared/utils/uploadAdapter";
+
+export default defineComponent({
+  components: {
+    "ck-editor": CKEditor.component,
+  },
+  data() {
+    return {
+      // ✅ v-model
+      editorContent: "",
+      // ✅ :editor
+      editor: ClassicEditor,
+      // ✅ :config
+      editorConfig: {
+        toolbar: [
+          "heading",
+          "|",
+          "fontBackgroundColor",
+          "fontColor",
+          "fontSize",
+          "bold",
+          "italic",
+          "|",
+          "alignment",
+          "bulletedList",
+          "numberedList",
+          "indent",
+          "outdent",
+          "|",
+          "imageUpload",
+          "insertTable",
+          "link",
+          "|",
+          "undo",
+          "redo",
+        ],
+        table: {
+          contentToolbar: [
+            "tableColumn",
+            "tableRow",
+            "mergeTableCells",
+            "tableProperties",
+            "tableCellProperties",
+          ],
+        },
+        image: {
+          resize: true,
+          toolbar: [
+            "imageStyle:alignLeft",
+            "imageStyle:alignRight",
+            "imageStyle:inline",
+            "imageStyle:side",
+          ],
+        },
+        // ✅ 이미지 업로드 플러그인
+        extraPlugins: [
+          function MyCustomUploadAdapterPlugin(editor) {
+            editor.plugins.get("FileRepository").createUploadAdapter = (
+              loader
+            ) => {
+              return new UploadAdapter(loader);
+            };
+          },
+        ],
+      },
+    };
+  },
+});
+</script>

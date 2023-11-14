@@ -1,6 +1,7 @@
 <script setup>
 import { ref, reactive } from "vue";
 import axios from "axios";
+import SmartEditor from "./smartEditor.vue";
 
 const BASE_URL = "http://localhost:8080";
 const cates = ref([]);
@@ -42,6 +43,7 @@ const submitForm = () => {
     });
 };
 </script>
+
 <style scoped></style>
 
 <template>
@@ -333,6 +335,7 @@ const submitForm = () => {
             </div>
           </div>
           <!--뷰 에디터 컴포넌트 자리-->
+          <SmartEditor></SmartEditor>
           <hr class="sectionLine" />
 
           <div class="row">
