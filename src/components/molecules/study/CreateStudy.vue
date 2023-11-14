@@ -1,59 +1,42 @@
-<script>
-import { ref } from "vue";
+<script setup>
+import { ref, reactive } from "vue";
 import axios from "axios";
 
-const hostId = ref("");
-const title = ref("");
-const description = ref("");
-const partyOnOff = ref("");
-const locationId = ref("");
-const recruitOption = ref("");
-const memberUpperLimit = ref("");
-const middleCateIds = ref("");
-const smallCateIds = ref("");
-const recruitStartAt = ref("");
-const recruitEndAt = ref("");
-const studyStartDate = ref("");
-const studyEndDate = ref("");
+const BASE_URL = "http://localhost:8080";
+const cates = ref([]);
+const newStudy = reactive({
+  data: {},
+});
+const btnGetCate = () => {
+  axios({
+    url: BASE_URL + "/api/category/allCate",
+    method: "get",
+    responseType: "json",
+  })
+    .then((response) => {
+      console.log(response);
+      cates.value = response.data;
 
-export default {
-  name: "createStudyForm",
-  data() {
-    return {
-      form: {
-        hostId: 1,
-        title: "",
-        description: "",
-        partyOnOff: "",
-        locationId: "",
-        recruitOption: [],
-        memberUpperLimit: "",
-        middleCateIds: "5",
-        smallCateIds: [],
-        recruitStartAt: "",
-        recruitEndAt: "",
-        studyStartDate: "",
-        studyEndDate: "",
-      },
-    };
-  },
-  methods: {
-    submitForm() {
-      axios
-        .post("/contact", this.form)
-        .then((res) => {
-          //Perform Success Action
-        })
-        .catch((error) => {
-          // error.response.status Check status code
-        })
-        .finally(() => {
-          //Perform action in always
-        });
-    },
-  },
+      console.log(response.value);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
-const create = () => {
+const submitForm = () => {
+  console.log(newStudy);
+  axios
+    .post(BASE_URL + "/api/study/create", newStudy)
+    .then((response) => {
+      console.log(response);
+      alert("등록!");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+/*const create = () => {
   const BASE_URL = "http://localhost:8080";
   axios
     .post(BASE_URL + "/api/study/create", {
@@ -65,7 +48,7 @@ const create = () => {
     .then((res) => {
       console.log(res);
     });
-};
+};*/
 </script>
 <style scoped></style>
 
@@ -82,12 +65,7 @@ const create = () => {
           </div>
         </div>
 
-        <form
-          class="col-md-9 m-auto"
-          method="post"
-          role="form"
-          v-on:submit.prevent="submitForm"
-        >
+        <form @submit.prevent="submitForm" class="col-md-9 m-auto">
           <hr class="sectionLine" />
           <label class="form-label">스터디명*</label>
           <div id="studyName" class="form-text">
@@ -106,11 +84,11 @@ const create = () => {
             직관적인 스터디모임명을 사용하시면 클릭률이 올라갑니다!
           </div>
           <input
-            type="txt"
+            type="text"
             id="title"
             class="form-control"
             aria-describedby="studyName"
-            v-model="title"
+            v-model="newStudy.title"
           />
 
           <hr class="sectionLine" />
@@ -137,6 +115,7 @@ const create = () => {
               <div class="btn-group">
                 <div id="majorCate">
                   <button
+                    @click="btnGetCate"
                     type="button"
                     id="cate1"
                     class="btn dropdown-toggle btn-outline-danger"
@@ -145,10 +124,10 @@ const create = () => {
                   >
                     MajorCate
                   </button>
-                  <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">CATE1</a></li>
-                    <li><a class="dropdown-item" href="#">IT 개발</a></li>
-                    <li><a class="dropdown-item" href="#">등등등</a></li>
+                  <ul class="dropdown-menu" v-for="cate in cates">
+                    <li>
+                      <a class="dropdown-item" href="#">{{ cate.name }}</a>
+                    </li>
                   </ul>
                 </div>
 
@@ -357,7 +336,8 @@ const create = () => {
               name="message"
               placeholder="Message"
               rows="8"
-              v-model="description"
+              type="content"
+              v-model="newStudy.description"
             ></textarea>
           </div>
           <hr class="sectionLine" />

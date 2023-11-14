@@ -1,13 +1,11 @@
-<script>
-export default {
-  methods: {
-    onClickLogin() {
-      this.$router.push("/login"); // Vue Router를 사용하여 '/register' 경로로 이동
-    },
-    onClickRegister() {
-      this.$router.push("/register"); // Vue Router를 사용하여 '/register' 경로로 이동
-    },
-  },
+<script setup>
+import router from "../../router";
+
+const onClickLogin = function () {
+  router.push("/login");
+};
+const onClickRegister = function () {
+  router.push("/register");
 };
 </script>
 <template>
