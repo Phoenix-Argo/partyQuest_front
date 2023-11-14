@@ -1,3 +1,4 @@
+/* createStudy */
 #sectionLine {
   width: 100%;
   color: black;
@@ -44,6 +45,9 @@
 #StudyGroup {
   margin-left: 35px;
   color: rgb(241, 241, 241);
+}
+.createStudyTilte > label {
+  color: 212529 !important;
 }
 
 /* Profile */
@@ -125,6 +129,16 @@
   width: 200%;
 }
 
+#registerTerm {
+  margin-top: 5px;
+  font-size: 10px !important;
+}
+#registerTerm > * {
+  font-size: 10px !important;
+}
+#termsSpan {
+  font-size: 11px !important;
+}
 /* Study View Party Member Introduce */
 #partyMemberMain {
 }
@@ -201,4 +215,59 @@
 }
 #loginSec {
   margin: 0 auto;
+}
+
+/* Terms */
+.terms {
+  margin: 10px;
+}
+.terms > h1 {
+  font: 32px bold;
+}
+
+.terms > h2 {
+  font: 24px bold;
+}
+
+.terms > p {
+  font-size: 16px;
+  margin-top: 3px;
+}
+
+.termsTable {
+  border-collapse: collapse;
+  display: table;
+  box-sizing: border-box;
+  text-indent: initial;
+  border-color: gray;
+  width: 100%;
+  max-width: 100%;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  table-layout: fixed;
+  border-bottom: 1px solid #dbdbdb;
+}
+.termsTable > thead {
+  display: table-header-group;
+  vertical-align: middle;
+  border-color: inherit;
+}
+.termsTable > thead > th {
+  padding: 14px 0;
+  text-align: center;
+  background-color: #ddd;
+  font-weight: 700;
+  display: table-cell;
+  vertical-align: inherit;
+}
+.termsTable > tbody {
+  display: table-row-group;
+  vertical-align: middle;
+  border-color: inherit;
+}
+.termsTable > tbody > td {
+  padding: 12px 0;
+  text-align: center;
+  font-size: 87.5%;
+  color: #333;
 }
