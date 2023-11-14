@@ -13,6 +13,7 @@ import Footer from "./components/molecules/Footer.vue";
   <router-link to="/waitingList"></router-link>
   <router-link to="/studyView"></router-link>
   <router-link to="/createStudy"></router-link>
+  <router-link to="/termsServicePolicy"></router-link>
   <router-view></router-view>
   <Footer />
 </template>

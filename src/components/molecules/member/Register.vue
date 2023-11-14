@@ -64,7 +64,7 @@
             </div>
 
             <section id="terms">
-              <label class="form-label">
+              <label class="form-label" id="registerTerm">
                 가입 시, 통합 계정으로 파티퀘스트가 제공하는 서비스를 모두
                 이용하실 수 있습니다.<br />
                 <a>통합 계정</a> 및 <a>서비스 이용약관</a>,
