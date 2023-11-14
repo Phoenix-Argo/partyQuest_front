@@ -1,14 +1,18 @@
 <script setup>
-import { ref, reactive, onMounted } from "vue";
+import { ref, reactive } from "vue";
 import axios from "axios";
+import SmartEditor from "./smartEditor.vue";
 
 const BASE_URL = "http://localhost:8080";
 const cates = ref([]);
-const switchState = ref({ PNP: false });
-const newStudy = reactive({
-  data: {},
+const switchState = ref({
+  isPnp: false,
 });
-
+const newStudy = reactive({
+  data: {
+    recruitOption: "",
+  },
+});
 const btnGetCate = () => {
   axios({
     url: BASE_URL + "/api/category/allCate",
@@ -25,11 +29,8 @@ const btnGetCate = () => {
       console.log(err);
     });
 };
-onMounted(() => {
-  fetchData();
-});
-
 const submitForm = () => {
+  newStudy.data.recruitOption = switchState.value.isPnp ? "PNP" : "FCFS";
   console.log(newStudy);
   axios
     .post(BASE_URL + "/api/study/create", newStudy)
@@ -41,26 +42,8 @@ const submitForm = () => {
       console.log(err);
     });
 };
-/* 승인제 토글 */
-const handleToggleChange = () => {
-  switchState.FCFS = !switchState.FCFS;
-  console.log("새로운 상태:", switchState.FCFS);
-};
-
-/*const create = () => {
-  const BASE_URL = "http://localhost:8080";
-  axios
-    .post(BASE_URL + "/api/study/create", {
-      hostId: 1,
-      title: "타이틀",
-      partyOnOff: "ON",
-      recruitOption: "FCFS",
-    })
-    .then((res) => {
-      console.log(res);
-    });
-};*/
 </script>
+
 <style scoped></style>
 
 <template>
@@ -125,38 +108,38 @@ const handleToggleChange = () => {
             <section>
               <div class="btn-group">
                 <div id="majorCate">
-                  <select
+                  <button
                     @click="btnGetCate"
-                    v-model="selectedCate1"
-                    @change="handleCate1Change"
                     type="button"
                     id="cate1"
                     class="btn dropdown-toggle btn-outline-danger"
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
-                    value="MajorCate"
                   >
-                    <option class="dropdown-item" v-for="major in cates">
-                      {{ major.majorName }}
-                    </option>
-                  </select>
+                    MajorCate
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li v-for="cate in cates">
+                      <a class="dropdown-item" href="#">{{ cate.majorName }}</a>
+                    </li>
+                  </ul>
                 </div>
 
                 <div id="middleCate">
-                  <select
-                    @click="btnGetCate"
-                    v-model="selectedCate2"
+                  <button
                     type="button"
-                    id="cate1"
+                    id="cate2"
                     class="btn dropdown-toggle btn-outline-danger"
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
-                    value="middleCate"
                   >
-                    <option class="dropdown-item" v-for="middle in cates">
-                      {{ middle.middleName }}
-                    </option>
-                  </select>
+                    MiddleCate
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">CATE2</a></li>
+                    <li><a class="dropdown-item" href="#">백엔드</a></li>
+                    <li><a class="dropdown-item" href="#">프론트엔드</a></li>
+                  </ul>
                 </div>
 
                 <div id="SmallCate">
@@ -258,9 +241,17 @@ const handleToggleChange = () => {
               <!--  -->
               <div class="set-date">
                 <span id="startSpan"
-                  >시작일<input type="date" name="start"
+                  >시작일<input
+                    type="date"
+                    name="start"
+                    v-model="newStudy.recruitStartAt"
                 /></span>
-                <span id="endSpan">종료일<input type="date" name="end" /></span>
+                <span id="endSpan"
+                  >종료일<input
+                    type="date"
+                    name="end"
+                    v-model="newStudy.recruitEndAt"
+                /></span>
               </div>
             </section>
 
@@ -297,10 +288,9 @@ const handleToggleChange = () => {
                   style="width: 70px; height: 30px"
                   type="checkbox"
                   role="switch"
-                  v-model="switchState"
+                  v-model="switchState.isPnp"
                   @change="handleToggleChange"
                 />
-                <p>현재 상태: {{ switchState ? "Off" : "On" }}</p>
                 <ul class="list-inline pb-3" id="memberNum">
                   <li class="list-inline-item text-right">
                     파티원 수
@@ -343,16 +333,9 @@ const handleToggleChange = () => {
               설명이 풍부한 스터디 모임은, 아닌 스터디 모임에 비해 지원률이 50%
               높습니다.
             </div>
-            <textarea
-              class="form-control mt-1"
-              id="message"
-              name="message"
-              placeholder="Message"
-              rows="8"
-              type="content"
-              v-model="newStudy.description"
-            ></textarea>
           </div>
+          <!--뷰 에디터 컴포넌트 자리-->
+          <SmartEditor></SmartEditor>
           <hr class="sectionLine" />
 
           <div class="row">
