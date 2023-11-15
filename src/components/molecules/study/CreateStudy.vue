@@ -1,47 +1,109 @@
 <script setup>
-import { ref, reactive } from "vue";
+import { ref, reactive, onMounted } from "vue";
 import axios from "axios";
 import SmartEditor from "./smartEditor.vue";
 
 const BASE_URL = "http://localhost:8080";
-const cates = ref([]);
+const cates = ref({});
+
+//cate 상태 (major, middle , small) SELECT LIST
+const major = ref({
+  curMajor: "",
+  majors: [],
+});
+const middle = ref({
+  curMiddle: "",
+  middles: [],
+});
+const small = ref({
+  curSmall: "",
+  smalls: [],
+});
+// 현재 스터디의 주제로 선택된 middle cates, small cates
+const selectedMiddles = ref(new Set([]));
+const selectedSmalls = ref(new Set([]));
+
+// 모집 방식토글(FCFS, PNP)
 const switchState = ref({
   isPnp: false,
 });
+// axios에 실어 보낼 payload
 const newStudy = reactive({
   data: {
     recruitOption: "",
   },
 });
-const btnGetCate = () => {
-  axios({
+const fetchCates = async () => {
+  await axios({
     url: BASE_URL + "/api/category/allCate",
     method: "get",
     responseType: "json",
   })
     .then((response) => {
-      console.log(response);
-      cates.value = response.data;
+      response.data.forEach((element) => {
+        const majorKey = element["majorName"];
+        const tempObj = {};
+        element["middleCates"].forEach((mid) => {
+          const middleKey = mid["middleName"];
+          const smallCates = mid["smallCates"];
+          const tempList = [];
 
-      console.log(response.value);
+          smallCates.forEach((sm) => {
+            tempList.push(sm["smallName"] + " " + sm["id"]);
+          });
+          tempObj[middleKey] = tempList;
+        });
+        cates.value[majorKey] = tempObj;
+        // cates의 key(major cate)들을 먼저 등록 해준다.
+        major.value.majors = Object.keys(cates.value);
+      });
+      console.log("my cate objs", cates.value);
     })
     .catch((err) => {
       console.log(err);
     });
 };
+onMounted(() => {
+  fetchCates();
+});
 const submitForm = () => {
   newStudy.data.recruitOption = switchState.value.isPnp ? "PNP" : "FCFS";
   console.log(newStudy);
   axios
     .post(BASE_URL + "/api/study/create", newStudy)
     .then((response) => {
-      console.log(response);
       alert("등록!");
     })
     .catch((err) => {
       console.log(err);
     });
 };
+// cate change handler start
+
+/**
+ * Major 카테에 해당하는 Middle 카테들을 리스트에 등록시킨다.
+ * @param {} e
+ */
+const onMajorChange = (e) => {
+  const selectedMajor = e.target.innerText.trim();
+  major.value.curMajor = selectedMajor;
+  middle.value.middles = Object.keys(cates.value[selectedMajor]);
+};
+
+const onMiddleChange = (e) => {
+  const selectedMiddle = e.target.innerText.trim();
+  middle.value.curMiddle = selectedMiddle;
+  selectedMiddles.value.add(selectedMiddle);
+  small.value.smalls =
+    cates.value[major.value.curMajor][middle.value.curMiddle];
+};
+const onSmallSelected = (e) => {
+  const selectedSmall = e.target.innerText.trim();
+  small.value.curSmall = selectedSmall;
+  selectedSmalls.value.add(selectedSmall);
+};
+
+// cate change handler end
 </script>
 
 <style scoped></style>
@@ -109,7 +171,6 @@ const submitForm = () => {
               <div class="btn-group">
                 <div id="majorCate">
                   <button
-                    @click="btnGetCate"
                     type="button"
                     id="cate1"
                     class="btn dropdown-toggle btn-outline-danger"
@@ -119,8 +180,12 @@ const submitForm = () => {
                     MajorCate
                   </button>
                   <ul class="dropdown-menu">
-                    <li v-for="cate in cates">
-                      <a class="dropdown-item" href="#">{{ cate.majorName }}</a>
+                    <li
+                      v-for="cateKey in Object.keys(cates)"
+                      class="dropdown-item"
+                      @click="onMajorChange"
+                    >
+                      {{ cateKey }}
                     </li>
                   </ul>
                 </div>
@@ -136,9 +201,13 @@ const submitForm = () => {
                     MiddleCate
                   </button>
                   <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">CATE2</a></li>
-                    <li><a class="dropdown-item" href="#">백엔드</a></li>
-                    <li><a class="dropdown-item" href="#">프론트엔드</a></li>
+                    <li
+                      v-for="middle in middle.middles"
+                      class="dropdown-item"
+                      @click="onMiddleChange"
+                    >
+                      {{ middle }}
+                    </li>
                   </ul>
                 </div>
 
@@ -153,9 +222,13 @@ const submitForm = () => {
                     SmallCate
                   </button>
                   <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">CATE3</a></li>
-                    <li><a class="dropdown-item" href="#">Spring</a></li>
-                    <li><a class="dropdown-item" href="#">Vue.js</a></li>
+                    <li
+                      v-for="small in small.smalls"
+                      class="dropdown-item"
+                      @click="onSmallSelected"
+                    >
+                      {{ small }}
+                    </li>
                   </ul>
                 </div>
 
@@ -163,6 +236,18 @@ const submitForm = () => {
                   <button type="button" id="addBtn" class="btn btn-danger">
                     추가
                   </button>
+                </div>
+              </div>
+              <div class="d-flex">
+                <span v-if="selectedMiddles.size > 0">&#127795;</span>
+                <div v-for="sMiddle in selectedMiddles">
+                  <span class="p-1 fw-bold">{{ sMiddle }}</span>
+                </div>
+              </div>
+              <div class="d-flex">
+                <span v-if="selectedSmalls.size > 0">&#127808;</span>
+                <div v-for="sSmall in selectedSmalls">
+                  <span class="p-1 fw-bold">{{ sSmall }}</span>
                 </div>
               </div>
             </section>
