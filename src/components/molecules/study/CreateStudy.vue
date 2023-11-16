@@ -29,10 +29,9 @@ const switchState = ref({
 });
 // axios에 실어 보낼 payload
 const newStudy = reactive({
-  data: {
-    recruitOption: "",
-  },
+  data: {},
 });
+
 const fetchCates = async () => {
   await axios({
     url: BASE_URL + "/api/category/allCate",
@@ -66,12 +65,17 @@ const fetchCates = async () => {
 onMounted(() => {
   fetchCates();
 });
-const submitForm = () => {
-  newStudy.data.recruitOption = switchState.value.isPnp ? "PNP" : "FCFS";
-  console.log(newStudy);
+
+const submitForm = async () => {
+  // 승인제
+  newStudy.recruitOption = switchState.value.isPnp ? "PNP" : "FCFS";
+
+  console.log("newStudy.data : " + JSON.stringify(newStudy));
+
   axios
     .post(BASE_URL + "/api/study/create", newStudy)
     .then((response) => {
+      console.log(JSON.stringify(response));
       alert("등록!");
     })
     .catch((err) => {
@@ -328,14 +332,14 @@ const onSmallSelected = (e) => {
                 <span id="startSpan"
                   >시작일<input
                     type="date"
-                    name="start"
-                    v-model="newStudy.recruitStartAt"
+                    name="recruitStartAt"
+                    v-model="newStudy.data.recruitStartAt"
                 /></span>
                 <span id="endSpan"
                   >종료일<input
                     type="date"
-                    name="end"
-                    v-model="newStudy.recruitEndAt"
+                    name="recruitEndAt"
+                    v-model="newStudy.data.recruitEndAt"
                 /></span>
               </div>
             </section>
@@ -400,6 +404,16 @@ const onSmallSelected = (e) => {
             </section>
           </section>
           <hr class="sectionLine" />
+          <div class="form-group" style="padding-bottom: 10px">
+            <label for="exampleFormControlFile1">썸네일* </label><br />
+
+            <input
+              type="file"
+              class="form-control-file"
+              id="exampleFormControlFile1"
+            />
+          </div>
+          <hr class="sectionLine" />
           <div class="mb-3">
             <label for="inputmessage">스터디 설명 *</label>
             <div id="passwordHelpBlock" class="form-text">
@@ -419,8 +433,12 @@ const onSmallSelected = (e) => {
               높습니다.
             </div>
           </div>
+
           <!--뷰 에디터 컴포넌트 자리-->
-          <SmartEditor></SmartEditor>
+          <SmartEditor
+            id="input-content"
+            v-model="newStudy.description"
+          ></SmartEditor>
           <hr class="sectionLine" />
 
           <div class="row">
