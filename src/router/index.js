@@ -21,7 +21,7 @@ const router = createRouter({
     { path: "/register", component: Register },
     { path: "/login", component: Login },
     { path: "/waitingList", component: WaitingList },
-    { path: "/studyView", component: StudyView },
+    { path: "/studyView/:studyId", component: StudyView },
     { path: "/createStudy", component: createStudy }, // 대문자 안됨
     { path: "/termsServicePolicy", component: TermsServicePolicy },
     { path: "/privacyPolicy", component: PrivacyPolicy },

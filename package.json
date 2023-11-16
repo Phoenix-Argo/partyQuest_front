@@ -16,6 +16,7 @@
     "pinia": "^2.1.7",
     "smart-webcomponents": "^17.0.3",
     "vue": "^3.3.4",
+    "vue-codemirror": "^6.1.1",
     "vue-quill-editor": "^3.0.6",
     "vue-router": "^4.2.5",
     "vue2-editor": "^2.10.3"
