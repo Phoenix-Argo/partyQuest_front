@@ -43,11 +43,38 @@
   color: white;
 }
 #StudyGroup {
-  margin-left: 35px;
-  color: rgb(241, 241, 241);
+  margin-left: 20px;
+  color: white;
 }
 .createStudyTilte > label {
   color: 212529 !important;
+}
+.form-main {
+  font-size: 20px;
+  font-weight: bold;
+}
+.main-text {
+  font-size: 17px;
+  color: rgb(139, 139, 139);
+}
+.subtext {
+  font-size: 12px;
+  color: rgb(139, 139, 139);
+  padding-bottom: 10px;
+}
+.party-count {
+  padding-left: 30%;
+}
+.short-input {
+  width: 50px;
+  border-radius: 5px;
+  border: 1px solid gray;
+  text-align: center;
+  padding: 5px;
+}
+
+#memberNum > li {
+  margin-bottom: 5px;
 }
 
 /* Profile */
