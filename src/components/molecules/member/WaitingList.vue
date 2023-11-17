@@ -79,6 +79,6 @@ onMounted(findWaitingList);
   color: blue;
 }
 #rejectStudy {
-  color: red; test1
+  color: red;
 }
 </style>
