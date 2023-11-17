@@ -211,19 +211,19 @@ const onLocationChangeHandler = (curLocation)=>{
             <div class="btn-group">
               <div id="majorCate">
                 <button
-                  type="button"
-                  id="cate1"
-                  class="btn dropdown-toggle btn-outline-danger"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
+                    type="button"
+                    id="cate1"
+                    class="btn dropdown-toggle btn-outline-danger"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
                 >
                   MajorCate
                 </button>
                 <ul class="dropdown-menu">
                   <li
-                    v-for="cateKey in Object.keys(cates)"
-                    class="dropdown-item"
-                    @click="onMajorChange"
+                      v-for="cateKey in Object.keys(cates)"
+                      class="dropdown-item"
+                      @click="onMajorChange"
                   >
                     {{ cateKey }}
                   </li>
@@ -232,37 +232,42 @@ const onLocationChangeHandler = (curLocation)=>{
 
               <div id="middleCate">
                 <button
-                  type="button"
-                  id="cate2"
-                  class="btn dropdown-toggle btn-outline-danger"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
+                    type="button"
+                    id="cate2"
+                    class="btn dropdown-toggle btn-outline-danger"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
                 >
                   MiddleCate
                 </button>
                 <ul class="dropdown-menu">
-                  <li v-for="on in onOffList" class="dropdown-item"
-                  @click="onOffToggleHandler(on)">
-                    {{on}}
+                  <li
+                      v-for="middle in middle.middles"
+                      class="dropdown-item"
+                      @click="onMiddleChange"
+                  >
+                    {{ middle }}
                   </li>
                 </ul>
               </div>
 
-
-              <div v-if="isLocationsVisible" class="Location">
+              <div id="SmallCate">
                 <button
-                  type="button"
-                  id="cate3"
-                  class="btn dropdown-toggle btn-outline-danger"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
+                    type="button"
+                    id="cate3"
+                    class="btn dropdown-toggle btn-outline-danger"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
                 >
                   SmallCate
                 </button>
                 <ul class="dropdown-menu">
-                  <li v-for="location in locations" class="dropdown-item"
-                  @click="onLocationChangeHandler(location.locationName)">
-                    {{location.locationName}}
+                  <li
+                      v-for="small in small.smalls"
+                      class="dropdown-item"
+                      @click="onSmallSelected"
+                  >
+                    {{ small }}
                   </li>
                 </ul>
               </div>
@@ -318,12 +323,14 @@ const onLocationChangeHandler = (curLocation)=>{
                 온/오프라인 모두 가능
               </button>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">온라인</a></li>
-                <li><a class="dropdown-item" href="#">오프라인</a></li>
+                <li v-for="on in onOffList" class="dropdown-item"
+                    @click="onOffToggleHandler(on)">
+                  {{on}}
+                </li>
               </ul>
             </div>
 
-            <div class="Location">
+            <div v-if="isLocationsVisible" class="Location">
               <button
                 type="button"
                 id="groupLocation2"
@@ -334,8 +341,10 @@ const onLocationChangeHandler = (curLocation)=>{
                 상관없음
               </button>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">서울</a></li>
-                <li><a class="dropdown-item" href="#">부산</a></li>
+                <li v-for="location in locations" class="dropdown-item"
+                    @click="onLocationChangeHandler(location.locationName)">
+                  {{location.locationName}}
+                </li>
               </ul>
             </div>
           </div>
