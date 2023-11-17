@@ -2,6 +2,7 @@
 import { ref, reactive, onMounted } from "vue";
 import axios from "axios";
 import SmartEditor from "./smartEditor.vue";
+import {getLocations} from "@/utils/fetch/studyFetch";
 
 const BASE_URL = "http://localhost:8080";
 const cates = ref({});
@@ -27,6 +28,10 @@ const selectedSmalls = ref(new Set([]));
 const switchState = ref({
   isPnp: false,
 });
+// 온라인 스터디, 오프라인 스터디, 위치
+const newStudy_onOff = ref("");
+const newStudy_Location = ref("");
+
 // axios에 실어 보낼 payload
 const newStudy = reactive({
   data: {},
@@ -62,8 +67,15 @@ const fetchCates = async () => {
       console.log(err);
     });
 };
+const fetchLocations = async () => {
+  await getLocations()
+      .then(res=>{
+        locations.value = res;
+      })
+}
 onMounted(() => {
   fetchCates();
+  fetchLocations();
 });
 
 const submitForm = async () => {
@@ -108,6 +120,31 @@ const onSmallSelected = (e) => {
 };
 
 // cate change handler end
+
+// on off 선택 시작
+const onOffList = ref(["온라인+오프라인","온라인","오프라인"])
+const isOn = ref(false); // 온라인만 진행하는 경우:true, 오프라인을 포함하는 경우:false
+const onOffToggleHandler = async (onOff)=>{
+  if (onOff.includes("오프라인")) {
+    isOn.value = false;
+    isLocationsVisible.value = true;
+  }
+  else{
+    isOn.value = true;
+    isLocationsVisible.value = false;
+    newStudy_Location.value = "온라인" // 온라인 모집인 경우 위치는 무조건 온라인
+  }
+  newStudy_onOff.value = onOff; // api에 실을 데이터 할당
+}
+// on off 선택 end
+
+// locations 선택
+const isLocationsVisible = ref(true); // 온라인인 경우 location을 선택 할 수 없다.=>이 경우 location == '온라인'
+const locations = ref([]);
+const onLocationChangeHandler = (curLocation)=>{
+  newStudy_Location.value = curLocation;
+}
+// locations 선택 끝
 </script>
 
 <style scoped></style>
@@ -204,17 +241,15 @@ const onSmallSelected = (e) => {
                   MiddleCate
                 </button>
                 <ul class="dropdown-menu">
-                  <li
-                    v-for="middle in middle.middles"
-                    class="dropdown-item"
-                    @click="onMiddleChange"
-                  >
-                    {{ middle }}
+                  <li v-for="on in onOffList" class="dropdown-item"
+                  @click="onOffToggleHandler(on)">
+                    {{on}}
                   </li>
                 </ul>
               </div>
 
-              <div id="SmallCate">
+
+              <div v-if="isLocationsVisible" class="Location">
                 <button
                   type="button"
                   id="cate3"
@@ -225,12 +260,9 @@ const onSmallSelected = (e) => {
                   SmallCate
                 </button>
                 <ul class="dropdown-menu">
-                  <li
-                    v-for="small in small.smalls"
-                    class="dropdown-item"
-                    @click="onSmallSelected"
-                  >
-                    {{ small }}
+                  <li v-for="location in locations" class="dropdown-item"
+                  @click="onLocationChangeHandler(location.locationName)">
+                    {{location.locationName}}
                   </li>
                 </ul>
               </div>
