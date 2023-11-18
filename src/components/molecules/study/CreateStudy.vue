@@ -2,7 +2,7 @@
 import { ref, reactive, onMounted } from "vue";
 import axios from "axios";
 import SmartEditor from "./smartEditor.vue";
-import {getLocations} from "@/utils/fetch/studyFetch";
+import { getLocations } from "@/utils/fetch/studyFetch";
 
 const BASE_URL = "http://localhost:8080";
 const cates = ref({});
@@ -67,11 +67,10 @@ const fetchCates = async () => {
     });
 };
 const fetchLocations = async () => {
-  await getLocations()
-      .then(res=>{
-        locations.value = res;
-      })
-}
+  await getLocations().then((res) => {
+    locations.value = res;
+  });
+};
 onMounted(() => {
   fetchCates();
   fetchLocations();
@@ -80,13 +79,14 @@ onMounted(() => {
 const submitForm = async () => {
   // 승인제
   newStudy.recruitOption = switchState.value.isPnp ? "PNP" : "FCFS";
+  newStudy.memberUpperLimit = member.value;
+  newStudy.hostId = 352;
   //동한
   newStudy.middleCateIds = Array.from(selectedMiddles.value).map(el => Number(el.split(" ")[el.split(" ").length-1]))
   newStudy.smallCateIds = Array.from(selectedSmalls.value).map(el => Number(el.split(" ")[el.split(" ").length-1]))
   newStudy.partyOnOff = newStudy_onOff.value;
   newStudy.locationId = newStudy_Location.value;
   //동한 끝
-
   console.log("newStudy.data : " + JSON.stringify(newStudy));
 
   axios
@@ -126,9 +126,11 @@ const onSmallSelected = (curSmall) => {
 // cate change handler end
 
 // on off 선택 시작
-const onOffList = ref(["온라인+오프라인","온라인","오프라인"])
+const selectedOption = ref("온/오프라인 선택");
+const selectedLocation = ref("지역 선택");
+const onOffList = ref(["온/오프라인 모두 가능", "온라인", "오프라인"]);
 const isOn = ref(false); // 온라인만 진행하는 경우:true, 오프라인을 포함하는 경우:false
-const onOffToggleHandler = async (onOff)=>{
+const onOffToggleHandler = async (onOff) => {
   if (onOff.includes("오프라인")) {
     isOn.value = false;
     isLocationsVisible.value = true;
@@ -150,10 +152,25 @@ const onOffToggleHandler = async (onOff)=>{
 // locations 선택
 const isLocationsVisible = ref(true); // 온라인인 경우 location을 선택 할 수 없다.=>이 경우 location == '온라인'
 const locations = ref([]);
-const onLocationChangeHandler = (curLocation)=>{
+
+const onLocationChangeHandler = (curLocation) => {
   newStudy_Location.value = curLocation.id;
-}
+  selectedLocation.value = curLocation.locationName;
+};
 // locations 선택 끝
+
+// 파티원수
+const member = ref(0);
+const increase = () => {
+  if (member.value < 30) {
+    member.value++;
+  }
+};
+const decrease = () => {
+  if (member.value > 0) {
+    member.value--;
+  }
+};
 </script>
 
 <style scoped></style>
@@ -220,19 +237,19 @@ const onLocationChangeHandler = (curLocation)=>{
             <div class="btn-group">
               <div id="majorCate">
                 <button
-                    type="button"
-                    id="cate1"
-                    class="btn dropdown-toggle btn-outline-danger"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
+                  type="button"
+                  id="cate1"
+                  class="btn dropdown-toggle btn-outline-danger"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
                 >
                   MajorCate
                 </button>
                 <ul class="dropdown-menu">
                   <li
-                      v-for="cateKey in Object.keys(cates)"
-                      class="dropdown-item"
-                      @click="onMajorChange"
+                    v-for="cateKey in Object.keys(cates)"
+                    class="dropdown-item"
+                    @click="onMajorChange"
                   >
                     {{ cateKey }}
                   </li>
@@ -241,11 +258,11 @@ const onLocationChangeHandler = (curLocation)=>{
 
               <div id="middleCate">
                 <button
-                    type="button"
-                    id="cate2"
-                    class="btn dropdown-toggle btn-outline-danger"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
+                  type="button"
+                  id="cate2"
+                  class="btn dropdown-toggle btn-outline-danger"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
                 >
                   MiddleCate
                 </button>
@@ -262,11 +279,11 @@ const onLocationChangeHandler = (curLocation)=>{
 
               <div id="SmallCate">
                 <button
-                    type="button"
-                    id="cate3"
-                    class="btn dropdown-toggle btn-outline-danger"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
+                  type="button"
+                  id="cate3"
+                  class="btn dropdown-toggle btn-outline-danger"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
                 >
                   SmallCate
                 </button>
@@ -279,12 +296,6 @@ const onLocationChangeHandler = (curLocation)=>{
                     {{ small.split(" ").slice(0,-1).join(" ") }}
                   </li>
                 </ul>
-              </div>
-
-              <div id="addCate">
-                <button type="button" id="addBtn" class="btn btn-danger">
-                  추가
-                </button>
               </div>
             </div>
             <div class="d-flex">
@@ -329,12 +340,15 @@ const onLocationChangeHandler = (curLocation)=>{
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                온/오프라인 모두 가능
+                {{ selectedOption }}
               </button>
               <ul class="dropdown-menu">
-                <li v-for="on in onOffList" class="dropdown-item"
-                    @click="onOffToggleHandler(on)">
-                  {{on}}
+                <li
+                  v-for="on in onOffList"
+                  class="dropdown-item"
+                  @click="onOffToggleHandler(on)"
+                >
+                  {{ on }}
                 </li>
               </ul>
             </div>
@@ -347,7 +361,7 @@ const onLocationChangeHandler = (curLocation)=>{
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                상관없음
+                {{ selectedLocation }}
               </button>
               <ul class="dropdown-menu">
                 <li v-for="location in locations" class="dropdown-item"
@@ -409,8 +423,8 @@ const onLocationChangeHandler = (curLocation)=>{
                   d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992a.252.252 0 0 1 .02-.022zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486-.943 1.179z"
                 />
               </svg>
-              주로 3~5명을 추천합니다. 승인제를 선택할 시 호스트가 파티원을
-              심사할 수 있어요!
+              최대 30명까지 파티원을 구해보세요. 그리고 승인제를 선택할 시
+              호스트가 파티원을 심사할 수 있어요!
             </div>
 
             <div class="form-check form-switch">
@@ -448,6 +462,7 @@ const onLocationChangeHandler = (curLocation)=>{
                       <button
                         type="button"
                         class="btn btn-outline-secondary btn-outline-danger"
+                        @click="decrease"
                       >
                         -
                       </button>
@@ -456,13 +471,14 @@ const onLocationChangeHandler = (curLocation)=>{
                       <input
                         type="text"
                         class="short-input"
-                        value="0"
-                        readonly="readonly"
+                        readonly
+                        v-model="member"
                       />
                     </div>
                     <button
                       type="button"
                       class="btn btn-outline-secondary btn-outline-danger"
+                      @click="increase"
                     >
                       +
                     </button>
