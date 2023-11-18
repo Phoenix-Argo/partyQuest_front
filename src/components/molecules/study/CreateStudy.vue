@@ -23,7 +23,6 @@ const small = ref({
 // 현재 스터디의 주제로 선택된 middle cates, small cates
 const selectedMiddles = ref(new Set([]));
 const selectedSmalls = ref(new Set([]));
-
 // 모집 방식토글(FCFS, PNP)
 const switchState = ref({
   isPnp: false,
@@ -36,7 +35,6 @@ const newStudy_Location = ref("");
 const newStudy = reactive({
   data: {},
 });
-
 const fetchCates = async () => {
   await axios({
     url: BASE_URL + "/api/category/allCate",
@@ -44,6 +42,7 @@ const fetchCates = async () => {
     responseType: "json",
   })
     .then((response) => {
+      console.log(response.data)
       response.data.forEach((element) => {
         const majorKey = element["majorName"];
         const tempObj = {};
@@ -81,6 +80,12 @@ onMounted(() => {
 const submitForm = async () => {
   // 승인제
   newStudy.recruitOption = switchState.value.isPnp ? "PNP" : "FCFS";
+  //동한
+  newStudy.middleCateIds = Array.from(selectedMiddles.value).map(el => Number(el.split(" ")[el.split(" ").length-1]))
+  newStudy.smallCateIds = Array.from(selectedSmalls.value).map(el => Number(el.split(" ")[el.split(" ").length-1]))
+  newStudy.partyOnOff = newStudy_onOff.value;
+  newStudy.locationId = newStudy_Location.value;
+  //동한 끝
 
   console.log("newStudy.data : " + JSON.stringify(newStudy));
 
@@ -106,17 +111,16 @@ const onMajorChange = (e) => {
   middle.value.middles = Object.keys(cates.value[selectedMajor]);
 };
 
-const onMiddleChange = (e) => {
-  const selectedMiddle = e.target.innerText.trim();
-  middle.value.curMiddle = selectedMiddle;
-  selectedMiddles.value.add(selectedMiddle);
+const onMiddleChange = (curMiddle) => {
+  middle.value.curMiddle = curMiddle;
+  selectedMiddles.value.add(curMiddle);
   small.value.smalls =
     cates.value[major.value.curMajor][middle.value.curMiddle];
 };
-const onSmallSelected = (e) => {
-  const selectedSmall = e.target.innerText.trim();
-  small.value.curSmall = selectedSmall;
-  selectedSmalls.value.add(selectedSmall);
+const onSmallSelected = (curSmall) => {
+
+  small.value.curSmall = curSmall;
+  selectedSmalls.value.add(curSmall);
 };
 
 // cate change handler end
@@ -128,13 +132,18 @@ const onOffToggleHandler = async (onOff)=>{
   if (onOff.includes("오프라인")) {
     isOn.value = false;
     isLocationsVisible.value = true;
+    if(onOff == "오프라인"){
+      newStudy_onOff.value = "OFF"
+    }else{
+      newStudy_onOff.value = "ON_OFF"
+    }
   }
   else{
     isOn.value = true;
     isLocationsVisible.value = false;
-    newStudy_Location.value = "온라인" // 온라인 모집인 경우 위치는 무조건 온라인
+    newStudy_Location.value = "100" // 온라인 모집인 경우 위치는 무조건 온라인
+    newStudy_onOff.value = "ON"; // api에 실을 데이터 할당
   }
-  newStudy_onOff.value = onOff; // api에 실을 데이터 할당
 }
 // on off 선택 end
 
@@ -142,7 +151,7 @@ const onOffToggleHandler = async (onOff)=>{
 const isLocationsVisible = ref(true); // 온라인인 경우 location을 선택 할 수 없다.=>이 경우 location == '온라인'
 const locations = ref([]);
 const onLocationChangeHandler = (curLocation)=>{
-  newStudy_Location.value = curLocation;
+  newStudy_Location.value = curLocation.id;
 }
 // locations 선택 끝
 </script>
@@ -244,9 +253,9 @@ const onLocationChangeHandler = (curLocation)=>{
                   <li
                       v-for="middle in middle.middles"
                       class="dropdown-item"
-                      @click="onMiddleChange"
+                      @click="onMiddleChange(middle)"
                   >
-                    {{ middle }}
+                    {{ middle.split(" ").slice(0,-1).join(" ") }}
                   </li>
                 </ul>
               </div>
@@ -265,9 +274,9 @@ const onLocationChangeHandler = (curLocation)=>{
                   <li
                       v-for="small in small.smalls"
                       class="dropdown-item"
-                      @click="onSmallSelected"
+                      @click="onSmallSelected(small)"
                   >
-                    {{ small }}
+                    {{ small.split(" ").slice(0,-1).join(" ") }}
                   </li>
                 </ul>
               </div>
@@ -281,13 +290,13 @@ const onLocationChangeHandler = (curLocation)=>{
             <div class="d-flex">
               <span v-if="selectedMiddles.size > 0">&#127795;</span>
               <div v-for="sMiddle in selectedMiddles">
-                <span class="p-1 fw-bold">{{ sMiddle }}</span>
+                <span class="p-1 fw-bold">{{ sMiddle.split(" ").slice(0,-1).join(" ") }}</span>
               </div>
             </div>
             <div class="d-flex">
               <span v-if="selectedSmalls.size > 0">&#127808;</span>
               <div v-for="sSmall in selectedSmalls">
-                <span class="p-1 fw-bold">{{ sSmall }}</span>
+                <span class="p-1 fw-bold">{{ sSmall.split(" ").slice(0,-1).join(" ") }}</span>
               </div>
             </div>
           </section>
@@ -342,7 +351,7 @@ const onLocationChangeHandler = (curLocation)=>{
               </button>
               <ul class="dropdown-menu">
                 <li v-for="location in locations" class="dropdown-item"
-                    @click="onLocationChangeHandler(location.locationName)">
+                    @click="onLocationChangeHandler(location)">
                   {{location.locationName}}
                 </li>
               </ul>
