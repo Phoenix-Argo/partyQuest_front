@@ -1,4 +1,19 @@
-<script setup></script>
+<script setup>
+import {ref} from "vue";
+import {login} from "@/utils/fetch/auth";
+import {useAuthStore} from "@/stores/authStore";
+import router from "@/router";
+const userInfo = ref({
+  email: "",
+  password: ""
+})
+const submitLogin = async () => {
+  let rawAccessToken = await login(userInfo.value);
+  let authStore = useAuthStore();
+  authStore.accessTokenHandler(rawAccessToken);
+  await router.push({path:"/"});
+};
+</script>
 <style scoped></style>
 
 <template>
@@ -15,6 +30,7 @@
                 id="regiEmailBox"
                 class="form-control"
                 aria-describedby="selfIntr"
+                v-model="userInfo.email"
               />
             </div>
             <label class="form-label">비밀번호</label>
@@ -24,13 +40,15 @@
                 id="regiPassBox"
                 class="form-control"
                 aria-describedby="selfIntr"
+                v-model="userInfo.password"
               />
             </div>
 
             <hr />
             <div class="rowCreate d-flex justify-content-center">
               <div class="d-grid gap-2" id="createCharacter">
-                <button class="btn btn-danger" type="button">로그인</button>
+                <button class="btn btn-danger" type="button"
+                @click.prevent="submitLogin">로그인</button>
               </div>
             </div>
 
