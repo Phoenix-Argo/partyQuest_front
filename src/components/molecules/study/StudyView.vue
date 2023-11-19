@@ -5,6 +5,10 @@ import { onMounted } from "vue";
 import { reactive } from "vue";
 import { ref } from "vue";
 import { useRoute } from "vue-router";
+import IconHeart from "../../icons/IconHeart.vue";
+import IconEnvelope from "../../icons/IconEnvelope.vue";
+import IconAngry from "../../icons/IconAngry.vue";
+import IconHeartFill from "../../icons/IconHeartFill.vue";
 
 const BASE_URL = "http://localhost:8080/api/study";
 
@@ -27,6 +31,29 @@ onBeforeMount(async () => {
     console.log(err);
   }
 });
+
+// 좋아요 기능
+const isFilled = ref(false);
+
+const updateLike = async () => {
+  isFilled.value = !isFilled.value;
+
+  //TODO: 멤버아이디 받은 후, 화면 밖으로 나가서 다시 들어올 때 하트 상태 유지하기 (초기화 되면 안됨)
+  //TDDO: liked count 출력 방법 모색 + 뷰 혹은 리스트 중 어디에 출력할 것인지 정하기
+  const requestData = {
+    memberId: 352, // 정보가 없어서 임의의 값 부여
+    studyId: 2,
+  };
+
+  try {
+    const response = await axios.put(`${BASE_URL}/updateLike`, requestData);
+    console.log(response);
+    alert("하트 공격!");
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 onMounted(onBeforeMount);
 </script>
 <template>
@@ -104,10 +131,12 @@ onMounted(onBeforeMount);
                   부산광역시
                 </ol>
               </ul>
-              <div>
-                <a href="#">✉</a>
-                <a href="#">❤</a>
-                <a href="#">🚨</a>
+              <div class="icons">
+                <a class="icon-mail"><IconEnvelope></IconEnvelope></a>&nbsp;
+                <a class="icon-heart" @click="updateLike"
+                  ><IconHeart v-if="!isFilled"></IconHeart
+                  ><IconHeartFill v-else></IconHeartFill></a
+                >&nbsp; <a class="icon-angry"><IconAngry></IconAngry></a>&nbsp;
               </div>
               <button class="btn-accept">참가하기</button>
             </div>

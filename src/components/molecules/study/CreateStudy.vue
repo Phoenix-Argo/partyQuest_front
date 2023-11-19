@@ -2,39 +2,42 @@
 import { ref, reactive, onMounted } from "vue";
 import axios from "axios";
 import SmartEditor from "./smartEditor.vue";
-import { getLocations } from "@/utils/fetch/studyFetch";
+import IconDoubleCheck from "../../icons/IconDoubleCheck.vue";
+import { useStudyCategories } from "../../../modules/study/StudyCategories";
+import { useStudyRecruitment } from "../../../modules/study/StudyRecruitment";
+import { useStudyLocation } from "../../../modules/study/StudyLocation";
+import { useStudyPeriod } from "../../../modules/study/StudyPeriod";
 
 const BASE_URL = "http://localhost:8080";
-const cates = ref({});
+// 카테고리
+const { cates, major, middle, small, selectedMiddles, selectedSmalls } =
+  useStudyCategories();
 
-//cate 상태 (major, middle , small) SELECT LIST
-const major = ref({
-  curMajor: "",
-  majors: [],
-});
-const middle = ref({
-  curMiddle: "",
-  middles: [],
-});
-const small = ref({
-  curSmall: "",
-  smalls: [],
-});
-// 현재 스터디의 주제로 선택된 middle cates, small cates
-const selectedMiddles = ref(new Set([]));
-const selectedSmalls = ref(new Set([]));
-// 모집 방식토글(FCFS, PNP)
-const switchState = ref({
-  isPnp: false,
-});
-// 온라인 스터디, 오프라인 스터디, 위치
-const newStudy_onOff = ref("");
-const newStudy_Location = ref("");
+// 온/오프라인 및 지역 설정
+const {
+  newStudy_onOff,
+  newStudy_Location,
+  onOffList,
+  selectedOption,
+  selectedLocation,
+  fetchLocations,
+  isOn,
+  isLocationsVisible,
+  locations,
+  onOffToggleHandler,
+  onLocationChangeHandler,
+} = useStudyLocation();
+
+// 스터디 기간
+const { getFormattedCurrentDate } = useStudyPeriod();
+
+// 모집방식
+const { switchState, member, increase, decrease } = useStudyRecruitment();
 
 // axios에 실어 보낼 payload
-const newStudy = reactive({
-  data: {},
-});
+const newStudy = reactive({});
+
+// 카테고리 가져오기
 const fetchCates = async () => {
   await axios({
     url: BASE_URL + "/api/category/allCate",
@@ -42,7 +45,7 @@ const fetchCates = async () => {
     responseType: "json",
   })
     .then((response) => {
-      console.log(response.data)
+      console.log(response.data);
       response.data.forEach((element) => {
         const majorKey = element["majorName"];
         const tempObj = {};
@@ -66,39 +69,11 @@ const fetchCates = async () => {
       console.log(err);
     });
 };
-const fetchLocations = async () => {
-  await getLocations().then((res) => {
-    locations.value = res;
-  });
-};
+
 onMounted(() => {
   fetchCates();
   fetchLocations();
 });
-
-const submitForm = async () => {
-  // 승인제
-  newStudy.recruitOption = switchState.value.isPnp ? "PNP" : "FCFS";
-  newStudy.memberUpperLimit = member.value;
-  newStudy.hostId = 352;
-  //동한
-  newStudy.middleCateIds = Array.from(selectedMiddles.value).map(el => Number(el.split(" ")[el.split(" ").length-1]))
-  newStudy.smallCateIds = Array.from(selectedSmalls.value).map(el => Number(el.split(" ")[el.split(" ").length-1]))
-  newStudy.partyOnOff = newStudy_onOff.value;
-  newStudy.locationId = newStudy_Location.value;
-  //동한 끝
-  console.log("newStudy.data : " + JSON.stringify(newStudy));
-
-  axios
-    .post(BASE_URL + "/api/study/create", newStudy)
-    .then((response) => {
-      console.log(JSON.stringify(response));
-      alert("등록!");
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-};
 // cate change handler start
 
 /**
@@ -118,58 +93,48 @@ const onMiddleChange = (curMiddle) => {
     cates.value[major.value.curMajor][middle.value.curMiddle];
 };
 const onSmallSelected = (curSmall) => {
-
   small.value.curSmall = curSmall;
   selectedSmalls.value.add(curSmall);
 };
-
 // cate change handler end
 
-// on off 선택 시작
-const selectedOption = ref("온/오프라인 선택");
-const selectedLocation = ref("지역 선택");
-const onOffList = ref(["온/오프라인 모두 가능", "온라인", "오프라인"]);
-const isOn = ref(false); // 온라인만 진행하는 경우:true, 오프라인을 포함하는 경우:false
-const onOffToggleHandler = async (onOff) => {
-  if (onOff.includes("오프라인")) {
-    isOn.value = false;
-    isLocationsVisible.value = true;
-    if(onOff == "오프라인"){
-      newStudy_onOff.value = "OFF"
-    }else{
-      newStudy_onOff.value = "ON_OFF"
-    }
-  }
-  else{
-    isOn.value = true;
-    isLocationsVisible.value = false;
-    newStudy_Location.value = "100" // 온라인 모집인 경우 위치는 무조건 온라인
-    newStudy_onOff.value = "ON"; // api에 실을 데이터 할당
-  }
-}
-// on off 선택 end
+/* 최종 전송 FORM  */
+const submitForm = async () => {
+  // TODO: 호스트 아이디 받기 (Member)
+  newStudy.hostId = 352;
+  newStudy.recruitOption = switchState.value.isPnp ? "PNP" : "FCFS";
+  newStudy.memberUpperLimit = member.value;
+  newStudy.middleCateIds = Array.from(selectedMiddles.value).map((el) =>
+    Number(el.split(" ")[el.split(" ").length - 1])
+  );
+  newStudy.smallCateIds = Array.from(selectedSmalls.value).map((el) =>
+    Number(el.split(" ")[el.split(" ").length - 1])
+  );
+  newStudy.partyOnOff = newStudy_onOff.value;
+  newStudy.locationId = newStudy_Location.value;
+  console.log("newStudy.data : " + JSON.stringify(newStudy));
 
-// locations 선택
-const isLocationsVisible = ref(true); // 온라인인 경우 location을 선택 할 수 없다.=>이 경우 location == '온라인'
-const locations = ref([]);
-
-const onLocationChangeHandler = (curLocation) => {
-  newStudy_Location.value = curLocation.id;
-  selectedLocation.value = curLocation.locationName;
-};
-// locations 선택 끝
-
-// 파티원수
-const member = ref(0);
-const increase = () => {
-  if (member.value < 30) {
-    member.value++;
+  if (
+    !newStudy.title ||
+    !newStudy.middleCateIds ||
+    !newStudy.partyOnOff ||
+    !newStudy.studyStartDate ||
+    !newStudy.studyEndDate ||
+    !newStudy.memberUpperLimit ||
+    !newStudy.description
+  ) {
+    alert("입력하지 않은 항목이 있습니다. 다시 한 번 확인해주세요.");
+    return;
   }
-};
-const decrease = () => {
-  if (member.value > 0) {
-    member.value--;
-  }
+  axios
+    .post(BASE_URL + "/api/study/create", newStudy)
+    .then((response) => {
+      console.log(JSON.stringify(response));
+      alert("모집 신청이 완료되었습니다.");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 </script>
 
@@ -192,18 +157,7 @@ const decrease = () => {
           <hr class="sectionLine" />
           <label>스터디명*</label>
           <div id="studyName" class="subtext">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              class="bi bi-check-all"
-              viewBox="0 0 16 16"
-            >
-              <path
-                d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992a.252.252 0 0 1 .02-.022zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486-.943 1.179z"
-              />
-            </svg>
+            <IconDoubleCheck></IconDoubleCheck>
             직관적인 스터디모임명을 사용하시면 클릭률이 올라갑니다!
           </div>
           <input
@@ -219,18 +173,7 @@ const decrease = () => {
           <!-- 카테고리 버튼 태그 사용 => select 버튼은 범위가 큼 동적처리해주면될듯-->
           <label>카테고리*</label>
           <div class="subtext">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              class="bi bi-check-all"
-              viewBox="0 0 16 16"
-            >
-              <path
-                d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992a.252.252 0 0 1 .02-.022zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486-.943 1.179z"
-              />
-            </svg>
+            <IconDoubleCheck></IconDoubleCheck>
             하고자하는 스터디의 키워드를 선택해 주세요
           </div>
           <section>
@@ -268,11 +211,11 @@ const decrease = () => {
                 </button>
                 <ul class="dropdown-menu">
                   <li
-                      v-for="middle in middle.middles"
-                      class="dropdown-item"
-                      @click="onMiddleChange(middle)"
+                    v-for="middle in middle.middles"
+                    class="dropdown-item"
+                    @click="onMiddleChange(middle)"
                   >
-                    {{ middle.split(" ").slice(0,-1).join(" ") }}
+                    {{ middle.split(" ").slice(0, -1).join(" ") }}
                   </li>
                 </ul>
               </div>
@@ -289,11 +232,11 @@ const decrease = () => {
                 </button>
                 <ul class="dropdown-menu">
                   <li
-                      v-for="small in small.smalls"
-                      class="dropdown-item"
-                      @click="onSmallSelected(small)"
+                    v-for="small in small.smalls"
+                    class="dropdown-item"
+                    @click="onSmallSelected(small)"
                   >
-                    {{ small.split(" ").slice(0,-1).join(" ") }}
+                    {{ small.split(" ").slice(0, -1).join(" ") }}
                   </li>
                 </ul>
               </div>
@@ -301,13 +244,17 @@ const decrease = () => {
             <div class="d-flex">
               <span v-if="selectedMiddles.size > 0">&#127795;</span>
               <div v-for="sMiddle in selectedMiddles">
-                <span class="p-1 fw-bold">{{ sMiddle.split(" ").slice(0,-1).join(" ") }}</span>
+                <span class="p-1 fw-bold">{{
+                  sMiddle.split(" ").slice(0, -1).join(" ")
+                }}</span>
               </div>
             </div>
             <div class="d-flex">
               <span v-if="selectedSmalls.size > 0">&#127808;</span>
               <div v-for="sSmall in selectedSmalls">
-                <span class="p-1 fw-bold">{{ sSmall.split(" ").slice(0,-1).join(" ") }}</span>
+                <span class="p-1 fw-bold">{{
+                  sSmall.split(" ").slice(0, -1).join(" ")
+                }}</span>
               </div>
             </div>
           </section>
@@ -316,18 +263,7 @@ const decrease = () => {
 
           <label class="">지역*</label>
           <div id="Location" class="subtext">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              class="bi bi-check-all"
-              viewBox="0 0 16 16"
-            >
-              <path
-                d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992a.252.252 0 0 1 .02-.022zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486-.943 1.179z"
-              />
-            </svg>
+            <IconDoubleCheck></IconDoubleCheck>
             온/오프라인 여부와 장소를 선택해주세요
           </div>
           <!--  -->
@@ -364,9 +300,12 @@ const decrease = () => {
                 {{ selectedLocation }}
               </button>
               <ul class="dropdown-menu">
-                <li v-for="location in locations" class="dropdown-item"
-                    @click="onLocationChangeHandler(location)">
-                  {{location.locationName}}
+                <li
+                  v-for="location in locations"
+                  class="dropdown-item"
+                  @click="onLocationChangeHandler(location)"
+                >
+                  {{ location.locationName }}
                 </li>
               </ul>
             </div>
@@ -376,18 +315,7 @@ const decrease = () => {
           <section>
             <label class="">스터디 기간*</label>
             <div id="studyPeriod" class="subtext">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                class="bi bi-check-all"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992a.252.252 0 0 1 .02-.022zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486-.943 1.179z"
-                />
-              </svg>
+              <IconDoubleCheck></IconDoubleCheck>
               스터디 시작일자와 종료일자를 선택해주세요
             </div>
             <!--  -->
@@ -395,14 +323,16 @@ const decrease = () => {
               <span id="startSpan"
                 >시작일<input
                   type="date"
-                  name="recruitStartAt"
-                  v-model="newStudy.data.recruitStartAt"
+                  name="studyStartDate"
+                  v-model="newStudy.studyStartDate"
+                  :min="getFormattedCurrentDate()"
               /></span>
               <span id="endSpan"
                 >종료일<input
                   type="date"
-                  name="recruitEndAt"
-                  v-model="newStudy.data.recruitEndAt"
+                  name="studyEndDate"
+                  v-model="newStudy.studyEndDate"
+                  :min="newStudy.studyStartDate || getFormattedCurrentDate()"
               /></span>
             </div>
           </section>
@@ -411,18 +341,7 @@ const decrease = () => {
           <section>
             <label class="">모집방식*</label>
             <div class="subtext">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                class="bi bi-check-all"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992a.252.252 0 0 1 .02-.022zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486-.943 1.179z"
-                />
-              </svg>
+              <IconDoubleCheck></IconDoubleCheck>
               최대 30명까지 파티원을 구해보세요. 그리고 승인제를 선택할 시
               호스트가 파티원을 심사할 수 있어요!
             </div>
@@ -490,20 +409,9 @@ const decrease = () => {
 
           <hr class="sectionLine" />
           <section>
-            <label for="exampleFormControlFile1">썸네일* </label><br />
+            <label for="exampleFormControlFile1">썸네일 </label><br />
             <div class="subtext">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                class="bi bi-check-all"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992a.252.252 0 0 1 .02-.022zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486-.943 1.179z"
-                />
-              </svg>
+              <IconDoubleCheck></IconDoubleCheck>
               모임의 메인이 되는 부분이에요. 모임을 잘 소개할 수 있는 사진으로
               모임을 어필해 보세요!
               <br />
@@ -518,18 +426,7 @@ const decrease = () => {
           <div class="mb-3">
             <label for="inputmessage">스터디 설명 *</label>
             <div id="passwordHelpBlock" class="subtext">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                class="bi bi-check-all"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992a.252.252 0 0 1 .02-.022zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486-.943 1.179z"
-                />
-              </svg>
+              <IconDoubleCheck></IconDoubleCheck>
               설명이 풍부한 스터디 모임은, 아닌 스터디 모임에 비해 지원률이 50%
               높습니다.
             </div>
@@ -544,7 +441,7 @@ const decrease = () => {
 
           <div class="row">
             <div class="d-grid gap-2">
-              <button class="btn btn-danger" type="submit">파티신청</button>
+              <button class="btn btn-danger" type="submit">파티 생성</button>
             </div>
           </div>
         </form>
