@@ -6,6 +6,7 @@ import {AUTH_CONST} from "@/constants/authConst";
 export const useAuthStore = defineStore("authStore",()=>{
         //state
         const user = ref({
+            hostId:"",
             email:"",
             nickName:"",
             authorities:""
@@ -13,6 +14,7 @@ export const useAuthStore = defineStore("authStore",()=>{
         const accessToken = ref("");
         //setter
         const changeUser = (claims) => {
+            user.value.hostId = claims["hostId"];
             user.value.email = claims["sub"];
             user.value.authorities = claims["authorities"];
             user.value.nickName = claims["nickname"];
