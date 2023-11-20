@@ -7,8 +7,10 @@ import { useStudyCategories } from "../../../modules/study/StudyCategories";
 import { useStudyRecruitment } from "../../../modules/study/StudyRecruitment";
 import { useStudyLocation } from "../../../modules/study/StudyLocation";
 import { useStudyPeriod } from "../../../modules/study/StudyPeriod";
+import { useAuthStore } from "../../../stores/authStore";
 
 const BASE_URL = "http://localhost:8080";
+const { user } = useAuthStore();
 // 카테고리
 const { cates, major, middle, small, selectedMiddles, selectedSmalls } =
   useStudyCategories();
@@ -101,7 +103,7 @@ const onSmallSelected = (curSmall) => {
 /* 최종 전송 FORM  */
 const submitForm = async () => {
   // TODO: 호스트 아이디 받기 (Member)
-  newStudy.hostId = 352;
+  newStudy.hostId = user.email;
   newStudy.recruitOption = switchState.value.isPnp ? "PNP" : "FCFS";
   newStudy.memberUpperLimit = member.value;
   newStudy.middleCateIds = Array.from(selectedMiddles.value).map((el) =>
