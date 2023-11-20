@@ -18,7 +18,6 @@
   position: sticky;
   top: 0px; /* 원하는 디자인에 맞게 이 값을 조정하세요 */
   margin-bottom: 10%;
-  position: relative;
 }
 .contents img {
   max-width: 100%; /* Ensures the image does not exceed the width of its container */

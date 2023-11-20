@@ -7,18 +7,42 @@ import { useStudyCategories } from "../../../modules/study/StudyCategories";
 import { useStudyRecruitment } from "../../../modules/study/StudyRecruitment";
 import { useStudyLocation } from "../../../modules/study/StudyLocation";
 import { useStudyPeriod } from "../../../modules/study/StudyPeriod";
-import { useAuthStore } from "../../../stores/authStore";
+import { useRoute } from "vue-router";
+import { onBeforeMount } from "vue";
 
 const BASE_URL = "http://localhost:8080";
-const { user } = useAuthStore();
+/* MODIFY SELECT */
+// 라우터 인스턴스 가져오기
+const route = useRoute();
+
+// 서버 데이터
+const selectModifyStudy = ref([]);
+
+// BeforeMount 서버에 해당 id json 요청
+onBeforeMount(async () => {
+  // 라우터 파라미터 수신
+  const { studyId } = route.params;
+  console.log("studyId : " + studyId);
+  try {
+    const response = await axios.get(
+      BASE_URL + "/api/study/modifyStudy/" + studyId
+    );
+    selectModifyStudy.value = response.data;
+    console.log("modifyStudyData : " + selectModifyStudy.value);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+/* MODIFY SAVE */
 // 카테고리
 const { cates, major, middle, small, selectedMiddles, selectedSmalls } =
   useStudyCategories();
 
 // 온/오프라인 및 지역 설정
 const {
-  newStudy_onOff,
-  newStudy_Location,
+  selectModifyStudy_onOff,
+  selectModifyStudy_Location,
   onOffList,
   selectedOption,
   selectedLocation,
@@ -34,10 +58,14 @@ const {
 const { getFormattedCurrentDate } = useStudyPeriod();
 
 // 모집방식
-const { switchState, member, increase, decrease } = useStudyRecruitment();
-
-// axios에 실어 보낼 payload
-const newStudy = reactive({});
+const {
+  switchState,
+  member,
+  increase,
+  decrease,
+  modifyIncrease,
+  modifyDecrease,
+} = useStudyRecruitment();
 
 // 카테고리 가져오기
 const fetchCates = async () => {
@@ -98,81 +126,46 @@ const onSmallSelected = (curSmall) => {
   small.value.curSmall = curSmall;
   selectedSmalls.value.add(curSmall);
 };
-// cate change handler end
 
-const tnail = ref();
-const formData = new FormData();
-const onFileUploadHandler = (e) => {
-  let file = e.target.files[0];
-  formData.append("thumb", file);
-};
+// cate change handler end
 
 /* 최종 전송 FORM  */
 const submitForm = async () => {
   // TODO: 호스트 아이디 받기 (Member)
-  newStudy.hostId = user.hostId;
-  newStudy.recruitOption = switchState.value.isPnp ? "PNP" : "FCFS";
-  newStudy.memberUpperLimit = member.value;
-  newStudy.middleCateIds = Array.from(selectedMiddles.value).map((el) =>
+  selectModifyStudy.hostId = 352;
+  selectModifyStudy.recruitOption = switchState.value.isPnp ? "PNP" : "FCFS";
+  selectModifyStudy.memberUpperLimit = member.value;
+  selectModifyStudy.middleCateIds = Array.from(selectedMiddles.value).map(
+    (el) => Number(el.split(" ")[el.split(" ").length - 1])
+  );
+  selectModifyStudy.smallCateIds = Array.from(selectedSmalls.value).map((el) =>
     Number(el.split(" ")[el.split(" ").length - 1])
   );
-  newStudy.smallCateIds = Array.from(selectedSmalls.value).map((el) =>
-    Number(el.split(" ")[el.split(" ").length - 1])
-  );
-  newStudy.partyOnOff = newStudy_onOff.value;
-  newStudy.locationId = newStudy_Location.value;
-  console.log("newStudy.data : " + JSON.stringify(newStudy));
+  selectModifyStudy.partyOnOff = selectModifyStudy_onOff.value;
+  selectModifyStudy.locationId = selectModifyStudy_Location.value;
+  console.log("selectModifyStudy.data : " + JSON.stringify(selectModifyStudy));
 
   if (
-    !newStudy.title ||
-    !newStudy.middleCateIds ||
-    !newStudy.partyOnOff ||
-    !newStudy.studyStartDate ||
-    !newStudy.studyEndDate ||
-    !newStudy.memberUpperLimit ||
-    !newStudy.description ||
-    !formData.get("thumb")
+    !selectModifyStudy.title ||
+    !selectModifyStudy.middleCateIds ||
+    !selectModifyStudy.partyOnOff ||
+    !selectModifyStudy.studyStartDate ||
+    !selectModifyStudy.studyEndDate ||
+    !selectModifyStudy.memberUpperLimit ||
+    !selectModifyStudy.description
   ) {
     alert("입력하지 않은 항목이 있습니다. 다시 한 번 확인해주세요.");
     return;
   }
-  try {
-    // Make the first request to create the study
-    const createResponse = await axios.post(
-      BASE_URL + "/api/study/create",
-      newStudy
-    );
-
-    // Extract the studyId from the response
-    const createdStudyId = createResponse.data.studyId;
-
-    console.log("Create Study Response:", createResponse.data);
-    console.log("Created Study ID:", createdStudyId);
-
-    // Update newStudy object with the received studyId
-    newStudy.studyId = createdStudyId;
-
-    // Append studyId to formData before making the file upload request
-    formData.append("studyId", createdStudyId);
-
-    // Continue with the file upload
-    const uploadResponse = await axios.post(
-      BASE_URL + "/api/study/uploadFile",
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
-
-    console.log("Upload File Response:", uploadResponse.data);
-    alert("모집 신청이 완료되었습니다.");
-  } catch (error) {
-    console.error("Error:", error);
-    // Handle errors as needed
-    alert("모집 신청 중 오류가 발생했습니다. 다시 시도해주세요.");
-  }
+  axios
+    .post(BASE_URL + "/api/study/create", selectModifyStudy)
+    .then((response) => {
+      console.log(JSON.stringify(response));
+      alert("모집 신청이 완료되었습니다.");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 </script>
 
@@ -203,8 +196,9 @@ const submitForm = async () => {
             id="title"
             class="form-control"
             aria-describedby="studyName"
-            v-model="newStudy.title"
+            v-model="selectModifyStudy.title"
           />
+          <!-- v-model="selectModifyStudy.title" -->
 
           <hr class="sectionLine" />
 
@@ -354,7 +348,8 @@ const submitForm = async () => {
             <label class="">스터디 기간*</label>
             <div id="studyPeriod" class="subtext">
               <IconDoubleCheck></IconDoubleCheck>
-              스터디 시작일자와 종료일자를 선택해주세요
+              스터디 종료일자를 선택해주세요. 수정시에는 종료일자만 변경이
+              가능합니다
             </div>
             <!--  -->
             <div class="set-date">
@@ -362,15 +357,19 @@ const submitForm = async () => {
                 >시작일<input
                   type="date"
                   name="studyStartDate"
-                  v-model="newStudy.studyStartDate"
+                  v-model="selectModifyStudy.studyStartDate"
                   :min="getFormattedCurrentDate()"
+                  readonly
               /></span>
               <span id="endSpan"
                 >종료일<input
                   type="date"
                   name="studyEndDate"
-                  v-model="newStudy.studyEndDate"
-                  :min="newStudy.studyStartDate || getFormattedCurrentDate()"
+                  v-model="selectModifyStudy.studyEndDate"
+                  :min="
+                    selectModifyStudy.studyStartDate ||
+                    getFormattedCurrentDate()
+                  "
               /></span>
             </div>
           </section>
@@ -421,7 +420,7 @@ const submitForm = async () => {
                       <button
                         type="button"
                         class="btn btn-outline-secondary btn-outline-danger"
-                        @click="decrease"
+                        @click="modifyDecrease"
                       >
                         -
                       </button>
@@ -431,13 +430,13 @@ const submitForm = async () => {
                         type="text"
                         class="short-input"
                         readonly
-                        v-model="member"
+                        v-model="selectModifyStudy.memberUpperLimit"
                       />
                     </div>
                     <button
                       type="button"
                       class="btn btn-outline-secondary btn-outline-danger"
-                      @click="increase"
+                      @click="modifyIncrease"
                     >
                       +
                     </button>
@@ -449,7 +448,7 @@ const submitForm = async () => {
 
           <hr class="sectionLine" />
           <section>
-            <label for="exampleFormControlFile1">썸네일 *</label><br />
+            <label for="exampleFormControlFile1">썸네일 </label><br />
             <div class="subtext">
               <IconDoubleCheck></IconDoubleCheck>
               모임의 메인이 되는 부분이에요. 모임을 잘 소개할 수 있는 사진으로
@@ -457,12 +456,9 @@ const submitForm = async () => {
               <br />
             </div>
             <input
-              ref="tnail"
               type="file"
               class="form-control-file"
-              id="thumb"
-              name="thumb"
-              @change="onFileUploadHandler"
+              id="exampleFormControlFile1"
             />
           </section>
           <hr class="sectionLine" />
@@ -478,7 +474,7 @@ const submitForm = async () => {
           <!--뷰 에디터 컴포넌트 자리-->
           <SmartEditor
             id="input-content"
-            v-model="newStudy.description"
+            v-model="selectModifyStudy.description"
           ></SmartEditor>
           <hr class="sectionLine" />
 
