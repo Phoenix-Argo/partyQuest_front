@@ -6,6 +6,7 @@ import Login from "../components/molecules/member/Login.vue";
 import WaitingList from "../components/molecules/member/WaitingList.vue";
 import StudyView from "../components/molecules/study/StudyView.vue";
 import createStudy from "../components/molecules/study/CreateStudy.vue";
+import ModifyStudy from "../components/molecules/study/ModifyStudy.vue";
 import TermsServicePolicy from "../components/molecules/member/terms/TermsServicePolicy.vue";
 import PrivacyPolicy from "../components/molecules/member/terms/PrivacyPolicy.vue";
 import PaymentPolicy from "../components/molecules/member/terms/PaymentPolicy.vue";
@@ -23,6 +24,7 @@ const router = createRouter({
     { path: "/waitingList", component: WaitingList },
     { path: "/studyView/:studyId", component: StudyView },
     { path: "/createStudy", component: createStudy }, // 대문자 안됨
+    { path: "/modifyStudy/:studyId", component: ModifyStudy },
     { path: "/termsServicePolicy", component: TermsServicePolicy },
     { path: "/privacyPolicy", component: PrivacyPolicy },
     { path: "/paymentPolicy", component: PaymentPolicy },
