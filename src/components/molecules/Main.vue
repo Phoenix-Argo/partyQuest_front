@@ -11,7 +11,7 @@ let btnDetail = function () {
     <!-- Start Banner Hero -->
     <div
       id="template-mo-zay-hero-carousel"
-      class="carousel slide"
+      class="carousel slide d-flex"
       data-bs-ride="carousel"
     >
       <ol class="carousel-indicators">
@@ -29,14 +29,14 @@ let btnDetail = function () {
           data-bs-slide-to="2"
         ></li>
       </ol>
-      <div class="carousel-inner">
+      <div class="carousel-inner vh-25">
         <div class="carousel-item active">
           <div class="container">
             <div class="row p-5">
-              <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
+              <div class="mx-auto col-md-4 col-lg-4 order-lg-last">
                 <img class="img-fluid" src="/img/banner_img_01.png" />
               </div>
-              <div class="col-lg-6 mb-0 d-flex align-items-center">
+              <div class="col-lg-3 mb-0 d-flex align-items-center">
                 <div class="text-align-left align-self-center">
                   <h1 class="h1 text-success">
                     <b>EVENT</b>
@@ -51,7 +51,7 @@ let btnDetail = function () {
         <div class="carousel-item">
           <div class="container">
             <div class="row p-5">
-              <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
+              <div class="mx-auto col-md-8 col-lg-4 order-lg-last">
                 <img class="img-fluid" src="/img/banner_img_02.png" alt="" />
               </div>
               <div class="col-lg-6 mb-0 d-flex align-items-center">
@@ -67,10 +67,10 @@ let btnDetail = function () {
         <div class="carousel-item">
           <div class="container">
             <div class="row p-5">
-              <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
+              <div class="mx-auto col-md-8 col-lg-4 order-lg-last">
                 <img class="img-fluid" src="/img/banner_img_03.png" alt="" />
               </div>
-              <div class="col-lg-6 mb-0 d-flex align-items-center">
+              <div class="col-lg-3 mb-0 d-flex align-items-center">
                 <div class="text-align-left">
                   <h1 class="h1">파티원을 구하세요!</h1>
                   <p>
