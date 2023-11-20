@@ -100,10 +100,17 @@ const onSmallSelected = (curSmall) => {
 };
 // cate change handler end
 
+const tnail = ref();
+const formData = new FormData();
+const onFileUploadHandler = (e) => {
+  let file = e.target.files[0];
+  formData.append("thumb", file);
+};
+
 /* 최종 전송 FORM  */
 const submitForm = async () => {
   // TODO: 호스트 아이디 받기 (Member)
-  newStudy.hostId = user.email;
+  newStudy.hostId = user.hostId;
   newStudy.recruitOption = switchState.value.isPnp ? "PNP" : "FCFS";
   newStudy.memberUpperLimit = member.value;
   newStudy.middleCateIds = Array.from(selectedMiddles.value).map((el) =>
@@ -123,20 +130,49 @@ const submitForm = async () => {
     !newStudy.studyStartDate ||
     !newStudy.studyEndDate ||
     !newStudy.memberUpperLimit ||
-    !newStudy.description
+    !newStudy.description ||
+    !formData.get("thumb")
   ) {
     alert("입력하지 않은 항목이 있습니다. 다시 한 번 확인해주세요.");
     return;
   }
-  axios
-    .post(BASE_URL + "/api/study/create", newStudy)
-    .then((response) => {
-      console.log(JSON.stringify(response));
-      alert("모집 신청이 완료되었습니다.");
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  try {
+    // Make the first request to create the study
+    const createResponse = await axios.post(
+      BASE_URL + "/api/study/create",
+      newStudy
+    );
+
+    // Extract the studyId from the response
+    const createdStudyId = createResponse.data.studyId;
+
+    console.log("Create Study Response:", createResponse.data);
+    console.log("Created Study ID:", createdStudyId);
+
+    // Update newStudy object with the received studyId
+    newStudy.studyId = createdStudyId;
+
+    // Append studyId to formData before making the file upload request
+    formData.append("studyId", createdStudyId);
+
+    // Continue with the file upload
+    const uploadResponse = await axios.post(
+      BASE_URL + "/api/study/uploadFile",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    console.log("Upload File Response:", uploadResponse.data);
+    alert("모집 신청이 완료되었습니다.");
+  } catch (error) {
+    console.error("Error:", error);
+    // Handle errors as needed
+    alert("모집 신청 중 오류가 발생했습니다. 다시 시도해주세요.");
+  }
 };
 </script>
 
@@ -411,7 +447,7 @@ const submitForm = async () => {
 
           <hr class="sectionLine" />
           <section>
-            <label for="exampleFormControlFile1">썸네일 </label><br />
+            <label for="exampleFormControlFile1">썸네일 *</label><br />
             <div class="subtext">
               <IconDoubleCheck></IconDoubleCheck>
               모임의 메인이 되는 부분이에요. 모임을 잘 소개할 수 있는 사진으로
@@ -419,9 +455,12 @@ const submitForm = async () => {
               <br />
             </div>
             <input
+              ref="tnail"
               type="file"
               class="form-control-file"
-              id="exampleFormControlFile1"
+              id="thumb"
+              name="thumb"
+              @change="onFileUploadHandler"
             />
           </section>
           <hr class="sectionLine" />
