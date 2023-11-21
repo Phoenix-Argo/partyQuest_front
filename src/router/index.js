@@ -22,7 +22,7 @@ const router = createRouter({
     { path: "/profile", component: Profile },
     { path: "/register", component: Register },
     { path: "/login", component: Login },
-    { path: "/waitingList", component: WaitingList },
+    { path: "/waitingList/:hostId", component: WaitingList },
     { path: "/studyView/:studyId", component: StudyView },
     { path: "/createStudy", component: createStudy }, // 대문자 안됨
     { path: "/modifyStudy/:studyId", component: ModifyStudy },

@@ -20,6 +20,26 @@ const findWaitingList = async () => {
   }
 };
 onMounted(findWaitingList);
+
+const Btnapprove = async (hostId, memberId, studyId) => {
+  alert("accepted");
+  const url = BASE_URL+ "api/study/changeApplicationStatus";
+
+  // StudyChangeApplicantStatusRequest에 데이터를 담음
+  const StudyChangeApplicantStatusRequest = new FormData();
+  StudyChangeApplicantStatusRequest.append("hostId", hostId);
+  StudyChangeApplicantStatusRequest.append("applicantId", memberId);
+  StudyChangeApplicantStatusRequest.append("studyId", studyId);
+  StudyChangeApplicantStatusRequest.append("status", "ACCEPTED");
+
+  try{
+    const 
+  }
+};//BTN Approve END
+
+const Btnreject = async () => {
+  alert("Btnreject");
+};
 </script>
 <template>
   <section class="container py-9" style="min-height: 1050px">
@@ -47,8 +67,27 @@ onMounted(findWaitingList);
                 <td><input type="checkbox" /></td>
                 <td>{{ list.memberNickName }}</td>
                 <td v-if="list.applicationStatus == 'PENDING'">
-                  <button id="Btnapprove">승인</button>
-                  <button id="Btnreject">거절</button>
+                  <button
+                    @click="
+                      Btnapprove(
+                        list.memberId,
+                        study.hostId,
+                        study.studyId,
+                        ACCEPTED
+                      )
+                    "
+                    id="Btnapprove"
+                  >
+                    승인
+                  </button>
+                  <button
+                    @click="
+                      Btnreject(list.memberId, list.memberStudyId, REJECTED)
+                    "
+                    id="Btnreject"
+                  >
+                    거절
+                  </button>
                 </td>
                 <td v-else-if="list.applicationStatus === 'ACCEPTED'">
                   <div id="approveStudy">승인</div>
