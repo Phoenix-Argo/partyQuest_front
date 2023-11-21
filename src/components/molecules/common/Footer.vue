@@ -3,9 +3,9 @@
     <div class="container">
       <div class="row">
         <div class="col-md-4 pt-5">
-          <h2 class="h2 text-light border-bottom pb-3 border-light">
+          <h3 class="h3 text-light border-bottom pb-3 border-light">
             바로가기
-          </h2>
+          </h3>
           <ul class="list-unstyled text-light footer-link-list">
             <li><a class="text-decoration-none" href="#">스터디 모임</a></li>
             <li><a class="text-decoration-none" href="#">프로젝트 모임</a></li>
@@ -16,9 +16,9 @@
         </div>
 
         <div class="col-md-4 pt-5">
-          <h2 class="h2 text-light border-bottom pb-3 border-light">
+          <h3 class="h3 text-light border-bottom pb-3 border-light">
             고객센터
-          </h2>
+          </h3>
           <ul class="list-unstyled text-light footer-link-list">
             <li>
               <a class="text-decoration-none" href="#">공지사항</a>
@@ -27,9 +27,9 @@
           </ul>
         </div>
         <div class="col-md-4 pt-5">
-          <h2 class="h2 text-light border-bottom pb-3 border-light">
+          <h3 class="h3 text-light border-bottom pb-3 border-light">
             서비스약관
-          </h2>
+          </h3>
           <ul class="list-unstyled text-light footer-link-list">
             <li>
               <routerLink to="/TermsServicePolicy" class="text-decoration-none"
@@ -68,4 +68,12 @@
 
 <script setup></script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+h1, h3, td, th, i, div, p, span,li,ul{
+  font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-size : 15px;
+}
+#tempaltemo_footer > div.container > div > div > h3 {
+  font-weight:bold;
+}
+</style>

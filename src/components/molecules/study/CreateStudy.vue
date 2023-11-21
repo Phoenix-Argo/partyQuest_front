@@ -176,7 +176,11 @@ const submitForm = async () => {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.container{
+  margin-bottom: 150px;
+}
+</style>
 
 <template>
   <!-- Start Study Description -->
