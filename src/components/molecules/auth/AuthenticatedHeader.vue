@@ -34,10 +34,9 @@ let authStore = useAuthStore();
 const authMenu = ref(["마이페이지", "좋아요"]);
 const router = useRouter();
 const onClickHandler = async () => {
-  //await logout(authStore.accessToken);
-  await logout().get("/api/member/sign-out");
+  await logout(authStore.accessToken);
   authStore.invalidateUser();
-  router.forward("/");
+  router.forward("/index");
 };
 </script>
 
