@@ -5,7 +5,9 @@
 <template>
   <section class="search">
     <div class="container">
+      <div class="content">
 
+      </div>
     </div>
   </section>
 </template>
