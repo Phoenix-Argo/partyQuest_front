@@ -77,7 +77,7 @@ onMounted(onBeforeMount);
           </div>
           <div class="col-md-9 m-auto" id="hostProfile">
             <div id="hostPicture">
-              <!-- <img src="{{ studyView.avatar }}" alt="#" id="myPicture" /> -->
+              <Img :content="studyView.avatar" id="myPicture" />
 
               <div id="hostNick" class="form-text">
                 {{ studyView.hostNickName }}
