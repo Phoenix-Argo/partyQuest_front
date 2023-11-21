@@ -21,10 +21,12 @@ const findWaitingList = async () => {
 };
 onMounted(findWaitingList);
 
-const Btnapprove = async (hostId, memberId, studyId) => {
+const Btnapprove = async (memberId, hostId, studyId) => {
   alert("accepted");
-  const url = BASE_URL + "api/study/changeApplicationStatus";
-
+  const url = BASE_URL + "/api/study/changeApplicationStatus";
+  console.log("hostId : " + hostId);
+  console.log("memberId : " + memberId);
+  console.log("studyId : " + studyId);
   // StudyChangeApplicantStatusRequest에 데이터를 담음
   const StudyChangeApplicantStatusRequest = new FormData();
   StudyChangeApplicantStatusRequest.append("hostId", hostId);
@@ -33,12 +35,63 @@ const Btnapprove = async (hostId, memberId, studyId) => {
   StudyChangeApplicantStatusRequest.append("status", "ACCEPTED");
 
   try {
-  } catch {}
+    const response = await axios.post(url, StudyChangeApplicantStatusRequest, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    console.log("Response data:", response.data);
+    if (response.status >= 200 && response.status < 300) {
+      // HTTP 상태가 성공인 경우
+      // 응답 확인
+
+      // 새로운 데이터를 가져오는 함수 호출
+      await findWaitingList();
+    } else {
+      // HTTP 상태가 실패인 경우
+      throw new Error(`HTTP error ! Status: ${response.status}`);
+    }
+    // 응답 확인
+  } catch (error) {
+    console.error("Axios error : ", error);
+  }
 }; //BTN Approve END
 
-const Btnreject = async () => {
-  alert("Btnreject");
-};
+const Btnreject = async (memberId, hostId, studyId) => {
+  alert("Reject");
+  const url = BASE_URL + "/api/study/changeApplicationStatus";
+  console.log("hostId : " + hostId);
+  console.log("memberId : " + memberId);
+  console.log("studyId : " + studyId);
+  // StudyChangeApplicantStatusRequest에 데이터를 담음
+  const StudyChangeApplicantStatusRequest = new FormData();
+  StudyChangeApplicantStatusRequest.append("hostId", hostId);
+  StudyChangeApplicantStatusRequest.append("applicantId", memberId);
+  StudyChangeApplicantStatusRequest.append("studyId", studyId);
+  StudyChangeApplicantStatusRequest.append("status", "REJECTED");
+
+  try {
+    const response = await axios.post(url, StudyChangeApplicantStatusRequest, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    console.log("Response data:", response.data);
+    if (response.status >= 200 && response.status < 300) {
+      // HTTP 상태가 성공인 경우
+      // 응답 확인
+
+      // 새로운 데이터를 가져오는 함수 호출
+      await findWaitingList();
+    } else {
+      // HTTP 상태가 실패인 경우
+      throw new Error(`HTTP error ! Status: ${response.status}`);
+    }
+    // 응답 확인
+  } catch (error) {
+    console.error("Axios error : ", error);
+  }
+}; //BTN Approve END
 </script>
 <template>
   <section class="container py-9" style="min-height: 1050px">
@@ -64,24 +117,24 @@ const Btnreject = async () => {
             <tbody v-for="list in study.waitingList" :key="list.memberId">
               <tr class="text-center">
                 <td><input type="checkbox" /></td>
-                <td>{{ list.memberNickName }}</td>
+                <td>
+                  {{ list.memberNickName }}
+                </td>
                 <td v-if="list.applicationStatus == 'PENDING'">
                   <button
-                    @click="
-                      Btnapprove(
-                        list.memberId,
-                        study.hostId,
-                        study.studyId,
-                        ACCEPTED
-                      )
+                    @click.prevent="
+                      () =>
+                        Btnapprove(list.memberId, study.hostId, study.studyId)
                     "
                     id="Btnapprove"
+                    class="btn btn-primary"
                   >
                     승인
                   </button>
                   <button
-                    @click="
-                      Btnreject(list.memberId, list.memberStudyId, REJECTED)
+                    @click.prevent="
+                      () =>
+                        Btnreject(list.memberId, study.hostId, study.studyId)
                     "
                     id="Btnreject"
                   >
@@ -89,10 +142,28 @@ const Btnreject = async () => {
                   </button>
                 </td>
                 <td v-else-if="list.applicationStatus === 'ACCEPTED'">
-                  <div id="approveStudy">승인</div>
+                  <button
+                    @click.prevent="
+                      () =>
+                        Btnreject(list.memberId, study.hostId, study.studyId)
+                    "
+                    id="Btnreject"
+                    class="btn btn-danger"
+                  >
+                    거절
+                  </button>
                 </td>
                 <td v-else id="rejectStudy">
-                  <div id="rejectStudy">거절</div>
+                  <button
+                    @click.prevent="
+                      () =>
+                        Btnapprove(list.memberId, study.hostId, study.studyId)
+                    "
+                    id="Btnapprove"
+                    class="btn btn-primary"
+                  >
+                    재승인
+                  </button>
                 </td>
               </tr>
             </tbody>
@@ -105,18 +176,22 @@ const Btnreject = async () => {
   </section>
 </template>
 <style scoped>
-#Btnapprove {
-  background-color: blue;
-  color: white;
+.label-success {
+  background-color: #5cb85c;
 }
-#Btnreject {
-  background-color: red;
-  color: black;
+.label-danger {
+  background-color: #d9534f;
 }
-#approveStudy {
-  color: blue;
-}
-#rejectStudy {
-  color: red;
+.label {
+  display: inline;
+  padding: 0.2em 0.6em 0.3em;
+  font-size: 75%;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.25em;
 }
 </style>
