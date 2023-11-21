@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive, onMounted } from "vue";
+import { ref, reactive, onMounted, toRefs } from "vue";
 import axios from "axios";
 import SmartEditor from "./smartEditor.vue";
 import IconDoubleCheck from "../../icons/IconDoubleCheck.vue";
@@ -9,6 +9,7 @@ import { useStudyLocation } from "../../../modules/study/StudyLocation";
 import { useStudyPeriod } from "../../../modules/study/StudyPeriod";
 import { useRoute } from "vue-router";
 import { onBeforeMount } from "vue";
+import { computed } from "@vue/reactivity";
 
 const BASE_URL = "http://localhost:8080";
 /* MODIFY SELECT */
@@ -16,7 +17,7 @@ const BASE_URL = "http://localhost:8080";
 const route = useRoute();
 
 // 서버 데이터
-const selectModifyStudy = ref([]);
+const selectModifyStudy = ref({});
 
 // BeforeMount 서버에 해당 id json 요청
 onBeforeMount(async () => {
@@ -57,15 +58,8 @@ const {
 // 스터디 기간
 const { getFormattedCurrentDate } = useStudyPeriod();
 
-// 모집방식
-const {
-  switchState,
-  member,
-  increase,
-  decrease,
-  modifyIncrease,
-  modifyDecrease,
-} = useStudyRecruitment();
+// 모집방식 및 모집인원 수정
+const { switchState, modifyIncrease, modifyDecrease } = useStudyRecruitment();
 
 // 카테고리 가져오기
 const fetchCates = async () => {
@@ -420,7 +414,7 @@ const submitForm = async () => {
                       <button
                         type="button"
                         class="btn btn-outline-secondary btn-outline-danger"
-                        @click="modifyDecrease"
+                        @click="modifyDecrease(selectModifyStudy)"
                       >
                         -
                       </button>
@@ -436,7 +430,7 @@ const submitForm = async () => {
                     <button
                       type="button"
                       class="btn btn-outline-secondary btn-outline-danger"
-                      @click="modifyIncrease"
+                      @click="modifyIncrease(selectModifyStudy)"
                     >
                       +
                     </button>
@@ -459,7 +453,11 @@ const submitForm = async () => {
               type="file"
               class="form-control-file"
               id="exampleFormControlFile1"
+              @change="fileChange"
             />
+            <div v-if="selectedFile">
+              파일 이름 : {{ selectModifyStudy.thumb }}
+            </div>
           </section>
           <hr class="sectionLine" />
           <div class="mb-3">
