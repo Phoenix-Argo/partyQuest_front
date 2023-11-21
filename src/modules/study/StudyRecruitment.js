@@ -17,5 +17,27 @@ export const useStudyRecruitment = () => {
     }
   };
 
-  return { switchState, member, increase, decrease };
+  const modifyIncrease = (selectModifyStudy) => {
+    if (selectModifyStudy.memberUpperLimit < 30) {
+      //updateMember++;
+      selectModifyStudy.memberUpperLimit++;
+
+      console.log("count1 : ");
+    }
+  };
+  const modifyDecrease = (selectModifyStudy) => {
+    if (selectModifyStudy.memberUpperLimit > 1) {
+      selectModifyStudy.memberUpperLimit--;
+      console.log("count2 : ");
+    }
+  };
+
+  return {
+    switchState,
+    member,
+    increase,
+    decrease,
+    modifyIncrease,
+    modifyDecrease,
+  };
 };
