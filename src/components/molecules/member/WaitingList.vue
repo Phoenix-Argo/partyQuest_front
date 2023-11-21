@@ -23,7 +23,7 @@ onMounted(findWaitingList);
 
 const Btnapprove = async (hostId, memberId, studyId) => {
   alert("accepted");
-  const url = BASE_URL+ "api/study/changeApplicationStatus";
+  const url = BASE_URL + "api/study/changeApplicationStatus";
 
   // StudyChangeApplicantStatusRequest에 데이터를 담음
   const StudyChangeApplicantStatusRequest = new FormData();
@@ -32,10 +32,9 @@ const Btnapprove = async (hostId, memberId, studyId) => {
   StudyChangeApplicantStatusRequest.append("studyId", studyId);
   StudyChangeApplicantStatusRequest.append("status", "ACCEPTED");
 
-  try{
-    const 
-  }
-};//BTN Approve END
+  try {
+  } catch {}
+}; //BTN Approve END
 
 const Btnreject = async () => {
   alert("Btnreject");
