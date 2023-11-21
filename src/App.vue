@@ -1,7 +1,7 @@
 <script setup>
 import { RouterLink, RouterView } from "vue-router";
-import Header from "./components/molecules/Header.vue";
-import Footer from "./components/molecules/Footer.vue";
+import Header from "./components/molecules/common/Header.vue";
+import Footer from "./components/molecules/common/Footer.vue";
 import axios from "axios";
 import { reactive } from "vue";
 import { ref } from "vue";

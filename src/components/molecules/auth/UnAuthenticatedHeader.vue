@@ -1,5 +1,5 @@
 <template>
-  <div class="navbar align-self-center d-flex">
+  <div class="align-self-center d-flex justify-content-start w-100 gap-2 ">
     <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
       <div class="input-group">
         <input

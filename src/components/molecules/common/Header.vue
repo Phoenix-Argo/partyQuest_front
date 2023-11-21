@@ -54,10 +54,9 @@ const auth = useAuthStore();
   <!-- Close Top Nav -->
 
   <!-- Header -->
-  <nav class="navbar navbar-expand-lg navbar-light shadow">
-    <div class="container d-flex justify-content-between align-items-center">
-      <a href="/index"><img class="logo" src="/img/logo_with_name3.png" /></a>
-
+  <nav class="navbar navbar-expand-md navbar-light shadow mx-auto d-flex justify-content-center" style="display: flex; justify-content: center height: 180px">
+    <div class="d-flex justify-content-center align-items-center w-75">
+      <router-link to="/index"><img class="logo" src="/img/logo_with_name3.png" /></router-link>
       <button
         class="navbar-toggler border-0"
         type="button"
@@ -71,34 +70,36 @@ const auth = useAuthStore();
       </button>
 
       <div
-        class="align-self-center collapse navbar-collapse flex-fill d-lg-flex justify-content-lg-between"
+        class="align-self-center collapse navbar-collapse d-flex justify-content-start w-auto"
         id="templatemo_main_nav"
       >
-        <div class="flex-fill">
-          <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="/createStudy">스터디 모임</a>
+        <div class="flex-fill px-5 d-flex">
+          <ul class="d-flex w-100 align-items-center align-self-center mb-0 justify-content-start flex-wrap gap-4 mx-auto" style="list-style : none">
+            <li class="">
+              <router-link class="fs-6" to="/createStudy">스터디 모임</router-link>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="about.html">프로젝트 모임</a>
+            <li class="">
+              <router-link class="fs-6" to="/about.html">프로젝트 모임</router-link>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="shop.html">커뮤니티</a>
+            <li class="">
+              <router-link class="fs-6" to="/shop.html">커뮤니티</router-link>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="contact.html">스터디룸</a>
+            <li class="">
+              <router-link class="fs-6" to="/contact.html">스터디룸</router-link>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/noticeList">공지사항</a>
+            <li class="">
+              <router-link class="nav-link" href="/noticeList">공지사항</router-link>
             </li>
           </ul>
         </div>
 <!--        LEARN: 바인딩 처리 해주려면 이렇게 직접 참조 하도록 한다.-->
-        <div v-if="auth.accessToken.length >0" class="flex-fill">
-          <AuthenticatedHeader :member="auth.user"/>
-        </div>
-        <div v-else>
-          <UnAuthenticatedHeader/>
+        <div class="flex-fill">
+          <div v-if="auth.accessToken.length >0">
+            <AuthenticatedHeader :member="auth.user"/>
+          </div>
+          <div v-else class="">
+            <UnAuthenticatedHeader/>
+          </div>
         </div>
       </div>
     </div>

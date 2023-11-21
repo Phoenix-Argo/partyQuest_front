@@ -1,5 +1,5 @@
 <script setup>
-import router from "../../router";
+import router from "../router";
 
 let btnDetail = function () {
   router.push("/studyView");
@@ -11,7 +11,7 @@ let btnDetail = function () {
     <!-- Start Banner Hero -->
     <div
       id="template-mo-zay-hero-carousel"
-      class="carousel slide"
+      class="carousel slide d-flex "
       data-bs-ride="carousel"
     >
       <ol class="carousel-indicators">
@@ -29,55 +29,61 @@ let btnDetail = function () {
           data-bs-slide-to="2"
         ></li>
       </ol>
-      <div class="carousel-inner">
+      <div class="carousel-inner vh-25">
         <div class="carousel-item active">
-          <div class="container">
-            <div class="row p-5">
-              <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
-                <img class="img-fluid" src="/img/banner_img_01.png" />
-              </div>
-              <div class="col-lg-6 mb-0 d-flex align-items-center">
-                <div class="text-align-left align-self-center">
-                  <h1 class="h1 text-success">
-                    <b>EVENT</b>
-                  </h1>
-                  <h3 class="h2">삼삼오오 파티원들</h3>
-                  <p>6명 이상 모이면 스터디룸 쿠폰이 쏟아진다!</p>
+          <div class="w-100 d-flex justify-content-center">
+            <div class="w-75">
+              <div class="row p-2">
+                <div class="mx-auto col-md-4 col-lg-4 order-lg-last">
+                  <img class="img-fluid mw-100" src="/img/banner_img_01.png" />
+                </div>
+                <div class="col-lg-7 mb-0 d-flex align-items-center">
+                  <div class="text-align-left align-self-center">
+                    <h1 class="h1 text-success">
+                      <b>EVENT</b>
+                    </h1>
+                    <h3 class="h2">삼삼오오 파티원들</h3>
+                    <p>6명 이상 모이면 스터디룸 쿠폰이 쏟아진다!</p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
         <div class="carousel-item">
-          <div class="container">
-            <div class="row p-5">
-              <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
-                <img class="img-fluid" src="/img/banner_img_02.png" alt="" />
-              </div>
-              <div class="col-lg-6 mb-0 d-flex align-items-center">
-                <div class="text-align-left">
-                  <h1 class="h1">EVENT</h1>
-                  <h3 class="h2">삼삼오오 파티원들이 모이면 쿠폰이 쏟아진다</h3>
-                  <p>삼삼오오 파티원들이 모이면 쿠폰이 쏟아진다</p>
+          <div class="w-100 d-flex justify-content-center">
+            <div class="w-75">
+              <div class="row p-2">
+                <div class="mx-auto col-md-8 col-lg-4 order-lg-last">
+                  <img class="img-fluid" src="/img/banner_img_02.png" alt="" />
+                </div>
+                <div class="col-lg-6 mb-0 d-flex align-items-center">
+                  <div class="text-align-left">
+                    <h1 class="h1">EVENT</h1>
+                    <h3 class="h2">삼삼오오 파티원들이 모이면 쿠폰이 쏟아진다</h3>
+                    <p>삼삼오오 파티원들이 모이면 쿠폰이 쏟아진다</p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
         <div class="carousel-item">
-          <div class="container">
-            <div class="row p-5">
-              <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
-                <img class="img-fluid" src="/img/banner_img_03.png" alt="" />
-              </div>
-              <div class="col-lg-6 mb-0 d-flex align-items-center">
-                <div class="text-align-left">
-                  <h1 class="h1">파티원을 구하세요!</h1>
-                  <p>
-                    혼자서 힘들다면 파티원을 구해서 능률을 높여보세요
-                    파티퀘스트에서 프로그래밍, 외국어, 독서 등 다양한 모임을
-                    찾을 수 있어요
-                  </p>
+          <div class="w-100 d-flex justify-content-center">
+            <div class="w-75">
+              <div class="row p-2">
+                <div class="mx-auto col-md-8 col-lg-4 order-lg-last">
+                  <img class="img-fluid" src="/img/banner_img_03.png" alt="" />
+                </div>
+                <div class="col-lg-7 mb-0 d-flex align-items-center">
+                  <div class="text-align-left">
+                    <h1 class="h1">파티원을 구하세요!</h1>
+                    <p>
+                      혼자서 힘들다면 파티원을 구해서 능률을 높여보세요
+                      파티퀘스트에서 프로그래밍, 외국어, 독서 등 다양한 모임을
+                      찾을 수 있어요
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
