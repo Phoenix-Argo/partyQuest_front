@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Main from "../components/molecules/Main.vue";
+import Main from "../pages/Main.vue";
 import Profile from "../components/molecules/member/Profile.vue";
 import Register from "../components/molecules/member/Register.vue";
 import Login from "../components/molecules/member/Login.vue";

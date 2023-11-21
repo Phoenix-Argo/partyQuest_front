@@ -54,8 +54,8 @@ const auth = useAuthStore();
   <!-- Close Top Nav -->
 
   <!-- Header -->
-  <nav class="navbar navbar-expand-md navbar-light shadow mx-auto d-flex justify-content-center" style="height: 180px">
-    <div class="d-flex justify-content-center align-items-center w-100">
+  <nav class="navbar navbar-expand-md navbar-light shadow mx-auto d-flex justify-content-center" style="display: flex; justify-content: center height: 180px">
+    <div class="d-flex justify-content-center align-items-center w-75">
       <router-link to="/index"><img class="logo" src="/img/logo_with_name3.png" /></router-link>
       <button
         class="navbar-toggler border-0"
@@ -70,7 +70,7 @@ const auth = useAuthStore();
       </button>
 
       <div
-        class="align-self-center collapse navbar-collapse d-lg-flex justify-content-start w-80"
+        class="align-self-center collapse navbar-collapse d-flex justify-content-start w-auto"
         id="templatemo_main_nav"
       >
         <div class="flex-fill px-5 d-flex">
@@ -97,7 +97,7 @@ const auth = useAuthStore();
           <div v-if="auth.accessToken.length >0">
             <AuthenticatedHeader :member="auth.user"/>
           </div>
-          <div v-else class="w-25">
+          <div v-else class="">
             <UnAuthenticatedHeader/>
           </div>
         </div>
