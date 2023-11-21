@@ -193,6 +193,11 @@
 #hostProfile {
   width: 50%;
   float: left;
+  overflow: hidden;
+}
+#myPicture {
+  width: 150px;
+  height: 150px;
 }
 #hostProfile > div {
   display: inline-block;
@@ -202,6 +207,11 @@
   width: 400px;
   height: 300px;
   float: left;
+  overflow: hidden;
+}
+#titleThumb > img {
+  width: 400px;
+  height: 300px;
 }
 
 #hostPicture {
