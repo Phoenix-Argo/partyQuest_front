@@ -88,7 +88,7 @@ const auth = useAuthStore();
               <router-link class="fs-6" to="/contact.html">스터디룸</router-link>
             </li>
             <li class="">
-              <router-link class="fs-6" to="/contact.html">공지사항</router-link>
+              <router-link class="nav-link" href="/noticeList">공지사항</router-link>
             </li>
           </ul>
         </div>
