@@ -89,7 +89,7 @@ const auth = useAuthStore();
               <a class="nav-link" href="contact.html">스터디룸</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="contact.html">공지사항</a>
+              <a class="nav-link" href="/noticeList">공지사항</a>
             </li>
           </ul>
         </div>
