@@ -31,6 +31,7 @@ const router = createRouter({
     { path: "/paymentPolicy", component: PaymentPolicy },
     { path: "/sandbox/donghan", component: DongHanPlayGround },
     { path: "/noticeList", component: NoticeList },
+    {path:"/test-bed",component:DongHanPlayGround}
   ],
 });
 // router 인스턴스 내보내기 -> main.js 에서 등록
