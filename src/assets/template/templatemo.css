@@ -47,7 +47,7 @@ input,div*/
 body,
 ul,
 li,
-a{
+a {
   font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto,
     Helvetica Neue, Segoe UI, Apple SD Gothic Neo, Noto Sans KR, Malgun Gothic,
     Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, sans-serif;
@@ -72,7 +72,7 @@ a{
   font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto,
     Helvetica Neue, Segoe UI, Apple SD Gothic Neo, Noto Sans KR, Malgun Gothic,
     Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, sans-serif;
-  font-size: 22px
+  font-size: 22px;
 }
 /* General */
 .logo {
@@ -105,8 +105,8 @@ a{
   background-color: #d62600 !important;
 }
 .btn-success {
-  background-color: #d62600 !important;
-  border-color: #d62600 !important;
+  background-color: #5cb85c !important;
+  border-color: #5cb85c !important;
 }
 .pagination .page-link:hover {
   color: #000;
