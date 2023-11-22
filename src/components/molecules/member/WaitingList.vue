@@ -6,7 +6,8 @@ import { reactive } from "vue";
 
 const BASE_URL = "http://localhost:8080";
 
-const hostId = ref(1);
+//hostId로 변수값이 들어와야함.
+const hostId = ref(52);
 const studyWaitingList = ref([]);
 const findWaitingList = async () => {
   try {
@@ -101,9 +102,11 @@ const Btnreject = async (memberId, hostId, studyId) => {
           <p id="title1">참여자 대기명단</p>
           <div>
             <p>
-              [{{ study.title }}] [{{ study.location }}] ({{
-                study.curMembersSize
-              }}/{{ study.memberUpperLimit }})
+              [{{ study.title }}]
+              {{ study.onOff === "ON_OFF" ? "[온라인]" : "" }}
+              [{{ study.location }}] ({{ study.curMembersSize }}/{{
+                study.memberUpperLimit
+              }})
             </p>
           </div>
           <table class="table table-bordered">
@@ -115,33 +118,27 @@ const Btnreject = async (memberId, hostId, studyId) => {
               </tr>
             </thead>
             <tbody v-for="list in study.waitingList" :key="list.memberId">
-              <tr class="text-center">
+              <!-- 대기시 -->
+              <tr
+                class="text-center"
+                v-if="list.applicationStatus == 'PENDING'"
+              >
                 <td><input type="checkbox" /></td>
                 <td>
+                  <span class="label label-default">대기중</span>
                   {{ list.memberNickName }}
                 </td>
-                <td v-if="list.applicationStatus == 'PENDING'">
+                <td>
                   <button
                     @click.prevent="
                       () =>
                         Btnapprove(list.memberId, study.hostId, study.studyId)
                     "
                     id="Btnapprove"
-                    class="btn btn-primary"
+                    class="btn btn-success"
                   >
                     승인
                   </button>
-                  <button
-                    @click.prevent="
-                      () =>
-                        Btnreject(list.memberId, study.hostId, study.studyId)
-                    "
-                    id="Btnreject"
-                  >
-                    거절
-                  </button>
-                </td>
-                <td v-else-if="list.applicationStatus === 'ACCEPTED'">
                   <button
                     @click.prevent="
                       () =>
@@ -153,14 +150,45 @@ const Btnreject = async (memberId, hostId, studyId) => {
                     거절
                   </button>
                 </td>
-                <td v-else id="rejectStudy">
+              </tr>
+              <!-- 승인시 -->
+              <tr
+                class="text-center"
+                v-else-if="list.applicationStatus == 'ACCEPTED'"
+              >
+                <td><input type="checkbox" /></td>
+                <td>
+                  <span class="label label-success">승인</span>
+                  {{ list.memberNickName }}
+                </td>
+                <td>
+                  <button
+                    @click.prevent="
+                      () =>
+                        Btnreject(list.memberId, study.hostId, study.studyId)
+                    "
+                    id="Btnreject"
+                    class="btn btn-danger"
+                  >
+                    거절
+                  </button>
+                </td>
+              </tr>
+              <!-- 거절시 -->
+              <tr class="text-center" v-else>
+                <td><input type="checkbox" /></td>
+                <td>
+                  <span class="label label-danger">거절</span>
+                  {{ list.memberNickName }}
+                </td>
+                <td>
                   <button
                     @click.prevent="
                       () =>
                         Btnapprove(list.memberId, study.hostId, study.studyId)
                     "
                     id="Btnapprove"
-                    class="btn btn-primary"
+                    class="btn btn-success"
                   >
                     재승인
                   </button>
@@ -182,6 +210,10 @@ const Btnreject = async (memberId, hostId, studyId) => {
 .label-danger {
   background-color: #d9534f;
 }
+.label-default {
+  background-color: #777;
+}
+
 .label {
   display: inline;
   padding: 0.2em 0.6em 0.3em;
