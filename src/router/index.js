@@ -5,6 +5,7 @@ import Register from "../components/molecules/member/Register.vue";
 import Login from "../components/molecules/member/Login.vue";
 import WaitingList from "../components/molecules/member/WaitingList.vue";
 import StudyView from "../components/molecules/study/StudyView.vue";
+import StudyView2 from "../components/molecules/study/StudyView2.vue";
 import createStudy from "../components/molecules/study/CreateStudy.vue";
 import ModifyStudy from "../components/molecules/study/ModifyStudy.vue";
 import TermsServicePolicy from "../components/molecules/member/terms/TermsServicePolicy.vue";
@@ -26,6 +27,7 @@ const router = createRouter({
     { path: "/login", component: Login },
     { path: "/waitingList/:hostId", component: WaitingList },
     { path: "/studyView/:studyId", component: StudyView },
+    { path: "/studyView2", component: StudyView2 },
     { path: "/createStudy", component: createStudy }, // 대문자 안됨
     { path: "/modifyStudy/:studyId", component: ModifyStudy },
     { path: "/termsServicePolicy", component: TermsServicePolicy },
@@ -33,7 +35,7 @@ const router = createRouter({
     { path: "/paymentPolicy", component: PaymentPolicy },
     { path: "/sandbox/donghan", component: DongHanPlayGround },
     { path: "/noticeList", component: NoticeList },
-    {path:"/test-bed",component:DongHanPlayGround},
+    { path: "/test-bed", component: DongHanPlayGround },
     { path: "/faqList", component: FaqList },
     { path: "/communityList", component: CommunityList },
   ],

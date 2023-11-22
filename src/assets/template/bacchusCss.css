@@ -308,3 +308,20 @@
   font-size: 87.5%;
   color: #333;
 }
+
+/* StudyView */
+#studyBase {
+  height: 522px;
+}
+#studyHostInfo {
+  margin-left: 7%;
+}
+#hostAvatar {
+  border-radius: 70%;
+}
+#viewHostNickBio {
+  padding-top: 13%;
+}
+#memberAvatar {
+  border-radius: 70%;
+}
