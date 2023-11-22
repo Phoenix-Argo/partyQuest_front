@@ -21,7 +21,7 @@ const toggleAccordion = () => {
           @click="toggleAccordion"
       >
         <div>
-        <h5>{{ title }}</h5><br/>
+        <h5>{{ title }}</h5>
         <span>{{date}}</span>
         </div>
       </button>
@@ -42,6 +42,9 @@ a, div, span {
 .accordion-button {
   background-color: #ffffff;
   color: #000;
+}
+.accordion-button:hover{
+  background-color: #ffffff;
 }
 .accordion-item {
   margin-bottom: 10px;

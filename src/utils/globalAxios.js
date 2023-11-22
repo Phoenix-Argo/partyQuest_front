@@ -17,3 +17,12 @@ export const axiValid = axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_URL,
   withCredentials: true,
 });
+
+export const getValidatedAxios = (myAuthorization) => {
+  return axios.create({
+    baseURL: import.meta.env.VITE_APP_BASE_URL,
+    headers : {"Authorizaton": myAuthorization},
+    withCredentials: true,
+  })
+}
+

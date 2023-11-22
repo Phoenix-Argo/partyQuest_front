@@ -9,26 +9,36 @@ import IconHeart from "../../icons/IconHeart.vue";
 import IconEnvelope from "../../icons/IconEnvelope.vue";
 import IconAngry from "../../icons/IconAngry.vue";
 import IconHeartFill from "../../icons/IconHeartFill.vue";
+import { useAuthStore } from "../../../stores/authStore";
+import Img from "../common/Img.vue";
+import {axiValid, getValidatedAxios} from "@/utils/globalAxios";
 
-const BASE_URL = "http://localhost:8080/api/study";
+const BASE_URL = "/api/study";
+
+const { user,accessToken } = useAuthStore();
 
 // 라우터 인스턴스 가져오기
 const route = useRoute();
 
 // 서버 데이터
-const studyView = ref([]);
+const studyView = ref({});
+const fetchedStudyId = ref(null);
+const myAxios = getValidatedAxios(accessToken);
 
 //before mount 서버에 해당 id studyView json 요청
-onBeforeMount(async () => {
+onMounted(async () => {
   // 라우터 파라미터 수신
   const { studyId } = route.params;
   console.log("studyId : " + studyId);
   try {
-    const response = await axios.get(BASE_URL + "/studyView/" + studyId);
+    const response = await myAxios.get(BASE_URL + "/studyView/" + studyId);
     studyView.value = response.data;
     console.log("StudyViewData : " + studyView.value);
+    console.log("Fetched StudyId:", fetchedStudyId.value);
   } catch (err) {
     console.log(err);
+  } finally {
+    fetchedStudyId.value = studyId;
   }
 });
 
@@ -41,12 +51,12 @@ const updateLike = async () => {
   //TODO: 멤버아이디 받은 후, 화면 밖으로 나가서 다시 들어올 때 하트 상태 유지하기 (초기화 되면 안됨)
   //TDDO: liked count 출력 방법 모색 + 뷰 혹은 리스트 중 어디에 출력할 것인지 정하기
   const requestData = {
-    memberId: 352, // 정보가 없어서 임의의 값 부여
-    studyId: 2,
+    memberId: user.hostId,
+    studyId: fetchedStudyId.value,
   };
 
   try {
-    const response = await axios.put(`${BASE_URL}/updateLike`, requestData);
+    const response = await myAxios.put(`${BASE_URL}/updateLike`, requestData);
     console.log(response);
     alert("하트 공격!");
   } catch (error) {
@@ -54,21 +64,22 @@ const updateLike = async () => {
   }
 };
 
-onMounted(onBeforeMount);
 </script>
 <template>
   <body>
     <div class="container py-5">
       <div class="row py-5">
         <div class="viewTitle">
-          <div class="titleThumb" id="titleThumb">
-            <!--{{ studyView.thumb }}-->
-            <img src="http://placehold.it/400X300" alt="#" />
+          <div
+            class="titleThumb"
+            id="titleThumb"
+            v-if="studyView.thumb !== null"
+          >
+            <Img :content="studyView.thumb" />
           </div>
           <div class="col-md-9 m-auto" id="hostProfile">
             <div id="hostPicture">
-              {{ "hostThumb : " + studyView.avatar }}
-              <img src="http://placehold.it/150X150" alt="#" id="myPicture" />
+              <Img :content="studyView.avatar" id="myPicture" />
 
               <div id="hostNick" class="form-text">
                 {{ studyView.hostNickName }}
@@ -128,7 +139,9 @@ onMounted(onBeforeMount);
                 </ol>
                 <li>모임 장소</li>
                 <ol>
-                  부산광역시
+                  {{
+                    studyView.partyLocation
+                  }}
                 </ol>
               </ul>
               <div class="icons">
@@ -156,7 +169,7 @@ onMounted(onBeforeMount);
             >
               <p>{{ studyMemberInfo.memberId }}</p>
               <div id="partyMemberPicture">
-                <img src="http://placehold.it/150X150" alt="#" />
+                <img src="{}" alt="#" />
               </div>
               <div id="partyMemberProfileName">
                 <label class="form-label" id="nickName">{{

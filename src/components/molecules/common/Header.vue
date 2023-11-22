@@ -82,13 +82,13 @@ const auth = useAuthStore();
               <router-link class="fs-6" to="/about.html">프로젝트 모임</router-link>
             </li>
             <li class="">
-              <router-link class="fs-6" to="/shop.html">커뮤니티</router-link>
+              <router-link class="fs-6" to="/communityList">커뮤니티</router-link>
             </li>
             <li class="">
               <router-link class="fs-6" to="/contact.html">스터디룸</router-link>
             </li>
             <li class="">
-              <router-link to="/noticeList">공지사항</router-link>
+              <router-link to="/noticeList">고객센터</router-link>
             </li>
           </ul>
         </div>
