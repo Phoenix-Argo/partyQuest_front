@@ -33,7 +33,7 @@ const router = createRouter({
     { path: "/paymentPolicy", component: PaymentPolicy },
     { path: "/sandbox/donghan", component: DongHanPlayGround },
     { path: "/noticeList", component: NoticeList },
-    {path:"/test-bed",component:DongHanPlayGround}
+    {path:"/test-bed",component:DongHanPlayGround},
     { path: "/faqList", component: FaqList },
     { path: "/communityList", component: CommunityList },
   ],
