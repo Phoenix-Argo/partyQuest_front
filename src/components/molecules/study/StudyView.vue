@@ -11,10 +11,11 @@ import IconAngry from "../../icons/IconAngry.vue";
 import IconHeartFill from "../../icons/IconHeartFill.vue";
 import { useAuthStore } from "../../../stores/authStore";
 import Img from "../common/Img.vue";
+import {axiValid, getValidatedAxios} from "@/utils/globalAxios";
 
-const BASE_URL = "http://localhost:8080/api/study";
+const BASE_URL = "/api/study";
 
-const { user } = useAuthStore();
+const { user,accessToken } = useAuthStore();
 
 // 라우터 인스턴스 가져오기
 const route = useRoute();
@@ -22,6 +23,7 @@ const route = useRoute();
 // 서버 데이터
 const studyView = ref({});
 const fetchedStudyId = ref(null);
+const myAxios = getValidatedAxios(accessToken);
 
 //before mount 서버에 해당 id studyView json 요청
 onMounted(async () => {
@@ -29,13 +31,14 @@ onMounted(async () => {
   const { studyId } = route.params;
   console.log("studyId : " + studyId);
   try {
-    const response = await axios.get(BASE_URL + "/studyView/" + studyId);
+    const response = await myAxios.get(BASE_URL + "/studyView/" + studyId);
     studyView.value = response.data;
-    fetchedStudyId.value = studyId;
     console.log("StudyViewData : " + studyView.value);
     console.log("Fetched StudyId:", fetchedStudyId.value);
   } catch (err) {
     console.log(err);
+  } finally {
+    fetchedStudyId.value = studyId;
   }
 });
 
@@ -53,7 +56,7 @@ const updateLike = async () => {
   };
 
   try {
-    const response = await axios.put(`${BASE_URL}/updateLike`, requestData);
+    const response = await myAxios.put(`${BASE_URL}/updateLike`, requestData);
     console.log(response);
     alert("하트 공격!");
   } catch (error) {
@@ -61,7 +64,6 @@ const updateLike = async () => {
   }
 };
 
-onMounted(onBeforeMount);
 </script>
 <template>
   <body>
