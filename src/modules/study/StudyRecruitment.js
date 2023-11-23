@@ -4,6 +4,15 @@ export const useStudyRecruitment = () => {
   // 모집 방식토글(FCFS, PNP)
   const switchState = ref({ isPnp: false });
 
+  // 토글 정보
+  const handleToggleChange = (selectModifyStudy) => {
+    if (selectModifyStudy.recruitOption == "PNP") {
+      return (switchState = ref({ isPnp: true }));
+    }
+    if (selectModifyStudy.recruitOption == "FCFS") {
+      return (switchState = ref({ isPnp: false }));
+    }
+  };
   // 파티원수
   const member = ref(1);
   const increase = () => {
@@ -34,6 +43,7 @@ export const useStudyRecruitment = () => {
 
   return {
     switchState,
+    handleToggleChange,
     member,
     increase,
     decrease,

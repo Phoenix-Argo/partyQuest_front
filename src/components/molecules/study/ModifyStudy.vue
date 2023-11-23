@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive, onMounted, toRefs } from "vue";
+import { ref, onMounted } from "vue";
 import axios from "axios";
 import SmartEditor from "./smartEditor.vue";
 import IconDoubleCheck from "../../icons/IconDoubleCheck.vue";
@@ -9,15 +9,23 @@ import { useStudyLocation } from "../../../modules/study/StudyLocation";
 import { useStudyPeriod } from "../../../modules/study/StudyPeriod";
 import { useRoute } from "vue-router";
 import { onBeforeMount } from "vue";
-import { computed } from "@vue/reactivity";
+import { useAuthStore } from "../../../stores/authStore";
+import { getValidatedAxios } from "@/utils/globalAxios";
 
-const BASE_URL = "http://localhost:8080";
+const BASE_URL = "/api/study";
+const { user, accessToken } = useAuthStore();
 /* MODIFY SELECT */
 // 라우터 인스턴스 가져오기
 const route = useRoute();
 
 // 서버 데이터
 const selectModifyStudy = ref({});
+const fetchedStudyId = ref(null);
+const myAxios = getValidatedAxios(accessToken);
+
+// 카테고리
+const { cates, major, middle, small, selectedMiddles, selectedSmalls } =
+  useStudyCategories();
 
 // BeforeMount 서버에 해당 id json 요청
 onBeforeMount(async () => {
@@ -25,10 +33,9 @@ onBeforeMount(async () => {
   const { studyId } = route.params;
   console.log("studyId : " + studyId);
   try {
-    const response = await axios.get(
-      BASE_URL + "/api/study/modifyStudy/" + studyId
-    );
+    const response = await myAxios.get(BASE_URL + "/modifyStudy/" + studyId);
     selectModifyStudy.value = response.data;
+    console.log("response : " + response.data);
     console.log("modifyStudyData : " + selectModifyStudy.value);
   } catch (err) {
     console.log(err);
@@ -36,10 +43,6 @@ onBeforeMount(async () => {
 });
 
 /* MODIFY SAVE */
-// 카테고리
-const { cates, major, middle, small, selectedMiddles, selectedSmalls } =
-  useStudyCategories();
-
 // 온/오프라인 및 지역 설정
 const {
   selectModifyStudy_onOff,
@@ -63,8 +66,8 @@ const { switchState, modifyIncrease, modifyDecrease } = useStudyRecruitment();
 
 // 카테고리 가져오기
 const fetchCates = async () => {
-  await axios({
-    url: BASE_URL + "/api/category/allCate",
+  await myAxios({
+    url: "/api/category/allCate",
     method: "get",
     responseType: "json",
   })
@@ -126,7 +129,7 @@ const onSmallSelected = (curSmall) => {
 /* 최종 전송 FORM  */
 const submitForm = async () => {
   // TODO: 호스트 아이디 받기 (Member)
-  selectModifyStudy.hostId = 352;
+  selectModifyStudy.hostId = user.hostId;
   selectModifyStudy.recruitOption = switchState.value.isPnp ? "PNP" : "FCFS";
   selectModifyStudy.memberUpperLimit = member.value;
   selectModifyStudy.middleCateIds = Array.from(selectedMiddles.value).map(
@@ -171,10 +174,10 @@ const submitForm = async () => {
     <div class="container py-5">
       <div class="row py-5">
         <div class="col-md-9 m-auto" id="groupHead">
-          <label class="form-main">모임생성</label>
+          <label class="form-main">모임 수정</label>
           <div id="StudyGroup" class="main-text">
-            만들고 싶은 스터디 모임이 있다면 파티퀘스트와 파티원을 모집하는 것은
-            어떠세요?
+            스터디 모임이나 파티원 모집 방식을 바꾸고 싶다면 파티퀘스트와 함께
+            수정해요!
           </div>
         </div>
 
@@ -394,9 +397,11 @@ const submitForm = async () => {
                   type="checkbox"
                   role="switch"
                   v-model="switchState.isPnp"
-                  @change="handleToggleChange"
+                  @change="handleToggleChange(selectModifyStudy)"
                 />
+                <p>{{ selectModifyStudy.recruitOption }}</p>
               </div>
+
               <div class="party-count">
                 <ul class="list-inline pb-3" id="memberNum">
                   <li class="list-inline-item text-right">파티원 수</li>
