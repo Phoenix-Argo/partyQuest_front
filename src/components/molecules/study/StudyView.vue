@@ -117,7 +117,7 @@
                 ><IconHeartFill v-else></IconHeartFill></a
               >&nbsp; <a class="icon-angry"><IconAngry></IconAngry></a>&nbsp;
             </div>
-            <button class="btn-accept">참가하기</button>
+            <button class="btn-accept" @click="applyStudy">참가하기</button>
           </div>
         </div>
       </div>
@@ -322,6 +322,29 @@ const updateLike = async () => {
     alert("하트 공격!");
   } catch (error) {
     console.error(error);
+  }
+};
+
+const applyStudy = async () => {
+  const confirmation = confirm("신청하시겠습니까?");
+  if (confirmation) {
+    const StudyMemberJoinRequest = {
+      applicantId: user.email,
+      studyId: fetchedStudyId.value,
+    };
+    try {
+      const response = await myAxios.post(
+        `${BASE_URL}/ApplyStudy`,
+        StudyMemberJoinRequest
+      );
+      console.log(response);
+      alert("신청이 완료되었습니다.");
+    } catch (error) {
+      console.error(error);
+      alert("신청이 되지 않았습니다.");
+    }
+  } else {
+    alert("신청이 취소되었습니다.");
   }
 };
 </script>
