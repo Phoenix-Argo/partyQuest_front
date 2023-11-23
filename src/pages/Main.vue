@@ -1,10 +1,23 @@
 <script setup>
 import router from "../router";
 import Carousel from "@/components/molecules/common/Carousel.vue";
+import StudyListContainer from "@/components/molecules/study/list/StudyListContainer.vue";
+import {getStudies} from "@/utils/fetch/studyFetch";
+import {onMounted, ref} from "vue";
 
 let btnDetail = function () {
   router.push("/studyView");
 };
+const studyLists = ref({
+  'createdAt' : []
+})
+let getStudyList = async (sort) => {
+  return await getStudies(sort);
+};
+
+onMounted( async ()=>{
+  studyLists.value.createdAt = await getStudies("createdAt");
+})
 </script>
 
 <template>
@@ -12,6 +25,7 @@ let btnDetail = function () {
     <Carousel/>
 
     <section class="container py-9">
+      <StudyListContainer :studies="studyLists.createdAt" title="test"/>
       <div class="row text-left pt-3">
         <div class="col-lg-12 m-auto">
           <p id="title1">STUDY WITH ME 📕</p>
