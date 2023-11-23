@@ -326,7 +326,10 @@
 }
 #memberAvatar {
   border-radius: 70%;
+  overflow: hidden;
 }
 #skillSection {
   width: 700px;
+}
+#memberImg {
 }

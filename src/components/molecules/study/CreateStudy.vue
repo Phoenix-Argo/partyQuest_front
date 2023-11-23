@@ -177,7 +177,7 @@ const submitForm = async () => {
 </script>
 
 <style scoped>
-.container{
+.container {
   margin-bottom: 150px;
 }
 </style>

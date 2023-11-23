@@ -70,9 +70,9 @@
           <img src="http://via.placeholder.com/800x2000" alt="" />
         </div>
 
-        <div class="col-lg-3 mt-5 sid-nav">
+        <div class="col-lg-3 mt-5 side-nav">
           <div class="description">
-            <h6>상세정보</h6>
+            <h6></h6>
             <ul class="list-unstyled pb-3" id="studyInfo">
               <li>
                 참여인원 :
@@ -98,7 +98,8 @@
               <ol>
                 {{
                   studyView.studyStartDate
-                }}~
+                }}
+                <div style="margin-left: 30%">~</div>
                 {{
                   studyView.studyEndDate
                 }}
@@ -130,7 +131,6 @@
   <section class="py-5">
     <div class="container pb-5">
       <h4>파티원 소개</h4>
-      <p>{{ studyView.studyMemberInfo }} 보류</p>
       <div
         class="row"
         v-for="studyMember in studyView.studyMemberInfo"
@@ -138,13 +138,23 @@
       >
         <div class="col-lg-2"></div>
         <div class="col-lg-2" id="partyMemberMain">
-          <Img :content="studyView.avatar" id="hostAvatar" />
-          <img src="http://via.placeholder.com/150.jpg" id="memberAvatar" />
+          <Img :content="studyView.avatar" id="memberAvatar" />
         </div>
-        <div class="col-lg-5" style="border: 1px solid black">
-          <h3>memberNick</h3>
-          <h4>memberBioInfo</h4>
-          <p>관심 기술 스택</p>
+        <div class="col-lg-5">
+          <h3>{{ studyMember.memberNickName }}</h3>
+          <h4>{{ studyMember.memberBio }}</h4>
+          <div
+            class="favoritCate"
+            style="float: left; margin-right: 5px"
+            v-for="favoritCate in studyMember.smallMember"
+          >
+            <button
+              class="btn btn-block btn-outline-danger"
+              style="white-space: nowrap; text-overflow: ellipsis"
+            >
+              {{ favoritCate.smallCateName }}
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -349,4 +359,11 @@ const applyStudy = async () => {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+* {
+  font-family: "Pretendard Variable", Pretendard, -apple-system,
+    BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI",
+    "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+}
+</style>

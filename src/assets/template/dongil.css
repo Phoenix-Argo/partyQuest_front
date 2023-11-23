@@ -2,15 +2,14 @@
   border-top: 1px solid black;
   display: flex;
 }
-.side-nav {
-  margin-left: 10%;
-}
+
 .description {
-  background-color: lightgray;
-  height: 20%;
+  border: 1px solid rgb(128, 128, 128, 0.3);
+  height: auto;
   position: sticky;
   top: 0px; /* 원하는 디자인에 맞게 이 값을 조정하세요 */
   margin-bottom: 10%;
+  border-radius: 3%;
 }
 
 .btn-accept {
@@ -18,15 +17,16 @@
   margin-top: 8%;
   color: #fff;
   background-color: #d62600;
-  border-color: #d62600;
+  border: none;
 }
 
 #studyInfo {
   padding: 5%;
   height: auto;
   width: 80%;
-  background-color: #fff;
+  background-color: #7a7a7a13;
   margin: auto;
+  border-radius: 5%;
 }
 
 /*아이콘*/
