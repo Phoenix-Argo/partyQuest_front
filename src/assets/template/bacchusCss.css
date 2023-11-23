@@ -318,10 +318,15 @@
 }
 #hostAvatar {
   border-radius: 70%;
+  width: 200px;
+  height: 200px;
 }
 #viewHostNickBio {
   padding-top: 13%;
 }
 #memberAvatar {
   border-radius: 70%;
+}
+#skillSection {
+  width: 700px;
 }
