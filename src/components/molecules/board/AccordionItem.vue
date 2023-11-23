@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 
-const props = defineProps(['headingId', 'collapseId', 'title', 'date', 'content']);
+const props = defineProps(['headingId', 'collapseId', 'title', 'date', 'content', 'menu']);
 const isActive = ref(false);
 </script>
 
@@ -18,7 +18,7 @@ const isActive = ref(false);
           @click="toggleAccordion"
       >
         <div>
-          <h5>{{ title }}</h5>
+          <h5>[{{ menu }}] {{ title }}</h5>
           <span>{{ date }}</span>
         </div>
       </button>
