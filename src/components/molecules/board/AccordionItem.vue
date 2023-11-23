@@ -1,11 +1,8 @@
 <script setup>
 import { ref } from 'vue';
-const props = defineProps(['headingId', 'collapseId', 'title','date','content']);
-const isActive = ref(false);
 
-const toggleAccordion = () => {
-  isActive.value = !isActive.value;
-};
+const props = defineProps(['headingId', 'collapseId', 'title', 'date', 'content']);
+const isActive = ref(false);
 </script>
 
 <template>
@@ -21,14 +18,14 @@ const toggleAccordion = () => {
           @click="toggleAccordion"
       >
         <div>
-        <h5>{{ title }}</h5>
-        <span>{{date}}</span>
+          <h5>{{ title }}</h5>
+          <span>{{ date }}</span>
         </div>
       </button>
     </h2>
     <div :id="collapseId" class="accordion-collapse collapse" :aria-labelledby="headingId" data-bs-parent="#accordionFlushExample">
       <div class="accordion-body">
-        {{content}}
+        {{ content }}
       </div>
     </div>
   </div>
