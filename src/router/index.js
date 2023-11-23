@@ -15,7 +15,7 @@ import DongHanPlayGround from "../pages/sandbox/DongHanPlayGround.vue";
 import NoticeList from "../components/molecules/board/NoticeList.vue";
 import FaqList from "../components/molecules/board/FaqList.vue";
 import CommunityList from "../components/molecules/board/CommunityList.vue";
-import MyPage from "../components/molecules/member/MyPage.vue";
+import MyStudyPage from "../components/molecules/member/MyStudyPage.vue";
 
 // router 인스턴스 생성
 const router = createRouter({
@@ -39,7 +39,7 @@ const router = createRouter({
     { path: "/test-bed", component: DongHanPlayGround },
     { path: "/faqList", component: FaqList },
     { path: "/communityList", component: CommunityList },
-    { path: "/myPage", component: MyPage },
+    { path: "/myStudyPage", component: MyStudyPage },
   ],
 });
 // router 인스턴스 내보내기 -> main.js 에서 등록
