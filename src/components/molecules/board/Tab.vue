@@ -1,37 +1,36 @@
 <template>
   <div class="tabs is-boxed">
-    <ul>
-      <li class="is-active">
+    <ul id="router_li_ul">
+      <li :class="{ 'router_li': true, 'active': curActiveListId === 'notice' }" @click="onListClickHandler('notice')">
         <router-link to="/noticeList">
           <span class="icon is-small"><IconNotice></IconNotice></span>
           <span>공지사항</span>
         </router-link>
       </li>
-      <li class="">
+      <li :class="{ 'router_li': true, 'active': curActiveListId === 'faq' }" @click="onListClickHandler('faq')">
         <router-link to="/faqList">
           <span class="icon is-small"><IconQuestion></IconQuestion></span>
           <span>자주 묻는 질문</span>
         </router-link>
       </li>
-      <li class="">
+      <li :class="{ 'router_li': true, 'active': curActiveListId === 'termsServicePolicy' }" @click="onListClickHandler('termsServicePolicy')">
         <router-link to="/termsServicePolicy">
           <span class="icon is-small"><IconTerms></IconTerms></span>
           <span>서비스 이용약관</span>
         </router-link>
       </li>
-      <li class="">
+      <li :class="{ 'router_li': true, 'active': curActiveListId === 'privacyPolicy' }" @click="onListClickHandler('privacyPolicy')">
         <router-link to="/privacyPolicy">
           <span class="icon is-small"><IconTerms></IconTerms></span>
           <span>개인정보취급방식</span>
         </router-link>
       </li>
-      <li class="">
+      <li :class="{ 'router_li': true, 'active': curActiveListId === 'paymentPolicy' }" @click="onListClickHandler('paymentPolicy')">
         <router-link to="/paymentPolicy">
           <span class="icon is-small"><IconTerms></IconTerms></span>
           <span>전자금융거래약관</span>
         </router-link>
       </li>
-
     </ul>
   </div>
 </template>
@@ -39,6 +38,13 @@
 import IconQuestion from "@/components/icons/IconQuestion.vue";
 import IconNotice from "@/components/icons/IconNotice.vue";
 import IconTerms from "@/components/icons/IconTerms.vue";
+import {ref} from "vue";
+const curActiveListId = ref("notice");
+
+const onListClickHandler = (listId) => {
+  curActiveListId.value = listId;
+};
+
 </script>
 <style scoped>
 h1, h2, td, th, i, div, p, span{
@@ -83,7 +89,7 @@ h1, h2, td, th, i, div, p, span{
   margin-bottom: 10px;
   margin-right:5px;
 }
-.tabs.is-boxed li.is-active a{
+.tabs.is-boxed li.active a{
   background-color: #fff;
   border-color: #dbdbdb;
   border-bottom-color: transparent!important;

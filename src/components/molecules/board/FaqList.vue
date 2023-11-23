@@ -1,7 +1,84 @@
 <script setup>
 import AccordionItem from "@/components/molecules/board/AccordionItem.vue";
-import IconQuestion from "@/components/icons/IconQuestion.vue";
 import Tab from "@/components/molecules/board/Tab.vue";
+import Pagination from "@/components/molecules/board/Pagination.vue";
+import {useAuthStore} from "@/stores/authStore";
+import {ref,onMounted} from "vue";
+import {getValidatedAxios} from "@/utils/globalAxios";
+const BASE_URL = "/api/cs";
+const { user,accessToken } = useAuthStore();
+const myAxios = getValidatedAxios(accessToken);
+
+const boardListVar = ref({
+  heading: "heading",
+  collapse: "collapse"
+})
+const boards = ref([]);
+const pg = ref(1);
+const size = ref(10);
+const total = ref('');
+const boardList = ref([]);
+
+
+const fetchData = async () => {
+  const cate = "faq";
+  try {
+    const response = await myAxios.get(`${BASE_URL}/faq`,{
+      params: {
+        cate: cate,
+        pg : pg.value,
+        size : size.value,
+      },
+    });
+
+    boards.value = response.data;
+    if (response.data.pg !== undefined) {
+      pg.value = response.data.pg;
+    }
+    if (response.data.size !== undefined) {
+      size.value = response.data.size;
+    }
+    total.value = response.data.totalElements;
+    boardList.value = boards.value.content;
+    console.log("BoardList size : ", pg.value);
+    console.log("BoardList size : ", size.value);
+    console.log("BoardList total : ", total.value);
+    console.log("BoardList data : ", boardList.value);
+  } catch (err) {
+    console.log(err);
+  }
+};
+onMounted(async () => {
+  await fetchData();
+
+});
+
+const prevPage = () => {
+  if (pg.value > 1) {
+    pg.value--;
+    fetchData();
+    console.log('Current pg.value:', pg.value);
+  }
+};
+
+const nextPage = () => {
+  pg.value++;
+  fetchData();
+  console.log('Current pg.value:', pg.value);
+};
+
+const selectPage =  (pageNumber) => {
+  pg.value = pageNumber;
+  fetchData();
+  console.log('Current pg.value:', pg.value);
+};
+const getPageArray = () => {
+  const countInPages = Math.ceil(total.value / size.value);
+  const pageArray = Array.from({ length: countInPages }, (_, index) => index + 1);
+  return pageArray;
+};
+
+
 </script>
 <template>
   <main class>
@@ -9,15 +86,28 @@ import Tab from "@/components/molecules/board/Tab.vue";
       <div class="container">
         <Tab></Tab>
         <p class="faq_heading">궁금한 점이 있으신가요? <br>먼저 아래의 자주 묻는 질문 FAQ 리스트를 확인 해주세요!</p>
-      <div class="accordion accordion-flush" id="accordionFlushExample">
-        <AccordionItem headingId="headingOne" collapseId="s" title="[로그인]  중복해서 가입되나요?" content="[로그인]  중복해서 가입되나요?"/>
-        <AccordionItem headingId="flush-headingTwo" collapseId="flush-collapseTwo" title="[회원가입]  중복해서 가입되나요?" content="이것은 컨텐츠입니다"/>
-        <AccordionItem headingId="flush-headingThree" collapseId="flush-collapseThree" title="[서비스]  중복해서 가입되나요?" content="이것은 컨텐츠입니다"/>
-        <AccordionItem headingId="flush-headingFour" collapseId="flush-collapseFour" title="[서비스]  중복해서 가입되나요?"  content="이것은 컨텐츠입니다"/>
-        <AccordionItem headingId="flush-headingFive" collapseId="flush-collapseFive" title="[로그인]  중복해서 가입되나요?"  content="이것은 컨텐츠입니다"/>
-        <AccordionItem headingId="flush-headingSix" collapseId="flush-collapseSix" title="[탈퇴]  중복해서 가입되나요?" content="이것은 컨텐츠입니다"/>
-        <AccordionItem headingId="flush-headingSeven" collapseId="flush-collapseSeven" title="[서비스]  중복해서 가입되나요?" content="이것은 컨텐츠입니다"/>
-      </div>
+        <div class="accordion accordion-flush" id="accordionFlushExample" >
+          <AccordionItem
+              v-for="(board) in boardList"
+              :key="board.boardId"
+              :headingId="boardListVar.heading+board.boardId "
+              :collapseId="boardListVar.collapse+board.boardId"
+              :title="board.title"
+              :date="board.rdate"
+              :menu="board.menu"
+              :content="board.content"
+          />
+        </div>
+        <div class="page">
+          <Pagination
+              :currentPage="pg"
+              :getPageArray="getPageArray"
+              :prevPage="prevPage"
+              :nextPage="nextPage"
+              :selectPage="selectPage"
+              :next="next"
+          />
+        </div>
       </div>
     </section>
   </main>
@@ -38,6 +128,18 @@ h1, h2, td, th, i, div, p, span{
   font-weight: 500;
   margin-top: 10px;
   background-color: #fff;
+}
+.container {
+  padding-top: 100px;
+  padding-bottom: 100px;
+}
+.accordion{
+  padding-top:30px;
+}
+.page{
+  margin-top: 100px;
+  display: flex;
+  justify-content: center;
 }
 
 
