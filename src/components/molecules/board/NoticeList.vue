@@ -2,7 +2,6 @@
 import AccordionItem from "@/components/molecules/board/AccordionItem.vue";
 import Tab from "@/components/molecules/board/Tab.vue";
 import {useAuthStore} from "@/stores/authStore";
-import axios from "axios";
 import {ref,onMounted} from "vue";
 import {getValidatedAxios} from "@/utils/globalAxios";
 
@@ -10,30 +9,72 @@ const BASE_URL = "/api/cs";
 const { user,accessToken } = useAuthStore();
 const myAxios = getValidatedAxios(accessToken);
 
+const boardListVar = ref({
+  heading: "heading",
+  collapse: "collapse"
+})
 const boards = ref([]);
+const pg = ref(1);
+const size = ref(10);
+const boardList = ref([]);
 
-onMounted(async () => {
+
+const fetchData = async () => {
   const cate = "notice";
   try {
-    const response = await myAxios.get(`${BASE_URL}/notice/${cate}`);
+    const response = await myAxios.get(`${BASE_URL}/notice`,{
+      params: {
+        cate: cate,
+        pg : pg.value,
+        size : size.value,
+      },
+    });
+
     boards.value = response.data;
-    console.log("StudyViewData : " + boards.value);
+    pg.value = boards.value.pg;
+    size.value = boards.value.size;
+    console.log('Response:', response.data);
+    console.log('pg value:', boards.value.pg);
+    console.log('size value:', boards.value.size);
+
+    console.log("NoticeData : " + boards.value);
+    boardList.value = boards.value.content;
+    console.log("BoardList data : ", boardList.value);
   } catch (err) {
     console.log(err);
   }
-});
+};
+onMounted(fetchData);
+const prevPage = () => {
+  if (pg.value > 1) {
+    pg.value--;
+    fetchData();
+    console.log('Current pg.value:', pg.value);
+  }
+};
 
-/*const getBoards = async () => {
-  await axios({
-    url: BASE_URL + "/api/cs/notice",
-    method: "get",
-    responseType: "json",
-  }).then((response)=>{
-    console.log(response.data())
-  }).catch((err)=>{
-    console.log(err)
-  })
-}*/
+const nextPage = () => {
+  pg.value++;
+  fetchData();
+  console.log('Current pg.value:', pg.value);
+};
+
+const selectPage = (pageNumber) => {
+  pg.value = pageNumber;
+  fetchData();
+  console.log('Current pg.value:', pg.value);
+};
+const getPageArray = () => {
+  console.log('Current pg.value:', pg.value);
+  console.log('Current size.value:', size.value);
+
+  const countInPages = Math.ceil(pg.value / size.value);
+  const pageArray = Array.from({ length: countInPages }, (_, index) => index + 1);
+
+  console.log('Page Array:', pageArray); // Log the pageArray
+
+  return pageArray;
+};
 
 </script>
 <template>
@@ -41,28 +82,29 @@ onMounted(async () => {
     <section>
       <div class="container">
         <Tab></Tab>
-      <div class="accordion accordion-flush" id="accordionFlushExample" v-for = "board in boards">
-        <AccordionItem headingId="1" collapseId="1" title="{{board.title}}" date="23-12-12" content="{{board.content}}"/>
-        <AccordionItem headingId="flush-headingTwo" collapseId="flush-collapseTwo" title="Accordion Item #2" date="23-12-12" content="이것은 컨텐츠입니다"/>
-        <AccordionItem headingId="flush-headingThree" collapseId="flush-collapseThree" title="Accordion Item #3" date="23-12-12" content="이것은 컨텐츠입니다"/>
-        <AccordionItem headingId="flush-headingFour" collapseId="flush-collapseFour" title="Accordion Item #4" date="23-12-12" content="이것은 컨텐츠입니다"/>
-        <AccordionItem headingId="flush-headingFive" collapseId="flush-collapseFive" title="Accordion Item #5" date="23-12-12" content="이것은 컨텐츠입니다"/>
-        <AccordionItem headingId="flush-headingSix" collapseId="flush-collapseSix" title="Accordion Item #6" date="23-12-12" content="이것은 컨텐츠입니다"/>
-        <AccordionItem headingId="flush-headingSeven" collapseId="flush-collapseSeven" title="Accordion Item #7" date="23-12-12" content="이것은 컨텐츠입니다"/>
-      </div>
+        <div class="accordion accordion-flush" id="accordionFlushExample" v-for="(board) in boardList">
+            <AccordionItem
+                :key="board.boardId"
+                :headingId="boardListVar.heading+board.boardId "
+                :collapseId="boardListVar.collapse+board.boardId"
+                :title="board.title"
+                :date="board.rdate"
+                :content="board.content"
+            />
+          </div>
         <div class="page">
           <nav aria-label="Page navigation example">
             <ul class="pagination">
-              <li class="page-item">
-                <a class="page-link" href="#" aria-label="Previous">
+              <li class="page-item" :class="{ 'disabled': pg === 1 }">
+                <a class="page-link" href="#" aria-label="Previous" @click="prevPage">
                   <span aria-hidden="true">&laquo;</span>
                 </a>
               </li>
-              <li class="page-item"><a class="page-link" href="#">1</a></li>
-              <li class="page-item"><a class="page-link" href="#">2</a></li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li>
-              <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
+              <li class="page-item" v-for="page in getPageArray()" :key="page">
+                <a class="page-link" href="#" @click="selectPage(page)">{{ page }}</a>
+              </li>
+              <li class="page-item" :class="{ 'disabled': !next }">
+                <a class="page-link" href="#" aria-label="Next" @click="nextPage">
                   <span aria-hidden="true">&raquo;</span>
                 </a>
               </li>
