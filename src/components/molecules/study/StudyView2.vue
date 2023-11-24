@@ -1,7 +1,7 @@
 <script setup>
 import axios from "axios";
 import { onBeforeMount } from "vue";
-import { onMounted } from "vue";
+import { onMounted , onBeforeUnmount} from "vue";
 import { reactive } from "vue";
 import { ref } from "vue";
 import { useRoute } from "vue-router";
@@ -44,7 +44,14 @@ onMounted(async () => {
 
 // 좋아요 기능
 const isFilled = ref(false);
+const checkLocalStorage = () => {
+  console.log('Checking local storage...');
+  const storedLikeStatus = localStorage.getItem('likeStatus') || "";
 
+  if (storedLikeStatus !== "") {
+    isFilled.value = JSON.parse(storedLikeStatus);
+  }
+};
 const updateLike = async () => {
   isFilled.value = !isFilled.value;
 
@@ -57,12 +64,28 @@ const updateLike = async () => {
 
   try {
     const response = await myAxios.put(`${BASE_URL}/updateLike`, requestData);
-    console.log(response);
+    console.log("response data : ", response);
     alert("하트 공격!");
+
   } catch (error) {
     console.error(error);
   }
 };
+onMounted(() => {
+  console.log('Component mounted...');
+  checkLocalStorage();
+});
+onBeforeUnmount(() => {
+  try{
+    if(isFilled.value === true){
+      console.log('Setting item in local storage...');
+      localStorage.setItem('likeStatus', JSON.stringify(isFilled.value));
+    }
+  }catch (error){
+    console.error("Can't store the status", error);
+  }
+
+});
 </script>
 <template>
   <body>
@@ -172,7 +195,7 @@ const updateLike = async () => {
             >
               <p>{{ studyMemberInfo.memberId }}</p>
               <div id="partyMemberPicture">
-                <img src="{}" alt="#" />
+                <img src="" alt="#" />
               </div>
               <div id="partyMemberProfileName">
                 <label class="form-label" id="nickName">{{
