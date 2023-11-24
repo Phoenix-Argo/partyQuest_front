@@ -2,14 +2,14 @@
 import { ref, onMounted } from "vue";
 import axios from "axios";
 import SmartEditor from "./smartEditor.vue";
-import IconDoubleCheck from "../../icons/IconDoubleCheck.vue";
-import { useStudyCategories } from "../../../modules/study/StudyCategories";
-import { useStudyRecruitment } from "../../../modules/study/StudyRecruitment";
-import { useStudyLocation } from "../../../modules/study/StudyLocation";
-import { useStudyPeriod } from "../../../modules/study/StudyPeriod";
+import IconDoubleCheck from "@/icons/IconDoubleCheck.vue";
+import { useStudyCategories } from "@/modules/study/StudyCategories";
+import { useStudyRecruitment } from "@/modules/study/StudyRecruitment";
+import { useStudyLocation } from "@/modules/study/StudyLocation";
+import { useStudyPeriod } from "@/modules/study/StudyPeriod";
 import { useRoute } from "vue-router";
 import { onBeforeMount } from "vue";
-import { useAuthStore } from "../../../stores/authStore";
+import { useAuthStore } from "@/stores/authStore";
 import { getValidatedAxios } from "@/utils/globalAxios";
 
 const BASE_URL = "/api/study";

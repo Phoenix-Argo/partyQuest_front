@@ -276,11 +276,11 @@ import { onMounted } from "vue";
 import { reactive } from "vue";
 import { ref } from "vue";
 import { useRoute } from "vue-router";
-import IconHeart from "../../icons/IconHeart.vue";
-import IconEnvelope from "../../icons/IconEnvelope.vue";
-import IconAngry from "../../icons/IconAngry.vue";
-import IconHeartFill from "../../icons/IconHeartFill.vue";
-import { useAuthStore } from "../../../stores/authStore";
+import IconHeart from "@/icons/IconHeart.vue";
+import IconEnvelope from "@/icons/IconEnvelope.vue";
+import IconAngry from "@/icons/IconAngry.vue";
+import IconHeartFill from "@/icons/IconHeartFill.vue";
+import { useAuthStore } from "@/stores/authStore";
 import Img from "../common/Img.vue";
 import { axiValid, getValidatedAxios } from "@/utils/globalAxios";
 

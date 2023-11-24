@@ -2,12 +2,12 @@
 import { ref, reactive, onMounted } from "vue";
 import axios from "axios";
 import SmartEditor from "./smartEditor.vue";
-import IconDoubleCheck from "../../icons/IconDoubleCheck.vue";
-import { useStudyCategories } from "../../../modules/study/StudyCategories";
-import { useStudyRecruitment } from "../../../modules/study/StudyRecruitment";
-import { useStudyLocation } from "../../../modules/study/StudyLocation";
-import { useStudyPeriod } from "../../../modules/study/StudyPeriod";
-import { useAuthStore } from "../../../stores/authStore";
+import IconDoubleCheck from "@/components/icons/IconDoubleCheck.vue";
+import {useStudyCategories} from "@/modules/study/StudyCategories";
+import { useStudyRecruitment } from "@/modules/study/StudyRecruitment";
+import { useStudyLocation } from "@/modules/study/StudyLocation";
+import { useStudyPeriod } from "@/modules/study/StudyPeriod";
+import {useAuthStore} from "@/stores/authStore";
 
 const BASE_URL = "http://localhost:8080";
 const { user } = useAuthStore();
