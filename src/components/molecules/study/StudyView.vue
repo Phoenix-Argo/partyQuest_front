@@ -271,7 +271,7 @@
 
 <script setup>
 import axios from "axios";
-import { onBeforeMount } from "vue";
+import {onBeforeMount, onBeforeUnmount} from "vue";
 import { onMounted } from "vue";
 import { reactive } from "vue";
 import { ref } from "vue";
@@ -305,11 +305,11 @@ onMounted(async () => {
     const response = await myAxios.get(BASE_URL + "/studyView/" + studyId);
     studyView.value = response.data;
     console.log("StudyViewData : " + studyView.value);
-    console.log("Fetched StudyId:", fetchedStudyId.value);
   } catch (err) {
     console.log(err);
   } finally {
     fetchedStudyId.value = studyId;
+    console.log("Fetched StudyId:", fetchedStudyId.value);
   }
 });
 
@@ -320,7 +320,7 @@ const updateLike = async () => {
   isFilled.value = !isFilled.value;
 
   //TODO: 멤버아이디 받은 후, 화면 밖으로 나가서 다시 들어올 때 하트 상태 유지하기 (초기화 되면 안됨)
-  //TDDO: liked count 출력 방법 모색 + 뷰 혹은 리스트 중 어디에 출력할 것인지 정하기
+  //TODO: liked count 출력 방법 모색 + 뷰 혹은 리스트 중 어디에 출력할 것인지 정하기
   const requestData = {
     memberId: user.hostId,
     studyId: fetchedStudyId.value,
@@ -328,12 +328,25 @@ const updateLike = async () => {
 
   try {
     const response = await myAxios.put(`${BASE_URL}/updateLike`, requestData);
-    console.log(response);
+    console.log("response data : ", response);
     alert("하트 공격!");
+    localStorage.setItem('likeStatus', JSON.stringify(isFilled.value));
   } catch (error) {
     console.error(error);
   }
 };
+const checkLocalStorage = () => {
+  console.log('Checking local storage...');
+  const storedLikeStatus = localStorage.getItem('likeStatus') || "";
+
+  if (storedLikeStatus !== "") {
+    isFilled.value = JSON.parse(storedLikeStatus);
+  }
+};
+onMounted(() => {
+  checkLocalStorage();
+});
+
 
 const applyStudy = async () => {
   const confirmation = confirm("신청하시겠습니까?");
