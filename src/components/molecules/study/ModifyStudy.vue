@@ -2,7 +2,7 @@
 import { ref, onMounted } from "vue";
 import axios from "axios";
 import SmartEditor from "@/components/molecules/study/SmartEditor.vue";
-import IconDoubleCheck from "@/icons/IconDoubleCheck.vue";
+import IconDoubleCheck from "@/components/icons/IconDoubleCheck.vue";
 import { useStudyCategories } from "@/modules/study/StudyCategories";
 import { useStudyRecruitment } from "@/modules/study/StudyRecruitment";
 import { useStudyLocation } from "@/modules/study/StudyLocation";

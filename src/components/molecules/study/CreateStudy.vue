@@ -1,6 +1,5 @@
 <script setup>
 import { ref, reactive, onMounted } from "vue";
-import axios from "axios";
 import SmartEditor from "@/components/molecules/study/SmartEditor.vue";
 import IconDoubleCheck from "@/components/icons/IconDoubleCheck.vue";
 import {useStudyCategories} from "@/modules/study/StudyCategories";
@@ -8,9 +7,11 @@ import { useStudyRecruitment } from "@/modules/study/StudyRecruitment";
 import { useStudyLocation } from "@/modules/study/StudyLocation";
 import { useStudyPeriod } from "@/modules/study/StudyPeriod";
 import {useAuthStore} from "@/stores/authStore";
+import {getValidatedAxios} from "@/utils/globalAxios";
 
-const BASE_URL = "http://localhost:8080";
-const { user } = useAuthStore();
+const BASE_URL = "/api/study";
+const { user, accessToken } = useAuthStore();
+const myAxios = getValidatedAxios(accessToken);
 // 카테고리
 const { cates, major, middle, small, selectedMiddles, selectedSmalls } =
   useStudyCategories();
@@ -23,7 +24,6 @@ const {
   selectedOption,
   selectedLocation,
   fetchLocations,
-  isOn,
   isLocationsVisible,
   locations,
   onOffToggleHandler,
@@ -41,8 +41,8 @@ const newStudy = reactive({});
 
 // 카테고리 가져오기
 const fetchCates = async () => {
-  await axios({
-    url: BASE_URL + "/api/category/allCate",
+  await myAxios({
+    url: "api/category/allCate",
     method: "get",
     responseType: "json",
   })
@@ -100,16 +100,23 @@ const onSmallSelected = (curSmall) => {
 };
 // cate change handler end
 
+// 썸네일 업로드에 필요한 변수 선언
 const tnail = ref();
 const formData = new FormData();
+
+// 썸네일 업로드
 const onFileUploadHandler = (e) => {
   let file = e.target.files[0];
   formData.append("thumb", file);
 };
 
-/* 최종 전송 FORM  */
+/**
+ * 최종 전송 폼
+ * @returns {Promise<void>}
+ */
 const submitForm = async () => {
-  // TODO: 호스트 아이디 받기 (Member)
+
+  // 필요한 정보 입력
   newStudy.hostId = user.hostId;
   newStudy.recruitOption = switchState.value.isPnp ? "PNP" : "FCFS";
   newStudy.memberUpperLimit = member.value;
@@ -123,6 +130,7 @@ const submitForm = async () => {
   newStudy.locationId = newStudy_Location.value;
   console.log("newStudy.data : " + JSON.stringify(newStudy));
 
+  // 필수 정보 입력 검증
   if (
     !newStudy.title ||
     !newStudy.middleCateIds ||
@@ -137,27 +145,22 @@ const submitForm = async () => {
     return;
   }
   try {
-    // Make the first request to create the study
-    const createResponse = await axios.post(
-      BASE_URL + "/api/study/create",
+
+    const createResponse = await myAxios.post(
+      BASE_URL + "/create",
       newStudy
     );
 
-    // Extract the studyId from the response
     const createdStudyId = createResponse.data.studyId;
 
-    console.log("Create Study Response:", createResponse.data);
-    console.log("Created Study ID:", createdStudyId);
+    console.log("CreateResponse:", createResponse.data);
+    console.log("Created study ID:", createdStudyId);
 
-    // Update newStudy object with the received studyId
     newStudy.studyId = createdStudyId;
-
-    // Append studyId to formData before making the file upload request
     formData.append("studyId", createdStudyId);
 
-    // Continue with the file upload
-    const uploadResponse = await axios.post(
-      BASE_URL + "/api/study/uploadFile",
+    const uploadResponse = await myAxios.post(
+      BASE_URL + "/uploadFile",
       formData,
       {
         headers: {
@@ -167,10 +170,9 @@ const submitForm = async () => {
     );
 
     console.log("Upload File Response:", uploadResponse.data);
-    alert("모집 신청이 완료되었습니다.");
+    alert("모집 신청이 완료 되었습니다.");
   } catch (error) {
     console.error("Error:", error);
-    // Handle errors as needed
     alert("모집 신청 중 오류가 발생했습니다. 다시 시도해주세요.");
   }
 };
