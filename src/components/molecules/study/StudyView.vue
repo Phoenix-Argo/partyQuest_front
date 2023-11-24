@@ -281,7 +281,7 @@ import IconEnvelope from "@/icons/IconEnvelope.vue";
 import IconAngry from "@/icons/IconAngry.vue";
 import IconHeartFill from "@/icons/IconHeartFill.vue";
 import { useAuthStore } from "@/stores/authStore";
-import Img from "../common/Img.vue";
+import Img from "@/components/molecules/common/Img.vue";
 import { axiValid, getValidatedAxios } from "@/utils/globalAxios";
 
 const BASE_URL = "/api/study";
