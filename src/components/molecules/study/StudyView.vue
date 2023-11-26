@@ -321,28 +321,17 @@ const updateLike = async () => {
   const requestData = {
     memberId: user.hostId,
     studyId: fetchedStudyId.value,
-  };
 
+  };
   try {
     const response = await myAxios.put(`${BASE_URL}/updateLike`, requestData);
     console.log("response data : ", response);
     alert("하트 공격!");
-    localStorage.setItem('likeStatus', JSON.stringify(isFilled.value));
+
   } catch (error) {
     console.error(error);
   }
 };
-const checkLocalStorage = () => {
-  console.log('Checking local storage...');
-  const storedLikeStatus = localStorage.getItem('likeStatus') || "";
-
-  if (storedLikeStatus !== "") {
-    isFilled.value = JSON.parse(storedLikeStatus);
-  }
-};
-onMounted(() => {
-  checkLocalStorage();
-});
 
 
 const applyStudy = async () => {
