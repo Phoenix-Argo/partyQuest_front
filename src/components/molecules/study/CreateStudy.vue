@@ -160,7 +160,7 @@ const submitForm = async () => {
     formData.append("studyId", createdStudyId);
 
     const uploadResponse = await myAxios.post(
-      BASE_URL + "/uploadFile",
+      BASE_URL + "/uploadThumb",
       formData,
       {
         headers: {

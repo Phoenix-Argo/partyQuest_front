@@ -2,7 +2,7 @@ import { ref } from "vue";
 
 export const useStudyRecruitment = () => {
   // 모집 방식토글(FCFS, PNP)
-  const switchState = ref({ isPnp: false });
+  let switchState = ref({ isPnp: false });
 
   // 토글 정보
   const handleToggleChange = (selectModifyStudy) => {

@@ -5,7 +5,6 @@ import Register from "@/components/molecules/member/Register.vue";
 import Login from "@/components/molecules/member/Login.vue";
 import WaitingList from "@/components/molecules/member/WaitingList.vue";
 import StudyView from "@/components/molecules/study/StudyView.vue";
-import StudyView2 from "@/components/molecules/study/StudyView2.vue";
 import createStudy from "@/components/molecules/study/CreateStudy.vue";
 import ModifyStudy from "@/components/molecules/study/ModifyStudy.vue";
 import TermsServicePolicy from "@/components/molecules/member/terms/TermsServicePolicy.vue";
@@ -15,7 +14,10 @@ import DongHanPlayGround from "@/pages/sandbox/DongHanPlayGround.vue";
 import NoticeList from "@/components/molecules/board/NoticeList.vue";
 import FaqList from "@/components/molecules/board/FaqList.vue";
 import CommunityList from "@/components/molecules/board/CommunityList.vue";
+import CommunityWrite from "@/components/molecules/board/CommunityWrite.vue";
+import CommunityView from "@/components/molecules/board/CommunityView.vue";
 import MyStudyPage from "@/components/molecules/member/MyStudyPage.vue";
+import QnAList from "@/components/molecules/board/QnAList.vue";
 
 // router 인스턴스 생성
 const router = createRouter({
@@ -28,7 +30,7 @@ const router = createRouter({
     { path: "/login", component: Login },
     { path: "/waitingList/:hostId", component: WaitingList },
     { path: "/studyView/:studyId", component: StudyView },
-    { path: "/createStudy", component: createStudy }, // 대문자 안됨
+    { path: "/createStudy", component: createStudy },
     { path: "/modifyStudy/:studyId", component: ModifyStudy },
     { path: "/termsServicePolicy", component: TermsServicePolicy },
     { path: "/privacyPolicy", component: PrivacyPolicy },
