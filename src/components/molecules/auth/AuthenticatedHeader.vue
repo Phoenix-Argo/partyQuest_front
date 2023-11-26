@@ -6,9 +6,10 @@
       data-bs-toggle="dropdown"
       aria-expanded="false"
     >
-      {{ member.nickName }}
+      <MemberAvatar height="25" width="25"/>
     </div>
     <ul class="dropdown-menu" aria-labelledby="head">
+      <li class="member-greeting"><span class="member-nickName">{{member.nickName}}</span>님 안녕하세요</li>
       <li v-for="menu in authMenu" :key="menu" class="dropdown-item">
         <button class="dropdown-item" @click="navigateToPage(menu)">
           {{ menu }}
@@ -28,6 +29,7 @@ import { useAuthStore } from "@/stores/authStore";
 import { logout } from "@/utils/fetch/auth";
 import { useRouter } from "vue-router";
 import { axiValid } from "../../../utils/globalAxios";
+import MemberAvatar from "@/components/icons/MemberAvatar.vue";
 
 defineProps({
   member: Object,
@@ -65,4 +67,15 @@ const navigateToPage = (menu) => {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.member-greeting{
+  font-weight: lighter;
+  padding-left: 3px;
+}
+.member-nickName {
+  font-weight: bold;
+  font-size: large;
+  padding-left: 3px;
+  margin-right: 2px;
+}
+</style>

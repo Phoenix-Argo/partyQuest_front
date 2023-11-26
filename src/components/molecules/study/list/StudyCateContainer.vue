@@ -19,7 +19,6 @@ const props = defineProps({
     width: 100%;
     display: flex;
     gap: 0px 3px;
-
     overflow-x: auto;
     margin: 5px 0px;
   }

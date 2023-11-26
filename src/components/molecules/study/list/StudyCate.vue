@@ -12,10 +12,11 @@
 <style scoped>
   .cate-pill{
     display: inline-block;
-    padding: 3px 5px;
+    padding: 2px 3px;
     background-color: v-bind('props.bgColor');
     border-radius: 10px;
     white-space: nowrap;
     font-size: 15px;
+    font-weight: lighter;
   }
 </style>

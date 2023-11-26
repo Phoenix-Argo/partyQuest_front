@@ -6,13 +6,14 @@ import IconHeart from "@/components/icons/IconHeart.vue";
 import {useRouter} from "vue-router";
 import StudyCateContainer from "@/components/molecules/study/list/StudyCateContainer.vue";
 import Location from "@/components/icons/Location.vue";
+import StudyCardBack from "@/components/molecules/study/list/StudyCardBack.vue";
 
 const props = defineProps({
   studyInfo: Object
 });
 const localStudyInfo = ref(props.studyInfo);
 const cardBackMsg = ref(String('"'+'모집인원 '+props.studyInfo.curMemberNum + "/" + props.studyInfo.limitMemberNum+'"'))
-
+const isFocus = ref(false);
 const router = useRouter();
   const onCardClickHandler = ()=>{
     router.push('/studyView/' + localStudyInfo.value.studyId);
@@ -23,7 +24,10 @@ const router = useRouter();
 </script>
 
 <template>
-  <div class="study-card" @click="onCardClickHandler">
+  <div class="study-card" @click="onCardClickHandler" @mouseenter="isFocus=true" @mouseleave="isFocus=false">
+    <div v-if="isFocus">
+      <StudyCardBack :study-info="studyInfo"/>
+    </div>
     <div class="study-card-thumb">
       <Img :content="studyInfo.thumb" />
     </div>
@@ -48,7 +52,7 @@ const router = useRouter();
   }
   .study-card-thumb img{
     width: 100%;
-    aspect-ratio: 3/2;
+    aspect-ratio: 5/3;
     object-fit: fill;
     display: block;
   }
@@ -68,17 +72,17 @@ const router = useRouter();
     font-weight: lighter;
     font-size: medium;
   }
-  .study-card:hover::after {
-    cursor: pointer;
-    background-color: black;
-    opacity: 0.8;
-    width: 100%;
-    height: 100%;
-    content: v-bind(cardBackMsg);
-    color: white;
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+  /*.study-card:hover::after {*/
+  /*  cursor: pointer;*/
+  /*  background-color: black;*/
+  /*  opacity: 0.8;*/
+  /*  width: 100%;*/
+  /*  height: 100%;*/
+  /*  content: v-bind(cardBackMsg);*/
+  /*  color: white;*/
+  /*  position: absolute;*/
+  /*  display: flex;*/
+  /*  align-items: center;*/
+  /*  justify-content: center;*/
+  /*}*/
 </style>
