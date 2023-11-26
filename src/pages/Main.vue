@@ -9,7 +9,8 @@ let btnDetail = function () {
   router.push("/studyView");
 };
 const studyLists = ref({
-  'createdAt' : []
+  'createdAt' : [],
+  'likeCnt': []
 })
 let getStudyList = async (sort) => {
   return await getStudies(sort);
@@ -17,6 +18,7 @@ let getStudyList = async (sort) => {
 
 onMounted( async ()=>{
   studyLists.value.createdAt = await getStudies("createdAt");
+  studyLists.value.likeCnt = await getStudies("likeCnt");
 })
 </script>
 
@@ -25,206 +27,9 @@ onMounted( async ()=>{
     <Carousel/>
 
     <section class="container py-9">
-      <StudyListContainer :studies="studyLists.createdAt" title="test"/>
-      <div class="row text-left pt-3">
-        <div class="col-lg-12 m-auto">
-          <p id="title1">STUDY WITH ME 📕</p>
-          <p id="title2" href="#">HOT 모임 🔥 ></p>
-        </div>
-      </div>
-      <div class="container">
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4">
-          <div class="col">
-            <div class="card px-4 py-2">
-              <div class="div1 row py-2 px-2">
-                <img
-                  src="/img/banner_notice_1.png"
-                  height="130px"
-                  width="auto"
-                  alt=""
-                />
-              </div>
-              <div class="py-2">
-                <p id="desc">이런 저런 백엔드 사람들 구해여</p>
-                <div class="d-flex">
-                  <button
-                    class="btnArticle d-flex ml-auto px-3 font-weight-bold darkWhite"
-                  >
-                    바로가기
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- 위의 카드를 4번 복사하여 총 4개의 카드가 있는 행을 생성하세요 -->
-          <div class="col">
-            <div class="card px-4 py-2">
-              <div class="div1 row py-2 px-2">
-                <img
-                  src="/img/banner_notice_1.png"
-                  height="130px"
-                  width="auto"
-                  alt=""
-                />
-              </div>
-              <div class="py-2">
-                <p id="desc">이런 저런 백엔드 사람들 구해여</p>
-                <div class="d-flex">
-                  <button
-                    class="btnArticle d-flex ml-auto px-3 font-weight-bold darkWhite"
-                  >
-                    바로가기
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card px-4 py-2">
-              <div class="div1 row py-2 px-2">
-                <img
-                  src="/img/banner_notice_1.png"
-                  height="130px"
-                  width="auto"
-                  alt=""
-                />
-              </div>
-              <div class="py-2">
-                <p id="desc">이런 저런 백엔드 사람들 구해여</p>
-                <div class="d-flex">
-                  <button
-                    class="btnArticle d-flex ml-auto px-3 font-weight-bold darkWhite"
-                  >
-                    바로가기
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card px-4 py-2">
-              <div class="div1 row py-2 px-2">
-                <img
-                  src="/img/banner_notice_1.png"
-                  height="130px"
-                  width="auto"
-                  alt=""
-                />
-              </div>
-              <div class="py-2">
-                <p id="desc">이런 저런 백엔드 사람들 구해여</p>
-                <div class="d-flex">
-                  <button
-                    class="btnArticle d-flex ml-auto px-3 font-weight-bold darkWhite"
-                  >
-                    바로가기
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section class="container py-5">
-      <div class="row text-left pt-3">
-        <div class="col-lg-12 m-auto">
-          <p id="title2" href="#">NEW 모임 ✨ ></p>
-        </div>
-      </div>
-      <div class="container">
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4">
-          <div class="col">
-            <div class="card px-4 py-2">
-              <div class="div1 row py-2 px-2">
-                <img
-                  src="/img/banner_notice_1.png"
-                  height="130px"
-                  width="auto"
-                  alt=""
-                />
-              </div>
-              <div class="py-2">
-                <p id="desc">이런 저런 백엔드 사람들 구해여</p>
-                <div class="d-flex">
-                  <button
-                    class="btnArticle d-flex ml-auto px-3 font-weight-bold darkWhite"
-                  >
-                    바로가기
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- 위의 카드를 4번 복사하여 총 4개의 카드가 있는 행을 생성하세요 -->
-          <div class="col">
-            <div class="card px-4 py-2">
-              <div class="div1 row py-2 px-2">
-                <img
-                  src="/img/banner_notice_1.png"
-                  height="130px"
-                  width="auto"
-                  alt=""
-                />
-              </div>
-              <div class="py-2">
-                <p id="desc">이런 저런 백엔드 사람들 구해여</p>
-                <div class="d-flex">
-                  <button
-                    class="btnArticle d-flex ml-auto px-3 font-weight-bold darkWhite"
-                  >
-                    바로가기
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card px-4 py-2">
-              <div class="div1 row py-2 px-2">
-                <img
-                  src="/img/banner_notice_1.png"
-                  height="130px"
-                  width="auto"
-                  alt=""
-                />
-              </div>
-              <div class="py-2">
-                <p id="desc">이런 저런 백엔드 사람들 구해여</p>
-                <div class="d-flex">
-                  <button
-                    class="btnArticle d-flex ml-auto px-3 font-weight-bold darkWhite"
-                  >
-                    바로가기
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card px-4 py-2">
-              <div class="div1 row py-2 px-2">
-                <img
-                  src="/img/banner_notice_1.png"
-                  height="130px"
-                  width="auto"
-                  alt=""
-                />
-              </div>
-              <div class="py-2">
-                <p id="desc">이런 저런 백엔드 사람들 구해여</p>
-                <div class="d-flex">
-                  <button
-                    class="btnArticle d-flex ml-auto px-3 font-weight-bold darkWhite"
-                  >
-                    바로가기
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <p id="title1">STUDY WITH ME 📕</p>
+      <StudyListContainer :studies="studyLists.likeCnt" title="HOT 모임 🔥"/>
+      <StudyListContainer :studies="studyLists.createdAt" title="NEW 모임 ✨"/>
     </section>
     <section class="container py-5">
       <div class="row text-left pt-3">

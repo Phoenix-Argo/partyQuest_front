@@ -5,3 +5,9 @@
     <path d="M7.001 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0z"/>
   </svg>
 </template>
+<script setup>
+</script>
+
+<style scoped>
+
+</style>
