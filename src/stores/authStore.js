@@ -30,10 +30,9 @@ export const useAuthStore = defineStore(
      * @param accessToken : string
      */
     const accessTokenHandler = (rawAccessToken) => {
-      let aJWT = rawAccessToken.slice(AUTH_CONST.AUTH_BEARER.length);
-      let decode = jwtDecode(aJWT);
+      let decode = jwtDecode(rawAccessToken);
       changeUser(decode);
-      accessToken.value = aJWT;
+      accessToken.value = rawAccessToken;
     };
     const invalidateUser = () => {
       accessToken.value = "";

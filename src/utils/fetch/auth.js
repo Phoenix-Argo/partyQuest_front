@@ -16,8 +16,11 @@ export const login = async (loginInfo) => {
     .then((res) => res.headers.get(AUTH_CONST.AUTH_HEADER));
 };
 const authHeader = AUTH_CONST.AUTH_HEADER;
+const bearer = AUTH_CONST.AUTH_BEARER
 export const logout = async (accessToken) => {
   return await axiValid.get(URLCONST.LOGOUT, {
-    headers: { Authorization: AUTH_CONST.AUTH_BEARER + accessToken },
+    headers: {
+        Authorization: bearer + accessToken,
+        'Content-type': 'application/json; charset=UTF-8',},
   });
 };
