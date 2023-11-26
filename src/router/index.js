@@ -13,9 +13,6 @@ import PaymentPolicy from "@/components/molecules/member/terms/PaymentPolicy.vue
 import DongHanPlayGround from "@/pages/sandbox/DongHanPlayGround.vue";
 import NoticeList from "@/components/molecules/board/NoticeList.vue";
 import FaqList from "@/components/molecules/board/FaqList.vue";
-import CommunityView from "@/components/molecules/board/CommunityView.vue";
-import CommunityWrite from "@/components/molecules/board/CommunityWrite.vue";
-import QnAList from "@/components/molecules/board/QnAList.vue";
 import CommunityList from "@/components/molecules/board/CommunityList.vue";
 import CommunityWrite from "@/components/molecules/board/CommunityWrite.vue";
 import CommunityView from "@/components/molecules/board/CommunityView.vue";
