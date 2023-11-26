@@ -8,7 +8,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div>{{props.title}}</div>
+  <div class="container-title">{{props.title}}</div>
   <div class="study-list-carousel">
     <div v-for="study in props.studies">
       <StudyCard :studyInfo="study"/>
@@ -17,8 +17,15 @@ const props = defineProps({
 </template>
 
 <style scoped>
-  .study-list-carousel{
+  .container-title {
+    padding-top: 20px;
+    font-size: 20px;
+    margin-bottom: 10px;
+
+  }
+  .study-list-carousel {
     display: flex;
     overflow-x: auto;
+    gap: 0px 5px;
   }
 </style>
