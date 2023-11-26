@@ -1,4 +1,4 @@
-<script setup>
+<script setup xmlns="http://www.w3.org/1999/html">
 
 </script>
 
@@ -36,7 +36,7 @@
                   <h1 class="h1 text-success">
                     <b>EVENT</b>
                   </h1>
-                  <h3 class="h2">삼삼오오 파티원들</h3>
+                  <h3 class="h2">삼삼오오 파티원들을 구하라!</h3>
                   <p>6명 이상 모이면 스터디룸 쿠폰이 쏟아진다!</p>
                 </div>
               </div>
@@ -53,9 +53,10 @@
               </div>
               <div class="col-lg-6 mb-0 d-flex align-items-center">
                 <div class="text-align-left">
-                  <h1 class="h1">EVENT</h1>
-                  <h3 class="h2">삼삼오오 파티원들이 모이면 쿠폰이 쏟아진다</h3>
-                  <p>삼삼오오 파티원들이 모이면 쿠폰이 쏟아진다</p>
+                  <h1 class="h1">Come with us</h1>
+                  <h3 class="h2">함께 성장할 스터디를 모집해보세요. <br/>파티퀘스트에서는 다양한 스터디가 준비되어 있어요.</h3>
+
+                  <p>혼자 하던 공부를 더 나아가 함께 스터디까지!</p>
                 </div>
               </div>
             </div>

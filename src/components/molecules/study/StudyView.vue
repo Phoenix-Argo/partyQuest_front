@@ -300,6 +300,19 @@ onMounted(async () => {
   console.log("studyId : " + studyId);
   try {
     const response = await myAxios.get(BASE_URL + "/studyView/" + studyId);
+    console.log("RESPONSE DATA : "+ JSON.stringify(response))
+
+    // 좋아요 한 멤버 리스트 조회
+    const likedStudyMembers = response.data.likedStudyMembers || [];
+    // 멤버 리스트에서 아이디 값들 가져 오기
+    const likedMemberIds = likedStudyMembers.map(member => member.memberId);
+    console.log("Liked MemberIds: ", likedMemberIds);
+
+    // 로그인 한 유저의 아이디가 멤버 아이디 리스트에 있으면 filled heart로 출력
+    if (likedMemberIds.includes(user.hostId)) {
+      isFilled.value = true;
+      console.log("isFilled: ", isFilled.value);
+    }
     studyView.value = response.data;
     console.log("StudyViewData : " + studyView.value);
   } catch (err) {
