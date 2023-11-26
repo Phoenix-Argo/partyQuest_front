@@ -1,6 +1,5 @@
 <script setup>
 import Banner from "@/components/molecules/board/Banner.vue";
-import Img from "@/components/molecules/common/Img.vue";
 import CommunityAside from "@/components/molecules/board/CommunityAside.vue";
 </script>
 <template>
@@ -36,6 +35,7 @@ import CommunityAside from "@/components/molecules/board/CommunityAside.vue";
         <section class="community-list-container">
           <div class="card qnaList">
             <div class="card-header">
+              <button class="btn btn-outline-danger qnaBtn">미해결</button>
               <label>제 2회 기출 작업형 2번 문제 관련 질문입니다.</label>
             </div>
             <div class="card-body">
@@ -47,6 +47,7 @@ import CommunityAside from "@/components/molecules/board/CommunityAside.vue";
           </div>
           <div class="card qnaList">
             <div class="card-header">
+              <button class="btn btn-danger qnaBtn">해결</button>
               <label>제 2회 기출 작업형 2번 문제 관련 질문입니다.</label>
             </div>
             <div class="card-body qnaList">
@@ -65,7 +66,7 @@ import CommunityAside from "@/components/molecules/board/CommunityAside.vue";
         <div class="qnaRightAside">
           <div class="card QRA1" style="width: 18rem;">
             <div class="card-body">
-              <h5 class="card-title">댓글 많은 글</h5>
+              <h5 class="card-title">답변 많은 글</h5>
             </div>
             <ul class="list-group list-group-flush">
               <li class="list-group-item">모던 자바 인 액션 스터디 모집합니다
