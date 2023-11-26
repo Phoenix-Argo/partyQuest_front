@@ -5,7 +5,6 @@ import Register from "@/components/molecules/member/Register.vue";
 import Login from "@/components/molecules/member/Login.vue";
 import WaitingList from "@/components/molecules/member/WaitingList.vue";
 import StudyView from "@/components/molecules/study/StudyView.vue";
-import StudyView2 from "@/components/molecules/study/StudyView2.vue";
 import createStudy from "@/components/molecules/study/CreateStudy.vue";
 import ModifyStudy from "@/components/molecules/study/ModifyStudy.vue";
 import TermsServicePolicy from "@/components/molecules/member/terms/TermsServicePolicy.vue";
@@ -14,6 +13,9 @@ import PaymentPolicy from "@/components/molecules/member/terms/PaymentPolicy.vue
 import DongHanPlayGround from "@/pages/sandbox/DongHanPlayGround.vue";
 import NoticeList from "@/components/molecules/board/NoticeList.vue";
 import FaqList from "@/components/molecules/board/FaqList.vue";
+import CommunityView from "@/components/molecules/board/CommunityView.vue";
+import CommunityWrite from "@/components/molecules/board/CommunityWrite.vue";
+import QnAList from "@/components/molecules/board/QnAList.vue";
 import CommunityList from "@/components/molecules/board/CommunityList.vue";
 import MyStudyPage from "@/components/molecules/member/MyStudyPage.vue";
 
