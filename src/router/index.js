@@ -28,7 +28,6 @@ const router = createRouter({
     { path: "/login", component: Login },
     { path: "/waitingList/:hostId", component: WaitingList },
     { path: "/studyView/:studyId", component: StudyView },
-    { path: "/studyView2", component: StudyView2 },
     { path: "/createStudy", component: createStudy }, // 대문자 안됨
     { path: "/modifyStudy/:studyId", component: ModifyStudy },
     { path: "/termsServicePolicy", component: TermsServicePolicy },
@@ -39,6 +38,9 @@ const router = createRouter({
     { path: "/test-bed", component: DongHanPlayGround },
     { path: "/faqList", component: FaqList },
     { path: "/communityList", component: CommunityList },
+    { path: "/communityView", component: CommunityView },
+    { path: "/communityWrite", component: CommunityWrite},
+    { path: "/qnAList", component: QnAList},
     { path: "/myStudyPage", component: MyStudyPage },
   ],
 });
