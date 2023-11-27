@@ -2,9 +2,13 @@
 import { ref } from "vue";
 import axios from "axios";
 import { onMounted } from "vue";
+import {useAuthStore} from "@/stores/authStore";
+import {useRouter} from "vue-router";
 
 const BASE_URL = "http://localhost:8080";
-const hostId = ref("duki0105@gmail.com");
+const {user} = useAuthStore();
+const hostId = ref(user.email);
+const router = useRouter();
 //내가 만든 스터디 script 모음
 
 const myPg = ref(0);
@@ -141,6 +145,11 @@ onMounted(() => {
 //참가자 명단 보기
 const BtnMemberList = async (studyId) => {
   alert(studyId);
+  router.push({
+    pathname: "/MyStudyMember",
+    query:{studyId: studyId}
+  });
+
 };
 
 //page script
