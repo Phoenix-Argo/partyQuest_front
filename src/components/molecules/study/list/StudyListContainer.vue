@@ -29,9 +29,9 @@ const props = defineProps({
 
   }
   .study-list-carousel {
-    display: flex;
-    width: 100%;
-    max-width: 90vw;
+    max-width: 100%;
+    display: inline-flex;
+    justify-content: flex-start;
     overflow-x: scroll;
     gap: 0px 5px;
   }
