@@ -9,9 +9,9 @@
           <ul class="list-unstyled text-light footer-link-list">
             <li><a class="text-decoration-none" href="#">스터디 모임</a></li>
             <li><a class="text-decoration-none" href="#">프로젝트 모임</a></li>
-            <li><a class="text-decoration-none" href="#">커뮤니티</a></li>
+            <li><RouterLink to="/communityList">커뮤니티</RouterLink></li>
             <li><a class="text-decoration-none" href="#">스터디룸</a></li>
-            <li><a class="text-decoration-none" href="#">공지사항</a></li>
+            <li><RouterLink to="/noticeList">공지사항</RouterLink></li>
           </ul>
         </div>
 
@@ -21,9 +21,9 @@
           </h3>
           <ul class="list-unstyled text-light footer-link-list">
             <li>
-              <a class="text-decoration-none" href="#">공지사항</a>
+              <RouterLink to="/noticeList">공지사항</RouterLink>
             </li>
-            <li><a class="text-decoration-none" href="#">자주묻는질문</a></li>
+            <li><RouterLink to="/faqList">자주묻는질문</RouterLink></li>
           </ul>
         </div>
         <div class="col-md-4 pt-5">
@@ -66,7 +66,8 @@
   </footer>
 </template>
 
-<script setup></script>
+<script setup>
+</script>
 
 <style scoped>
 h1, h3, td, th, i, div, p, span,li,ul{
