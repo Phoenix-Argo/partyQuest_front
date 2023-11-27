@@ -1,7 +1,101 @@
 <script setup>
 import Banner from "@/components/molecules/board/Banner.vue";
-import Img from "@/components/molecules/common/Img.vue";
 import CommunityAside from "@/components/molecules/board/CommunityAside.vue";
+import {useAuthStore} from "@/stores/authStore";
+import {ref, onMounted, reactive} from "vue";
+import axios from "axios";
+import {getValidatedAxios} from "@/utils/globalAxios";
+
+const { user, accessToken } = useAuthStore();
+const categories = ref({});
+const selectedCate = ref(null);
+const saveCommunity = reactive({});
+
+// const myAxios = getValidatedAxios(accessToken);
+
+onMounted(()=>{
+  fetchCommunityCates();
+});
+// 카테고리 가져오기
+const fetchCommunityCates = async()=>{
+  try {
+    // const response = await myAxios.get('/api/community/communityCate');
+    const response = await axios.get('http://localhost:8080/api/community/communityCate');
+    categories.value = response.data;
+    console.log("categoriesData : " + categories.value)
+    } catch(err){
+    console.log(err);
+  }
+};
+
+/* 카테고리 선택 시 버튼 변경*/
+const selectCate = (cate)=>{
+  selectedCate.value = cate;
+}
+
+{
+  categories,
+  selectedCate,
+  selectCate
+};
+
+/* 첨부파일 */
+// 파일 업로드에 필요한 변수 선언
+const fileRef = ref();
+const formData = new FormData();
+
+const onFileUploadHandler = (e) => {
+  let file = e.target.files[0];
+  formData.append("formFile", file);
+}
+
+/* Article Form */
+const submitForm = async () => {
+  saveCommunity.writeId = 3; // 이후 user.hostId로 변경
+  console.log("writeId : " + saveCommunity.writeId);
+
+  try {
+    // 첨부된 파일이 있다면 FormData에 추가
+    if (fileRef.value.files.length > 0) {
+      formData.append("formFile", fileRef.value.files[0]);
+    }
+
+    // if (selectedCate.value){
+    //   saveCommunity.cateId = selectedCate.value;
+    //   formData.append("cateId", selectedCate.value)
+    //
+    //   console.log("cateId : " + saveCommunity.value);
+    // }else {
+    //   alert("카테고리를 선택해 주세요!");
+    // }
+    // 서버로 데이터 전송
+    const insertResponse = await axios.post('http://localhost:8080/api/community/communityWrite', saveCommunity )
+
+    const createdCommunityId = insertResponse.data.communityId;
+
+    console.log("insertResponse : ", insertResponse);
+    console.log("createdCommunityId : ", createdCommunityId);
+
+    const uploadResponse = await myAxios.post(
+        BASE_URL + "/uploadFile",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+    );
+    console.log("upload File Response : ", uploadResponse.data);
+    // 성공적으로 전송되었을 때의 처리
+    alert("게시물이 성공적으로 등록되었습니다.");
+    console.log(response.data); // 서버에서 반환한 데이터
+  }catch (error) {
+    // 전송 중 에러 발생시의 처리
+    console.error("게시물 등록 중 오류가 발생했습니다.", error);
+    // 추가적으로 필요한 에러 처리 로직을 여기에 추가
+  }
+
+}
 </script>
 <template>
   <main id="main">
@@ -15,24 +109,25 @@ import CommunityAside from "@/components/molecules/board/CommunityAside.vue";
         <!-- 상단 카테고리 끝 -->
         <!-- Content View 시작-->
         <section class="community-list-container">
-          <form>
+          <form @submit.prevent="submitForm">
             <div class="input-group mb-3">
-              <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">게시판 선택</button>
+              <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                {{ selectedCate ? selectedCate.cate : '게시판 선택' }}
+              </button>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">질문 & 답변</a></li>
-                <li><a class="dropdown-item" href="#">고민있어요</a></li>
-                <li><a class="dropdown-item" href="#">자유게시판</a></li>
-                <li><a class="dropdown-item" href="#">블로그</a></li>
+
+                <li v-for="cate in categories" :key="fetchCommunityCates.id"><a class="dropdown-item" @click="selectCate(cate)">{{ cate.cate }}</a></li>
+
               </ul>
-              <input type="text" class="form-control" aria-label="Text input with dropdown button" value="제목에 핵심 내용을 요약해보세요">
+              <input type="text" class="form-control" aria-label="Text input with dropdown button"  v-model="saveCommunity.title">
             </div>
             <div >
               <label for="exampleFormControlTextarea1" class="form-label"></label>
-              <textarea class="form-control writeContent" id="exampleFormControlTextarea1" rows="3"></textarea>
+              <textarea class="form-control writeContent" id="exampleFormControlTextarea1" rows="3" v-model="saveCommunity.content"></textarea>
 
               <div class="mb-3">
                 <label for="formFile" class="form-label"></label>
-                <input class="form-control" type="file" id="formFile">
+                <input ref="fileRef" class="form-control" type="file" id="formFile" name="formFile" @change="onFileUploadHandler">
               </div>
 
               <button type="submit" class="btn btn-danger" style="float:right">등록</button>

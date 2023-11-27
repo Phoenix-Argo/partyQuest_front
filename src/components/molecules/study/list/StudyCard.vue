@@ -44,11 +44,12 @@ const router = useRouter();
 </template>
 
 <style scoped>
-  .study-card{
-    max-width: 240px;
+  .study-card {
+    width:18vw;
     display: flex;
     flex-direction: column;
     position: relative;
+
   }
   .study-card-thumb img{
     width: 100%;
@@ -61,14 +62,13 @@ const router = useRouter();
     font-weight: normal;
   }
   .study-card-title{
-    width:100%;
-    overflow-x: auto;
+    overflow-x: hidden;
+    text-overflow:ellipsis;
     font-weight: bold;
     font-size: larger;
   }
   .study-card-host{
     width:100%;
-    overflow-x: auto;
     font-weight: lighter;
     font-size: medium;
   }
