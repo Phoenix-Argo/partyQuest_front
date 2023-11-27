@@ -215,7 +215,7 @@ const BtnMemberList = async (studyId) => {
                     <div class="event-item">
                       <a href="#"
                         ><img
-                          src="./assets/img/category_img_01.jpg"
+                          src="/img/category_img_01.jpg"
                           class="img-fluid border"
                       /></a>
                       <p class="event-title">
@@ -332,7 +332,7 @@ const BtnMemberList = async (studyId) => {
                     <div class="event-item">
                       <a href="#"
                         ><img
-                          src="./assets/img/category_img_01.jpg"
+                          src="/img/category_img_01.jpg"
                           class="img-fluid border"
                       /></a>
                       <p class="event-title">
@@ -424,7 +424,7 @@ const BtnMemberList = async (studyId) => {
                     <div class="event-item">
                       <a href="#"
                         ><img
-                          src="./assets/img/category_img_01.jpg"
+                          src="/img/category_img_01.jpg"
                           class="img-fluid border"
                       /></a>
                       <p class="event-title">
