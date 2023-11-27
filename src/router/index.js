@@ -18,6 +18,7 @@ import CommunityWrite from "@/components/molecules/board/CommunityWrite.vue";
 import CommunityView from "@/components/molecules/board/CommunityView.vue";
 import MyStudyPage from "@/components/molecules/member/MyStudyPage.vue";
 import QnAList from "@/components/molecules/board/QnAList.vue";
+import Aside from "@/components/molecules/admin/Aside.vue";
 
 // router 인스턴스 생성
 const router = createRouter({
@@ -32,18 +33,19 @@ const router = createRouter({
     { path: "/studyView/:studyId", component: StudyView },
     { path: "/createStudy", component: createStudy },
     { path: "/modifyStudy/:studyId", component: ModifyStudy },
-    { path: "/termsServicePolicy", component: TermsServicePolicy },
-    { path: "/privacyPolicy", component: PrivacyPolicy },
-    { path: "/paymentPolicy", component: PaymentPolicy },
+    { path: "/termsServicePolicy",name:'termsServicePolicy', component: TermsServicePolicy },
+    { path: "/privacyPolicy", name:'privacyPolicy', component: PrivacyPolicy },
+    { path: "/paymentPolicy", name:'paymentPolicy', component: PaymentPolicy },
     { path: "/sandbox/donghan", component: DongHanPlayGround },
-    { path: "/noticeList", component: NoticeList },
+    { path: "/noticeList", name:'noticeList', component: NoticeList },
     { path: "/test-bed", component: DongHanPlayGround },
-    { path: "/faqList", component: FaqList },
+    { path: "/faqList", name:'faqList', component: FaqList },
     { path: "/communityList", component: CommunityList },
     { path: "/communityView", component: CommunityView },
     { path: "/communityWrite", component: CommunityWrite},
     { path: "/qnAList", component: QnAList},
     { path: "/myStudyPage", component: MyStudyPage },
+    { path: "/aside", component: Aside },
   ],
 });
 // router 인스턴스 내보내기 -> main.js 에서 등록
