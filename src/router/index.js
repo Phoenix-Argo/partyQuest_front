@@ -17,6 +17,7 @@ import CommunityList from "@/components/molecules/board/CommunityList.vue";
 import CommunityWrite from "@/components/molecules/board/CommunityWrite.vue";
 import CommunityView from "@/components/molecules/board/CommunityView.vue";
 import MyStudyPage from "@/components/molecules/member/MyStudyPage.vue";
+import MyStudyMember from "@/components/molecules/member/MyStudyMember.vue";
 import QnAList from "@/components/molecules/board/QnAList.vue";
 
 // router 인스턴스 생성
@@ -44,6 +45,7 @@ const router = createRouter({
     { path: "/communityWrite", component: CommunityWrite},
     { path: "/qnAList", component: QnAList},
     { path: "/myStudyPage", component: MyStudyPage },
+    { path: "/myStudyMember", component: MyStudyMember },
   ],
 });
 // router 인스턴스 내보내기 -> main.js 에서 등록
