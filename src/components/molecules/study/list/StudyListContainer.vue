@@ -8,15 +8,20 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="container-title">{{props.title}}</div>
-  <div class="study-list-carousel">
-    <div v-for="study in props.studies">
-      <StudyCard :studyInfo="study"/>
+  <div class="my-container">
+    <div class="container-title">{{props.title}}</div>
+    <div class="study-list-carousel">
+      <div v-for="study in props.studies" class="study-iter">
+        <StudyCard :studyInfo="study"/>
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
+.my-container {
+  width: 90vw;
+}
   .container-title {
     padding-top: 20px;
     font-size: 20px;
@@ -25,7 +30,12 @@ const props = defineProps({
   }
   .study-list-carousel {
     display: flex;
-    overflow-x: auto;
+    width: 100%;
+    max-width: 90vw;
+    overflow-x: scroll;
     gap: 0px 5px;
+  }
+  .study-iter {
+    flex: 1 1 0;
   }
 </style>
