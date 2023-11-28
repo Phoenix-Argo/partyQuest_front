@@ -49,9 +49,7 @@ const handlerToPage = (menu) => {
   </main>
 </template>
 <style scoped>
-.mypage_logo{
-  width: 120px
-}
+
 .css-1t4blpu {
   display: flex;
   flex: 1 1 0px;
