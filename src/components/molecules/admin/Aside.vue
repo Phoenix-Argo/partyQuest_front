@@ -1,71 +1,64 @@
-<script setup></script>
+<script setup>
+import {ref} from "vue";
+
+const authMenu = ref(["나의 프로필", "나의 모임 리스트", "계정 관리"]);
+const handlerToPage = (menu) => {
+  // 각 메뉴에 대한 라우팅 경로를 설정
+  let routePath = "/";
+  switch (menu) {
+    case "나의 프로필":
+      routePath = "/profile";
+      alert("나의 프로필 클릭" + routePath);
+      break;
+    case "나의 모임 리스트":
+      routePath = "/myStudyPage";
+      alert("마이스터디 클릭" + routePath);
+      break;
+    case "계정 관리":
+      routePath = "/account";
+      alert("계정 관리" + routePath);
+      break;
+  }
+  router.push(routePath);
+};
+</script>
 <template>
   <main class>
     <section>
+      <div class="css-1t4blpu">
         <div class="flex-shrink-0 p-3" style="width: 280px;">
-          <a href="/" class="d-flex align-items-center pb-3 mb-3 link-body-emphasis text-decoration-none border-bottom">
-            <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
-            <span class="fs-5 fw-semibold">Collapsible</span>
-          </a>
           <ul class="list-unstyled ps-0">
-            <li class="mb-1">
-              <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="false">
-                Home
+            <li class="mb-1" v-for="menu in authMenu" :key="menu">
+              <button @click="handlerToPage(menu)" class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" aria-expanded="false">
+                {{menu}}
               </button>
-              <div class="collapse" id="home-collapse" style="">
-                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                  <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Overview</a></li>
-                  <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Updates</a></li>
-                  <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Reports</a></li>
-                </ul>
-              </div>
             </li>
-            <li class="mb-1">
-              <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
-                Dashboard
-              </button>
-              <div class="collapse" id="dashboard-collapse">
-                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                  <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Overview</a></li>
-                  <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Weekly</a></li>
-                  <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Monthly</a></li>
-                  <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Annually</a></li>
-                </ul>
-              </div>
-            </li>
-            <li class="mb-1">
-              <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
-                Orders
-              </button>
-              <div class="collapse" id="orders-collapse">
-                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                  <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">New</a></li>
-                  <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Processed</a></li>
-                  <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Shipped</a></li>
-                  <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Returned</a></li>
-                </ul>
-              </div>
-            </li>
+            <div class="collapse" id="account-collapse">
+              <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">New...</a></li>
+                <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Profile</a></li>
+                <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Settings</a></li>
+                <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Sign out</a></li>
+              </ul>
+            </div>
             <li class="border-top my-3"></li>
-            <li class="mb-1">
-              <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
-                Account
-              </button>
-              <div class="collapse" id="account-collapse">
-                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                  <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">New...</a></li>
-                  <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Profile</a></li>
-                  <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Settings</a></li>
-                  <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Sign out</a></li>
-                </ul>
-              </div>
-            </li>
           </ul>
         </div>
+      </div>
     </section>
   </main>
 </template>
 <style scoped>
+.mypage_logo{
+  width: 120px
+}
+.css-1t4blpu {
+  display: flex;
+  flex: 1 1 0px;
+  padding: 32px;
+  margin: 0px auto;
+  max-width: 1200px;
+}
 .p-3 {
   padding: 1rem!important;
 }
@@ -133,12 +126,6 @@ svg:not(:root) {
 }
 .pe-none {
   pointer-events: none!important;
-}
-.fw-semibold {
-  font-weight: 600!important;
-}
-.fs-5 {
-  font-size: 1.25rem!important;
 }
 .mb-1 {
   margin-bottom: 0.25rem!important;

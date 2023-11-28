@@ -20,6 +20,7 @@ import MyStudyPage from "@/components/molecules/member/MyStudyPage.vue";
 import MyStudyMember from "@/components/molecules/member/MyStudyMember.vue";
 import QnAList from "@/components/molecules/board/QnAList.vue";
 import Aside from "@/components/molecules/admin/Aside.vue";
+import ProfileMain from "@/components/molecules/study/ProfileMain.vue";
 
 // router 인스턴스 생성
 const router = createRouter({
@@ -48,6 +49,7 @@ const router = createRouter({
     { path: "/myStudyPage", component: MyStudyPage },
     { path: "/aside", component: Aside },
     { path: "/myStudyMember", component: MyStudyMember },
+    { path: "/profileMain", component: ProfileMain },
   ],
 });
 // router 인스턴스 내보내기 -> main.js 에서 등록

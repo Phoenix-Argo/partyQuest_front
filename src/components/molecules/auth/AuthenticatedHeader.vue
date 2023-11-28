@@ -49,7 +49,7 @@ const navigateToPage = (menu) => {
   let routePath = "/";
   switch (menu) {
     case "마이페이지":
-      routePath = "/mypage";
+      routePath = "/profile";
       alert("마이페이지 클릭" + routePath);
       break;
     case "마이스터디":
