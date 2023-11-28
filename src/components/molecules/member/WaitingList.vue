@@ -2,12 +2,13 @@
 import { ref } from "vue";
 import axios from "axios";
 import { onMounted } from "vue";
-import { reactive } from "vue";
+import {useAuthStore} from "@/stores/authStore";
 
 const BASE_URL = "http://localhost:8080";
-
+const {user} = useAuthStore();
 //hostId로 변수값이 들어와야함.
-const hostId = ref(52);
+const hostId = ref(user.hostId);
+console.log("user : "+user.value);
 const studyWaitingList = ref([]);
 const findWaitingList = async () => {
   try {
