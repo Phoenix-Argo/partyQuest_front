@@ -143,12 +143,9 @@ onMounted(() => {
   findLikeStudy();
 });
 //참가자 명단 보기
-const BtnMemberList = async (studyId) => {
-  alert(studyId);
-  router.push({
-    pathname: "/MyStudyMember",
-    query:{studyId: studyId}
-  });
+const BtnMemberList =  (studyId) => {
+  router.push(`studyMember/${studyId}`);
+
 
 };
 

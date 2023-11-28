@@ -50,15 +50,12 @@ const navigateToPage = (menu) => {
   switch (menu) {
     case "마이페이지":
       routePath = "/profile";
-      alert("마이페이지 클릭" + routePath);
       break;
     case "마이스터디":
       routePath = "/myStudyPage";
-      alert("마이스터디 클릭" + routePath);
       break;
     case "좋아요":
       routePath = "/likes";
-      alert("좋아요 클릭" + routePath);
       break;
   }
 
