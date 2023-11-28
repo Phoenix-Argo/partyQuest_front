@@ -5,6 +5,7 @@ import Pagination from "@/components/molecules/board/Pagination.vue";
 import {useAuthStore} from "@/stores/authStore";
 import {ref,onMounted} from "vue";
 import {getValidatedAxios} from "@/utils/globalAxios";
+import {CSCONST} from "@/constants/APIconst";
 const BASE_URL = "/api/cs";
 const { user,accessToken } = useAuthStore();
 const myAxios = getValidatedAxios(accessToken);
@@ -18,19 +19,20 @@ const pg = ref(1);
 const size = ref(10);
 const total = ref('');
 const boardList = ref([]);
-
+const cateId = CSCONST.FAQ;
 
 const fetchData = async () => {
-  const cate = "faq";
+
   try {
     const response = await myAxios.get(`${BASE_URL}/faq`,{
       params: {
-        cate: cate,
+        cateId: cateId,
         pg : pg.value,
         size : size.value,
       },
     });
 
+    console.log("Response : ",response.data);
     boards.value = response.data;
     if (response.data.pg !== undefined) {
       pg.value = response.data.pg;

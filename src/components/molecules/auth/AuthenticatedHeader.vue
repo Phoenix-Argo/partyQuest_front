@@ -28,7 +28,6 @@ import { ref } from "vue";
 import { useAuthStore } from "@/stores/authStore";
 import { logout } from "@/utils/fetch/auth";
 import { useRouter } from "vue-router";
-import { axiValid } from "../../../utils/globalAxios";
 import MemberAvatar from "@/components/icons/MemberAvatar.vue";
 
 defineProps({
