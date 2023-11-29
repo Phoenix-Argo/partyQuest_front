@@ -7,7 +7,7 @@
 </template>
 
 <script setup>
-import StudyCate from "@/components/molecules/study/list/StudyCate.vue";
+import StudyCate from "@/components/molecules/study/list/card/StudyCate.vue";
 const props = defineProps({
   cateList: Array,
   cateKind: String

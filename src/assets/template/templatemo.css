@@ -364,6 +364,7 @@ li[data-bs-target="#template-mo-zay-hero-carousel"] {
 /*index Article*/
 html,
 body {
+  margin-top:0px;
   height: 100%;
 }
 * {

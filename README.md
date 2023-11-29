@@ -22,4 +22,10 @@ npm run build
 ### 정적공통에셋 = public에 
 ```
 1.조회시 <img src="/img/sample.png"/>
+2. vue프로젝트 이용할때 전역 css파일은 전역설정이 필요하지 않은 이상 
+작성 하지 않는다. scoped style태그 내에서 처리해야함 -> body{margin-top:20px;}
+3. App.vue파일에 직접 
+4. components/moleculs/common/newFile.js => 와 같이 컴파일 에러 해결하고 커밋할것
+5. components는 Vue file만 모으고 필요한 스크립트는 짧으면 script태그내에서 하거나
+    긴 경우 utils에 정의할 것
 ```

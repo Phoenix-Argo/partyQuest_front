@@ -1,5 +1,5 @@
 <script setup>
-import StudyCard from "@/components/molecules/study/list/StudyCard.vue";
+import StudyCard from "@/components/molecules/study/list/card/StudyCard.vue";
 
 const props = defineProps({
   studies: Array,
