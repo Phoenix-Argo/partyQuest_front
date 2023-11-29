@@ -4,6 +4,7 @@ import axios from "axios";
 import { onMounted } from "vue";
 import {useAuthStore} from "@/stores/authStore";
 import {useRouter} from "vue-router";
+import Img from "@/components/molecules/common/Img.vue";
 
 const BASE_URL = "http://localhost:8080";
 const {user} = useAuthStore();
@@ -148,6 +149,11 @@ const BtnMemberList =  (studyId) => {
 
 
 };
+//글수정하기
+const BtnmodifyStudy= (studyId) =>{
+  router.push(`/modifyStudy/${studyId}`);
+}
+
 
 //page script
 (function ($) {
@@ -210,11 +216,9 @@ const BtnMemberList =  (studyId) => {
                     :key="study.studyId"
                   >
                     <div class="event-item">
-                      <a href="#"
-                        ><img
-                          src="/img/category_img_01.jpg"
+                      <Img :content="study.thumb"
                           class="img-fluid border"
-                      /></a>
+                      />
                       <p class="event-title">
                         {{ study.title }}
                       </p>
@@ -229,7 +233,7 @@ const BtnMemberList =  (studyId) => {
                         <button @click="() => BtnMemberList(study.studyId)">
                           참여자현황
                         </button>
-                        <button>수정</button>
+                        <button @click="()=>BtnmodifyStudy(study.studyId)">수정</button>
                         <button>삭제</button>
                       </div>
                     </div>
