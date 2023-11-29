@@ -4,9 +4,9 @@ import {URLCONST} from "@/constants/APIconst";
 import Img from "@/components/molecules/common/Img.vue";
 import IconHeart from "@/components/icons/IconHeart.vue";
 import {useRouter} from "vue-router";
-import StudyCateContainer from "@/components/molecules/study/list/StudyCateContainer.vue";
+import StudyCateContainer from "@/components/molecules/study/list/card/StudyCateContainer.vue";
 import Location from "@/components/icons/Location.vue";
-import StudyCardBack from "@/components/molecules/study/list/StudyCardBack.vue";
+import StudyCardBack from "@/components/molecules/study/list/card/StudyCardBack.vue";
 
 const props = defineProps({
   studyInfo: Object

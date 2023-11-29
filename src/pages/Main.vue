@@ -1,7 +1,7 @@
 <script setup>
 import router from "../router";
 import Carousel from "@/components/molecules/common/Carousel.vue";
-import StudyListContainer from "@/components/molecules/study/list/StudyListContainer.vue";
+import StudyListContainer from "@/components/molecules/study/list/card/StudyListContainer.vue";
 import {getStudies} from "@/utils/fetch/studyFetch";
 import {onMounted, ref} from "vue";
 
