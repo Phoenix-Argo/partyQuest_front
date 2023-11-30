@@ -2,8 +2,48 @@
 import UnAuthenticatedHeader from "@/components/molecules/auth/UnAuthenticatedHeader.vue";
 import AuthenticatedHeader from "@/components/molecules/auth/AuthenticatedHeader.vue";
 import {useAuthStore} from "@/stores/authStore";
+import {axiValid} from "@/utils/globalAxios";
+import {onMounted, ref} from "vue";
+import HoverAcordianRoot from "@/components/molecules/common/acordion/HoverAccordianRoot.vue";
+import StudyAccordionContainer from "@/components/molecules/common/acordion/study/StudyAccordionContainer.vue";
 
 const auth = useAuthStore();
+const myAxios = axiValid;
+const cates = ref({
+
+})
+
+onMounted(async ()=>{
+  await myAxios({
+    url: "api/category/allCate",
+    method: "get",
+    responseType: "json",
+  })
+      .then((response) => {
+        console.log(response.data);
+        response.data.forEach((element) => {
+          const majorKey = element["majorName"];
+          const tempObj = {};
+          element["middleCates"].forEach((mid) => {
+            const middleKey = mid["middleName"];
+            const smallCates = mid["smallCates"];
+            const tempList = [];
+
+            smallCates.forEach((sm) => {
+              tempList.push(sm["smallName"] + " " + sm["id"]);
+            });
+            tempObj[middleKey] = tempList;
+          });
+          cates.value[majorKey] = tempObj;
+          // cates의 key(major cate)들을 먼저 등록 해준다.
+          //major.value.majors = Object.keys(cates.value);
+        });
+        console.log("my cate objs", cates.value);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+})
 
 </script>
 <template>
@@ -54,7 +94,7 @@ const auth = useAuthStore();
   <!-- Close Top Nav -->
 
   <!-- Header -->
-  <nav class="navbar navbar-expand-md navbar-light shadow mx-auto d-flex justify-content-center" style="display: flex; justify-content: center height: 180px">
+  <nav class="navbar navbar-expand-md navbar-light shadow ml-3 d-flex justify-content-start" style="padding-left: 80px; height: 100px;">
     <div class="d-flex justify-content-center align-items-center w-75">
       <router-link to="/index"><img class="logo" src="/img/logo_with_name3.png" /></router-link>
       <button
@@ -76,7 +116,11 @@ const auth = useAuthStore();
         <div class="flex-fill px-5 d-flex">
           <ul class="d-flex w-100 align-items-center align-self-center mb-0 justify-content-start flex-wrap gap-4 mx-auto" style="list-style : none">
             <li class="">
-              <router-link class="fs-6" to="/createStudy">스터디 모임</router-link>
+              <router-link class="fs-6" to="/createStudy">
+                <HoverAcordianRoot title="스터디 모임">
+                  <StudyAccordionContainer :study-cate="cates"/>
+                </HoverAcordianRoot>
+              </router-link>
             </li>
             <li class="">
               <router-link class="fs-6" to="/about.html">프로젝트 모임</router-link>

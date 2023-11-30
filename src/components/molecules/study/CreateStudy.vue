@@ -47,7 +47,6 @@ const fetchCates = async () => {
     responseType: "json",
   })
     .then((response) => {
-      console.log(response.data);
       response.data.forEach((element) => {
         const majorKey = element["majorName"];
         const tempObj = {};
