@@ -42,12 +42,16 @@ onBeforeMount(async () => {
 
   } catch (err) {
     console.log(err);
+  }finally {
+    fetchedStudyId.value = studyId;
+    console.log("Fetched StudyId:", fetchedStudyId.value);
   }
 });
 
 
 
 /* MODIFY SAVE */
+
 // 온/오프라인 및 지역 설정
 const {
   newStudy_onOff,
@@ -60,8 +64,6 @@ const {
   locations,
   onOffToggleHandler,
   onLocationChangeHandler,
-  modifyStudy_onOff,
-  modifyStudy_Location,
 
 } = useStudyLocation();
 
@@ -69,7 +71,7 @@ const {
 const { getFormattedCurrentDate } = useStudyPeriod();
 
 // 모집방식 및 모집인원 수정
-const { switchState, member ,modifyIncrease, modifyDecrease,handleToggleChange } = useStudyRecruitment();
+const { switchState, member, handleToggleChange ,modifyIncrease, modifyDecrease } = useStudyRecruitment();
 
 // axios에 실어 보낼 payload
 const modifyStudy = reactive({});
@@ -136,9 +138,31 @@ const onSmallSelected = (curSmall) => {
 
 // cate change handler end
 
+// pnpToggle
+// let switchState = ref({isPnp:false});
+// console.log("switchState : " +switchState);
+//
+// const handleToggleChange = (selectModifyStudy) => {
+//
+//     switchState.value.isPnp = selectModifyStudy.recruitOption === 'PNP'
+//       console.log("switchState" + switchState.value.isPnp);
+// } ;
+//
+// watch(
+//     () => switchState.value.isPnp,
+//     (newValue) => {
+//       console.log("switchState changed : ", newValue);
+// }
+//
+// );
+
 /* 최종 전송 FORM  */
 const submitForm = async () => {
   // TODO: 호스트 아이디 받기 (Member)
+  modifyStudy.title = selectModifyStudy.value.title;
+  modifyStudy.description = selectModifyStudy.value.description;
+  modifyStudy.thumb = selectModifyStudy.value.thumb;
+  modifyStudy.studyId = fetchedStudyId.value;
   modifyStudy.hostId = user.hostId;
   modifyStudy.recruitOption = switchState.value.isPnp ? "PNP" : "FCFS";
   modifyStudy.memberUpperLimit = member.value;
@@ -152,20 +176,21 @@ const submitForm = async () => {
   modifyStudy.locationId = newStudy_Location.value;
   console.log("selectModifyStudy.data : " + JSON.stringify(selectModifyStudy));
 
+  // 필수 항목 확인
   if (
-    !modifyStudy.title ||
-    !modifyStudy.middleCateIds ||
-    !modifyStudy.partyOnOff ||
-    !modifyStudy.studyStartDate ||
-    !modifyStudy.studyEndDate ||
-    !modifyStudy.memberUpperLimit ||
-    !modifyStudy.description
+      modifyStudy.title === null || modifyStudy.title === '' ||
+      modifyStudy.middleCateIds === null || modifyStudy.middleCateIds.length === 0 ||
+      modifyStudy.partyOnOff === null ||
+      modifyStudy.studyStartDate === null ||
+      modifyStudy.studyEndDate === null ||
+      modifyStudy.memberUpperLimit === null ||
+      modifyStudy.description === null || modifyStudy.description === ''
   ) {
     alert("입력하지 않은 항목이 있습니다. 다시 한 번 확인해주세요.");
     return;
   }
-  axios
-    .post(BASE_URL + "/api/study/modifyStudy", modifyStudy)
+  myAxios
+    .post( BASE_URL+"/modifyStudy", modifyStudy)
     .then((response) => {
       console.log(JSON.stringify(response));
       alert("수정이 완료되었습니다.");
@@ -407,7 +432,7 @@ const submitForm = async () => {
                   type="checkbox"
                   role="switch"
                   v-model="switchState.isPnp"
-                  @change="handleToggleChange(selectModifyStudy)"
+                  @change="()=>handleToggleChange(selectModifyStudy)"
                 />
                 <p>{{ selectModifyStudy.recruitOption }}</p>
               </div>
