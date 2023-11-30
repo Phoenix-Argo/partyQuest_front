@@ -350,11 +350,9 @@ console.log("requestData" + requestData)
                     :key="study.studyId"
                   >
                     <div class="event-item">
-                      <a href="#"
-                        ><img
-                          src="/img/category_img_01.jpg"
-                          class="img-fluid border"
-                      /></a>
+                      <Img :content="study.thumb"
+                           class="img-fluid border"
+                      />
                       <p class="event-title">
                         {{ study.title }}
                       </p>
@@ -442,11 +440,9 @@ console.log("requestData" + requestData)
                     :key="study.studyId"
                   >
                     <div class="event-item">
-                      <a href="#"
-                        ><img
-                          src="/img/category_img_01.jpg"
-                          class="img-fluid border"
-                      /></a>
+                      <Img :content="study.thumb"
+                           class="img-fluid border"
+                      />
                       <p class="event-title">
                         {{ study.title }}
                       </p>
