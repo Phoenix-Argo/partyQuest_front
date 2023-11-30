@@ -5,25 +5,29 @@
 <template>
   <div
       id="template-mo-zay-hero-carousel"
-      class="carousel slide d-flex "
+      class="carousel slide d-flex"
       data-bs-ride="carousel"
+      style="height: 350px"
   >
-    <ol class="carousel-indicators">
+    <ol class="carousel-indicators" style="z-index: 1">
       <li
           data-bs-target="#template-mo-zay-hero-carousel"
+          style="margin-top:0px"
           data-bs-slide-to="0"
           class="active"
       ></li>
       <li
           data-bs-target="#template-mo-zay-hero-carousel"
           data-bs-slide-to="1"
+          style="margin-top:0px"
       ></li>
       <li
           data-bs-target="#template-mo-zay-hero-carousel"
           data-bs-slide-to="2"
+          style="margin-top:0px"
       ></li>
     </ol>
-    <div class="carousel-inner vh-25">
+    <div class="carousel-inner">
       <div class="carousel-item active">
         <div class="w-100 d-flex justify-content-center">
           <div class="w-75">

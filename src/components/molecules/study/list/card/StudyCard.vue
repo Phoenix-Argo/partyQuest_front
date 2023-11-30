@@ -25,9 +25,7 @@ const router = useRouter();
 
 <template>
   <div class="study-card" @click="onCardClickHandler" @mouseenter="isFocus=true" @mouseleave="isFocus=false">
-    <div v-if="isFocus">
-      <StudyCardBack :study-info="studyInfo"/>
-    </div>
+    <StudyCardBack v-if="isFocus" :study-info="studyInfo"/>
     <div class="study-card-thumb">
       <Img :content="studyInfo.thumb" />
     </div>
