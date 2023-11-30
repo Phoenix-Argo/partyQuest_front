@@ -1,7 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-
-const props = defineProps(['headingId', 'collapseId', 'title', 'date', 'content', 'menu']);
+const props = defineProps(['headingId', 'collapseId', 'title', 'date', 'content', 'menu', 'boardThumb']);
 const isActive = ref(false);
 </script>
 
@@ -25,6 +24,7 @@ const isActive = ref(false);
     </h2>
     <div :id="collapseId" class="accordion-collapse collapse" :aria-labelledby="headingId" data-bs-parent="#accordionFlushExample">
       <div class="accordion-body">
+        {{boardThumb}}
         {{ content }}
       </div>
     </div>

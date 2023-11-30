@@ -6,6 +6,7 @@ import {useAuthStore} from "@/stores/authStore";
 import {ref,onMounted} from "vue";
 import {getValidatedAxios} from "@/utils/globalAxios";
 import {CSCONST} from "@/constants/APIconst";
+import Img from "@/components/molecules/common/Img.vue";
 const BASE_URL = "/api/cs";
 const { user,accessToken } = useAuthStore();
 const myAxios = getValidatedAxios(accessToken);
@@ -95,6 +96,7 @@ const getPageArray = () => {
                 :date="board.rdate"
                 :menu="board.menu"
                 :content="board.content"
+                :boardThumb= "board.boardThumb"
             />
           </div>
           <div class="page">
