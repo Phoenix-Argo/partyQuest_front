@@ -329,8 +329,6 @@ const isFilled = ref(false);
 const updateLike = async () => {
   isFilled.value = !isFilled.value;
 
-  //TODO: 멤버아이디 받은 후, 화면 밖으로 나가서 다시 들어올 때 하트 상태 유지하기 (초기화 되면 안됨)
-  //TODO: liked count 출력 방법 모색 + 뷰 혹은 리스트 중 어디에 출력할 것인지 정하기
   const requestData = {
     memberId: user.hostId,
     studyId: fetchedStudyId.value,
