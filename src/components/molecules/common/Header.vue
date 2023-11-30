@@ -116,11 +116,9 @@ onMounted(async ()=>{
         <div class="flex-fill px-5 d-flex">
           <ul class="d-flex w-100 align-items-center align-self-center mb-0 justify-content-start flex-wrap gap-4 mx-auto" style="list-style : none">
             <li class="">
-              <router-link class="fs-6" to="/createStudy">
-                <HoverAcordianRoot title="스터디 모임">
-                  <StudyAccordionContainer :study-cate="cates"/>
-                </HoverAcordianRoot>
-              </router-link>
+              <HoverAcordianRoot title="스터디 모임">
+                <StudyAccordionContainer :study-cate="cates"/>
+              </HoverAcordianRoot>
             </li>
             <li class="">
               <router-link class="fs-6" to="/communityList">커뮤니티</router-link>

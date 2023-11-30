@@ -1,15 +1,27 @@
 <template>
   <div class="small-container">
     <div v-for="smallKey in smallCates">
-      <div class="accordion-menu">{{smallKey.split(" ").slice(0,-1).join(" ")}}</div>
+      <div @click="onSmallClickHandler(smallKey)" class="accordion-menu">{{smallKey.split(" ").slice(0,-1).join(" ")}}</div>
     </div>
   </div>
 </template>
 
 <script setup>
+import {useRouter} from "vue-router";
+
+const router = useRouter();
 const props = defineProps({
-  smallCates : Array
+  smallCates : Array,
+  curMiddleCateId : String
 });
+const onSmallClickHandler = (smallCateKey)=>{
+  const STUDY_LIST_URL = "/studies/search"
+  const splitted = smallCateKey.split(' ');
+  const smallCateId = splitted[splitted.length - 1];
+  //LEARN: router.push() query string,
+  // query param으로 넘김
+  router.push({path: STUDY_LIST_URL, query: {middleCateId: Number(props.curMiddleCateId), smallCateIds: Number(smallCateId)}}).then(res=>router.go());
+}
 </script>
 
 <style scoped>

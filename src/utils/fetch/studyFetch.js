@@ -12,3 +12,17 @@ export const getStudies = async (sort) => {
             return res.data;
         })
 };
+/**
+ * accordion navbar와 서치 인풋에서 필터 조건에 맞는
+ * 요청 URL을 보내서 모두 사용한다.
+ * @param params : Object /search?middleCate=val?smallcates=val?page=val...
+ * @returns {Promise<axios.AxiosResponse<any>>}
+ */
+export const searchStudy = async(params)=>{
+
+    return await axiClient.get(URLCONST.STUDY_SEARCH_URL,{params:params})
+        .then(res=>{
+            console.log(res.data);
+            return res.data;
+        })
+};

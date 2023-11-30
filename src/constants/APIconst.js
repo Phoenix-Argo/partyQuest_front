@@ -4,7 +4,8 @@ export const URLCONST = {
     LOGOUT: "/api/member/sign-out",
     STUDY_LOCATIONS : "/api/study/locations",
     STUDY_LIST : "/api/study/list",
-    STUDY_IMAGE_URL : "/api/resources/images"
+    STUDY_IMAGE_URL : "/api/resources/images",
+    STUDY_SEARCH_URL : "/api/study/search"
 }
 export const CSCONST = {
     NOTICE: 1,

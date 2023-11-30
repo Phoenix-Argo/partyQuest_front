@@ -28,4 +28,6 @@ npm run build
 4. components/moleculs/common/newFile.js => 와 같이 컴파일 에러 해결하고 커밋할것
 5. components는 Vue file만 모으고 필요한 스크립트는 짧으면 script태그내에서 하거나
     긴 경우 utils에 정의할 것
+6. Number type 넘겨 줄 때에는 v-bind나 :prop으로 넘겨 주어야한다.
+7. asset quest logo 사진 핏하게 해주기
 ```
