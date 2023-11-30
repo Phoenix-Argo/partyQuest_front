@@ -2,7 +2,7 @@
 import {useAuthStore} from "@/stores/authStore";
 import {getValidatedAxios} from "@/utils/globalAxios";
 import { ref } from 'vue';
-import {Form, Field, ErrorMessage,useField} from 'vee-validate';
+import {Form, Field, ErrorMessage} from 'vee-validate';
 import {useRouter} from "vue-router";
 import * as yup from 'yup';
 
@@ -18,18 +18,21 @@ const myAxios = getValidatedAxios(accessToken);
 const registerInfo = ref({
   name:"",
   email: "",
+  confirmationCode:"",
   password: "",
   passwordConfirmation: "",
   phone:"",
 })
 const validationErrors = ref({});
-const isValid = ref(true);
+const isValid = ref(true); // 유효성 검사 선언
+let countEmail = ref(""); // 이메일 중복 검사를 위한 결과 선언
+
 
 //////////////// 유효성 검증////////////////
 const schema = yup.object({
   name: yup.string().required("이름을 입력해주십시오.").min(2, "이름은 최소 2자 이상이어야 합니다."),
   email: yup.string().required("이메일을 입력해주십시오.").email("올바른 이메일 형식이 아닙니다."),
-  password: yup.string().required("비밀번호를 입력해주십시오.").matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/, '비밀번호는 영문,숫자 혼합 최소 8자 이상이어야 합니다.'),
+  password: yup.string().required("비밀번호를 입력해주십시오.").matches(/^(?=.*[A-Za-z\d])|(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, '비밀번호는 영문,숫자 혼합 최소 8자 이상이어야 합니다.'),
   passwordConfirmation: yup.string().required('비밀번호 확인은 필수 항목입니다.').oneOf([yup.ref('password'), null], '비밀번호가 일치하지 않습니다.'),
   phone: yup.string().required('휴대폰 번호는 필수 항목입니다.').matches(/^\d{3}-\d{3,4}-\d{4}$/, '올바른 휴대폰 번호 형식이 아닙니다.'),
 });
@@ -77,20 +80,22 @@ const handlerSignUp = async () => {
 // TODO: 버튼 클릭시 이메일 전송 및 중복확인 API 동시에 전송
 // TODO: 전송된 인증번호와 비교 후 성공하면 폼 전송 가능하도록
 // TODO: Duplicated Email 관련된 에러 백에서 내려오면 그거 이용하기
+// TODO: 회원가입 한 직후 로그인된 상태로 유지하기
+// TODO: 비밀번호 에러 다시 확인하기 -> 한 번 틀리면 유효하지 않다고 뜸
+// TODO: 비밀번호에 특수문자 포함되도록 변경하기
 const btnEmailAuth = async ()=>{
   try {
     console.log("Email ", registerInfo.value.email)
     const response = await myAxios.post(BASE_URL + "/email-auth/"+ registerInfo.value.email);
-    const result = response.data;
-    console.log("Email count : ",result);
-    if (result === 0) {
-
-      alert("가능")
-    } else if (result === 1) {
-
-      alert("실패");
+    console.log("response data ", JSON.stringify(response.data));
+    countEmail.value = response.data.countEmail;
+    console.log("****Email count**** : ",countEmail);
+    if (countEmail === 0) {
+      console.log("사용 가능한 아이디")
+    } else if (countEmail === 1) {
+      console.log("이미 있는 아이디")
     } else {
-      console.log("이상한 에러 생김", result)
+      console.log("이상한 에러 생김", countEmail)
     }
   }catch (err){
     console.log(err);
@@ -127,6 +132,8 @@ const btnEmailAuth = async ()=>{
               />
               <button class="checkEmail btn btn-outline-secondary" @click="btnEmailAuth">인증번호 받기</button>
             </div>
+            <span v-if="result === 1" class="error-message">이미 사용중인 이메일입니다.</span>
+            <span v-else-if="result === 0" class="confirm-message">사용가능한 아이디 입니다.</span>
             <ErrorMessage class="error-message" name="email"/><br>
             <label class="form-label">인증번호 입력</label>
             <div id="txtBoxDiv">
@@ -136,9 +143,8 @@ const btnEmailAuth = async ()=>{
                   id="regiEmailBox"
                   class="form-control"
               />
-
             </div>
-            <ErrorMessage class="error-message" name="email"/><br>
+            <ErrorMessage class="error-message" name="confirmationCode"/><br>
             <label class="form-label">비밀번호</label>
             <div id="txtBoxDiv">
               <Field
@@ -230,6 +236,11 @@ const btnEmailAuth = async ()=>{
 }
 .error-message {
   color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}
+.confirm-message{
+  color: green;
   font-size: 12px;
   margin-top: 5px;
 }
