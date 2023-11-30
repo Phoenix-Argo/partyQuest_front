@@ -10,7 +10,6 @@ import ModifyStudy from "@/components/molecules/study/ModifyStudy.vue";
 import TermsServicePolicy from "@/components/molecules/member/terms/TermsServicePolicy.vue";
 import PrivacyPolicy from "@/components/molecules/member/terms/PrivacyPolicy.vue";
 import PaymentPolicy from "@/components/molecules/member/terms/PaymentPolicy.vue";
-import DongHanPlayGround from "@/pages/sandbox/DongHanPlayGround.vue";
 import NoticeList from "@/components/molecules/board/NoticeList.vue";
 import FaqList from "@/components/molecules/board/FaqList.vue";
 import CommunityList from "@/components/molecules/board/CommunityList.vue";
@@ -21,6 +20,7 @@ import StudyMember from "@/components/molecules/member/StudyMember.vue";
 import QnAList from "@/components/molecules/board/QnAList.vue";
 import Aside from "@/components/molecules/admin/Aside.vue";
 import ProfileMain from "@/components/molecules/study/ProfileMain.vue";
+import StudyListPage from "@/pages/StudyListPage.vue";
 
 // router 인스턴스 생성
 const router = createRouter({
@@ -38,9 +38,7 @@ const router = createRouter({
     { path: "/termsServicePolicy",name:'termsServicePolicy', component: TermsServicePolicy },
     { path: "/privacyPolicy", name:'privacyPolicy', component: PrivacyPolicy },
     { path: "/paymentPolicy", name:'paymentPolicy', component: PaymentPolicy },
-    { path: "/sandbox/donghan", component: DongHanPlayGround },
     { path: "/noticeList", name:'noticeList', component: NoticeList },
-    { path: "/test-bed", component: DongHanPlayGround },
     { path: "/faqList", name:'faqList', component: FaqList },
     { path: "/communityList", component: CommunityList },
     { path: "/communityView", component: CommunityView },
@@ -50,6 +48,11 @@ const router = createRouter({
     { path: "/aside", component: Aside },
     { path: "/studyMember/:studyId", component: StudyMember },
     { path: "/profileMain", component: ProfileMain },
+    {path:"/studies/search",component: StudyListPage,
+      props: route => ({
+        middleCateId: Number(route.query.middleCateId),
+      smallCateIds: Number(route.query.smallCateIds)})
+    }
   ],
 });
 // router 인스턴스 내보내기 -> main.js 에서 등록
