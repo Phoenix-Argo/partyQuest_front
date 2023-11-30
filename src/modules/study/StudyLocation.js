@@ -1,5 +1,6 @@
 import { ref } from "vue";
 import { getLocations } from "@/utils/fetch/studyFetch";
+
 export const useStudyLocation = () => {
   // 온라인 스터디, 오프라인 스터디, 위치
   const newStudy_onOff = ref("");
@@ -50,6 +51,7 @@ export const useStudyLocation = () => {
   };
   // locations 선택 끝
 
+
   return {
     newStudy_onOff,
     newStudy_Location,
@@ -62,5 +64,6 @@ export const useStudyLocation = () => {
     locations,
     onOffToggleHandler,
     onLocationChangeHandler,
+
   };
 };

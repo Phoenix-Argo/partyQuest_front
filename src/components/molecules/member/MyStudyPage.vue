@@ -3,11 +3,13 @@ import { ref } from "vue";
 import axios from "axios";
 import { onMounted } from "vue";
 import {useAuthStore} from "@/stores/authStore";
-import {useRouter} from "vue-router";
+import {useRoute, useRouter} from "vue-router";
 import Img from "@/components/molecules/common/Img.vue";
+import {getValidatedAxios} from "@/utils/globalAxios";
 
 const BASE_URL = "http://localhost:8080";
-const {user} = useAuthStore();
+const {user , accessToken} = useAuthStore();
+const myAxios = getValidatedAxios(accessToken);
 const hostId = ref(user.email);
 const router = useRouter();
 //내가 만든 스터디 script 모음
@@ -18,6 +20,7 @@ console.log(typeof myPg.value);
 const myStudyList = ref([]);
 const mySize = ref(0);
 console.log("mySize : " + mySize.value);
+const fetchedStudyId = ref(null);
 
 const findStudyMadeByMe = async () => {
   console.log("findStudyMadeByMe called. mySize:", mySize.value);
@@ -153,6 +156,22 @@ const BtnMemberList =  (studyId) => {
 const BtnmodifyStudy= (studyId) =>{
   router.push(`/modifyStudy/${studyId}`);
 }
+const BtnDeleteStudy= async (studyId) =>{
+  console.log("BtnDeleteStudy 인식1")
+  const requestData = {
+    hostId : user.hostId,
+    studyId : studyId,
+  }
+console.log("BtnDeleteStudy 인식2")
+console.log("requestData" + requestData)
+  try {
+    const response = await myAxios.delete(BASE_URL+"/api/study/deleteStudy/"+studyId,{data:requestData});
+
+    console.log("delete!!! : ", response);
+  } catch (err){
+    console.error("error : " + err);
+  }
+}
 
 
 //page script
@@ -234,7 +253,7 @@ const BtnmodifyStudy= (studyId) =>{
                           참여자현황
                         </button>
                         <button @click="()=>BtnmodifyStudy(study.studyId)">수정</button>
-                        <button>삭제</button>
+                        <button @click="()=>BtnDeleteStudy(study.studyId)">삭제</button>
                       </div>
                     </div>
                     <!-- <div class="event-item">

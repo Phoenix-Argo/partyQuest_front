@@ -60,18 +60,16 @@
 
   <!-- Start Detail Content-->
   <section class="py-5">
-    <div class="container pb-5">
-      <div class="row">
-        <div class="col-lg-8 mt-5">
+    <div class="container pb-5"  >
+      <div class="row" >
+        <div class="col-lg-9 mt-5 " >
           <div
             :innerHTML="studyView.description"
-            style="font-size: large"
-          ></div>
-          <img src="http://via.placeholder.com/800x2000" alt="" />
+            style="font-size: large; "
+          />
         </div>
-
-        <div class="col-lg-3 mt-5 side-nav">
-          <div class="description">
+        <div class="col-lg-3 mt-5 side-nav" >
+          <div class="description" >
             <h6></h6>
             <ul class="list-unstyled pb-3" id="studyInfo">
               <li>

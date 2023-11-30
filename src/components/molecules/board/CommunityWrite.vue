@@ -60,14 +60,15 @@ const submitForm = async () => {
       formData.append("formFile", fileRef.value.files[0]);
     }
 
-    // if (selectedCate.value){
-    //   saveCommunity.cateId = selectedCate.value;
-    //   formData.append("cateId", selectedCate.value)
-    //
-    //   console.log("cateId : " + saveCommunity.value);
-    // }else {
-    //   alert("카테고리를 선택해 주세요!");
-    // }
+    if (selectedCate.value){
+      saveCommunity.cateId = selectCate.value;
+      formData.append("cateId", selectedCate.value.id)
+
+      console.log("cateId1 : " + saveCommunity.cateId);
+      console.log("cateId2 : " + selectedCate.value.id);
+    }else {
+      alert("카테고리를 선택해 주세요!");
+    }
     // 서버로 데이터 전송
     const insertResponse = await axios.post('http://localhost:8080/api/community/communityWrite', saveCommunity )
 
