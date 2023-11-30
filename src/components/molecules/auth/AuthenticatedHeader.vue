@@ -6,7 +6,7 @@
       data-bs-toggle="dropdown"
       aria-expanded="false"
     >
-      <MemberAvatar height="25" width="25"/>
+      <MemberAvatar :height="25" :width="25"/>
     </div>
     <ul class="dropdown-menu" aria-labelledby="head">
       <li class="member-greeting"><span class="member-nickName">{{member.nickName}}</span>님 안녕하세요</li>
@@ -37,7 +37,12 @@ let authStore = useAuthStore();
 const authMenu = ref(["마이페이지", "마이스터디", "좋아요"]);
 const router = useRouter();
 const onClickHandler = async () => {
-  await logout(authStore.accessToken);
+  await logout(authStore.accessToken)
+      .catch(err => {
+        if (err.response) {
+          console.log(err.response);
+        }
+      });
   authStore.invalidateUser();
   router.forward("/index");
 };
