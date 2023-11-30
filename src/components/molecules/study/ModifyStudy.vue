@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import {ref, onMounted, reactive} from "vue";
 import axios from "axios";
 import SmartEditor from "@/components/molecules/study/SmartEditor.vue";
 import IconDoubleCheck from "@/components/icons/IconDoubleCheck.vue";
@@ -11,6 +11,8 @@ import { useRoute } from "vue-router";
 import { onBeforeMount } from "vue";
 import { useAuthStore } from "@/stores/authStore";
 import { getValidatedAxios } from "@/utils/globalAxios";
+import { provide } from 'vue';
+
 
 const BASE_URL = "/api/study";
 const { user, accessToken } = useAuthStore();
@@ -37,32 +39,40 @@ onBeforeMount(async () => {
     selectModifyStudy.value = response.data;
     console.log("response : " + response.data);
     console.log("modifyStudyData : " + selectModifyStudy.value);
+
   } catch (err) {
     console.log(err);
   }
 });
 
+
+
 /* MODIFY SAVE */
 // 온/오프라인 및 지역 설정
 const {
-  selectModifyStudy_onOff,
-  selectModifyStudy_Location,
+  newStudy_onOff,
+  newStudy_Location,
   onOffList,
   selectedOption,
   selectedLocation,
   fetchLocations,
-  isOn,
   isLocationsVisible,
   locations,
   onOffToggleHandler,
   onLocationChangeHandler,
+  modifyStudy_onOff,
+  modifyStudy_Location,
+
 } = useStudyLocation();
 
 // 스터디 기간
 const { getFormattedCurrentDate } = useStudyPeriod();
 
 // 모집방식 및 모집인원 수정
-const { switchState, modifyIncrease, modifyDecrease } = useStudyRecruitment();
+const { switchState, member ,modifyIncrease, modifyDecrease,handleToggleChange } = useStudyRecruitment();
+
+// axios에 실어 보낼 payload
+const modifyStudy = reactive({});
 
 // 카테고리 가져오기
 const fetchCates = async () => {
@@ -129,36 +139,36 @@ const onSmallSelected = (curSmall) => {
 /* 최종 전송 FORM  */
 const submitForm = async () => {
   // TODO: 호스트 아이디 받기 (Member)
-  selectModifyStudy.hostId = user.hostId;
-  selectModifyStudy.recruitOption = switchState.value.isPnp ? "PNP" : "FCFS";
-  selectModifyStudy.memberUpperLimit = member.value;
-  selectModifyStudy.middleCateIds = Array.from(selectedMiddles.value).map(
+  modifyStudy.hostId = user.hostId;
+  modifyStudy.recruitOption = switchState.value.isPnp ? "PNP" : "FCFS";
+  modifyStudy.memberUpperLimit = member.value;
+  modifyStudy.middleCateIds = Array.from(selectedMiddles.value).map(
     (el) => Number(el.split(" ")[el.split(" ").length - 1])
   );
-  selectModifyStudy.smallCateIds = Array.from(selectedSmalls.value).map((el) =>
+  modifyStudy.smallCateIds = Array.from(selectedSmalls.value).map((el) =>
     Number(el.split(" ")[el.split(" ").length - 1])
   );
-  selectModifyStudy.partyOnOff = selectModifyStudy_onOff.value;
-  selectModifyStudy.locationId = selectModifyStudy_Location.value;
+  modifyStudy.partyOnOff = newStudy_onOff.value;
+  modifyStudy.locationId = newStudy_Location.value;
   console.log("selectModifyStudy.data : " + JSON.stringify(selectModifyStudy));
 
   if (
-    !selectModifyStudy.title ||
-    !selectModifyStudy.middleCateIds ||
-    !selectModifyStudy.partyOnOff ||
-    !selectModifyStudy.studyStartDate ||
-    !selectModifyStudy.studyEndDate ||
-    !selectModifyStudy.memberUpperLimit ||
-    !selectModifyStudy.description
+    !modifyStudy.title ||
+    !modifyStudy.middleCateIds ||
+    !modifyStudy.partyOnOff ||
+    !modifyStudy.studyStartDate ||
+    !modifyStudy.studyEndDate ||
+    !modifyStudy.memberUpperLimit ||
+    !modifyStudy.description
   ) {
     alert("입력하지 않은 항목이 있습니다. 다시 한 번 확인해주세요.");
     return;
   }
   axios
-    .post(BASE_URL + "/api/study/create", selectModifyStudy)
+    .post(BASE_URL + "/api/study/modifyStudy", modifyStudy)
     .then((response) => {
       console.log(JSON.stringify(response));
-      alert("모집 신청이 완료되었습니다.");
+      alert("수정이 완료되었습니다.");
     })
     .catch((err) => {
       console.log(err);
@@ -460,7 +470,7 @@ const submitForm = async () => {
               id="exampleFormControlFile1"
               @change="fileChange"
             />
-            <div v-if="selectedFile">
+            <div type="text" v-if="selectedFile">
               파일 이름 : {{ selectModifyStudy.thumb }}
             </div>
           </section>
