@@ -6,12 +6,13 @@ import {ref, onMounted, reactive} from "vue";
 import axios from "axios";
 import {getValidatedAxios} from "@/utils/globalAxios";
 
+const BASE_URL = "/api/community";
 const { user, accessToken } = useAuthStore();
 const categories = ref({});
 const selectedCate = ref(null);
 const saveCommunity = reactive({});
 
-// const myAxios = getValidatedAxios(accessToken);
+const myAxios = getValidatedAxios(accessToken);
 
 onMounted(()=>{
   fetchCommunityCates();
@@ -19,7 +20,7 @@ onMounted(()=>{
 // 카테고리 가져오기
 const fetchCommunityCates = async()=>{
   try {
-    // const response = await myAxios.get('/api/community/communityCate');
+    // const response = await myAxios.get(BASE_URL + '/communityCate');
     const response = await axios.get('http://localhost:8080/api/community/communityCate');
     categories.value = response.data;
     console.log("categoriesData : " + categories.value)
@@ -46,19 +47,17 @@ const formData = new FormData();
 
 const onFileUploadHandler = (e) => {
   let file = e.target.files[0];
-  formData.append("formFile", file);
+  formData.append("file", file);
 }
 
 /* Article Form */
 const submitForm = async () => {
-  saveCommunity.writeId = 3; // 이후 user.hostId로 변경
-  console.log("writeId : " + saveCommunity.writeId);
+  saveCommunity.writerId = user.hostId; // 이후 user.hostId로 변경
+  console.log("writerId : " + saveCommunity.writerId);
+
 
   try {
     // 첨부된 파일이 있다면 FormData에 추가
-    if (fileRef.value.files.length > 0) {
-      formData.append("formFile", fileRef.value.files[0]);
-    }
 
     if (selectedCate.value){
       saveCommunity.cateId = selectCate.value;
@@ -70,13 +69,19 @@ const submitForm = async () => {
       alert("카테고리를 선택해 주세요!");
     }
     // 서버로 데이터 전송
-    const insertResponse = await axios.post('http://localhost:8080/api/community/communityWrite', saveCommunity )
+    // const insertResponse = await myAxios.post(BASE_URL+'/communityWrite', saveCommunity )
+    const insertResponse = await axios.post('http://localhost:8080/api/community/communityWrite', saveCommunity);
+
 
     const createdCommunityId = insertResponse.data.communityId;
 
     console.log("insertResponse : ", insertResponse);
     console.log("createdCommunityId : ", createdCommunityId);
 
+    saveCommunity.communityId = createdCommunityId;
+    formData.append("communityId", createdCommunityId);
+
+    /*
     const uploadResponse = await myAxios.post(
         BASE_URL + "/uploadFile",
         formData,
@@ -86,6 +91,18 @@ const submitForm = async () => {
           },
         }
     );
+    */
+
+    const uploadResponse = await axios.post(
+        'http://localhost:8080/api/community/uploadFile',
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+    );
+
     console.log("upload File Response : ", uploadResponse.data);
     // 성공적으로 전송되었을 때의 처리
     alert("게시물이 성공적으로 등록되었습니다.");
@@ -107,6 +124,7 @@ const submitForm = async () => {
       <!--왼쪽 어사이드 끝-->
       <!-- 상단 카테고리 시작 -->
       <div class ="community-body__content">
+
         <!-- 상단 카테고리 끝 -->
         <!-- Content View 시작-->
         <section class="community-list-container">
