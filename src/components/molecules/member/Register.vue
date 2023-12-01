@@ -25,30 +25,30 @@ const registerInfo = ref({
 })
 const validationErrors = ref({});
 const isValid = ref(true); // 유효성 검사 선언
-let countEmail = ref(""); // 이메일 중복 검사를 위한 결과 선언
+const countEmail = ref(""); // 이메일 중복 검사를 위한 결과 선언
+const authKey = ref(""); // 서버에서 전달해온 키를 위한 변수 선언
 
 
 //////////////// 유효성 검증////////////////
 const schema = yup.object({
-  name: yup.string().required("이름을 입력해주십시오.").min(2, "이름은 최소 2자 이상이어야 합니다."),
-  email: yup.string().required("이메일을 입력해주십시오.").email("올바른 이메일 형식이 아닙니다."),
-  password: yup.string().required("비밀번호를 입력해주십시오.").matches(/^(?=.*[A-Za-z\d])|(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, '비밀번호는 영문,숫자 혼합 최소 8자 이상이어야 합니다.'),
-  passwordConfirmation: yup.string().required('비밀번호 확인은 필수 항목입니다.').oneOf([yup.ref('password'), null], '비밀번호가 일치하지 않습니다.'),
-  phone: yup.string().required('휴대폰 번호는 필수 항목입니다.').matches(/^\d{3}-\d{3,4}-\d{4}$/, '올바른 휴대폰 번호 형식이 아닙니다.'),
+  name: yup.string().matches(/^[가-힣]{2,5}$/, '한글로 입력해주십시오.').min(2, "이름은 최소 2자 이상이어야 합니다.").required("이름을 입력해주십시오."),
+  email: yup.string().email("올바른 이메일 형식이 아닙니다.").required("이메일을 입력해주십시오."),
+  password: yup.string().matches(/^(?=.*[A-Za-z\d])|(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, '비밀번호는 영문,숫자 혼합 최소 8자 이상이어야 합니다.').required("비밀번호를 입력해주십시오."),
+  passwordConfirmation: yup.string().oneOf([yup.ref('password'), null], '비밀번호가 일치하지 않습니다.').required('비밀번호 확인은 필수 항목입니다.'),
+  phone: yup.string().matches(/^\d{3}-\d{3,4}-\d{4}$/, '올바른 휴대폰 번호 형식이 아닙니다.').required('휴대폰 번호는 필수 항목입니다.'),
 });
 
 ////////////////최종 전송 폼////////////////
 
 const handlerSignUp = async () => {
   try {
-    await schema.validate(registerInfo.value);
-    // 폼 유효성 검사 성공시 validationError 객체 초기화
-    validationErrors.value = {};
+    await schema.validate(registerInfo.value,{ abortEarly: false }); // validation 을 한꺼번에 진행하고, 모두 끝난 뒤에 결과 리턴
     isValid.value = true;
 
     const response = await myAxios.post(BASE_URL + '/sign-up', registerInfo.value);
 
     if (response.status === 200) {
+      validationErrors.value = {};
       alert('성공적으로 회원가입이 되었습니다.');
       const route = useRoute();
       if (route.path !== '/profile') {
@@ -61,13 +61,16 @@ const handlerSignUp = async () => {
     isValid.value = false;
     // 발생한 오류가 유효성 검사(Yup)통해서 된 건지 확인
     if (e instanceof yup.ValidationError) {
-      const errors = {};
+      validationErrors.value = {};
+
+      // 유효성 검증의 에러가 발생한 경우 배열 행태로 저장하고 표시
+      // ex) email: 올바른 형식 x, password: 비밀번호는 필수 ...
       e.inner.forEach((err) => {
-        errors[err.path] = err.message;
+        validationErrors.value[err.path] = err.message;
       });
-      // 에러 객체에 저장
-      validationErrors.value = errors;
-      alert("유효하지 않은 정보가 있습니다. 다시 한 번 확인해주십시오.");
+      // 에러 메시지 출력
+      const errorMessages = Object.values(validationErrors.value);
+      alert("유효하지 않은 정보가 있습니다. 다시 한 번 확인해주십시오."+ errorMessages.join(', '));
     } else {
       // 유효성 검증 외의 오류 발생
       console.error(e);
@@ -76,31 +79,34 @@ const handlerSignUp = async () => {
 };
 
 ////////////////이메일 중복확인 및 코드 전송///////////////
-
-// TODO: 버튼 클릭시 이메일 전송 및 중복확인 API 동시에 전송
-// TODO: 전송된 인증번호와 비교 후 성공하면 폼 전송 가능하도록
-// TODO: Duplicated Email 관련된 에러 백에서 내려오면 그거 이용하기
 // TODO: 회원가입 한 직후 로그인된 상태로 유지하기
-// TODO: 비밀번호 에러 다시 확인하기 -> 한 번 틀리면 유효하지 않다고 뜸
-// TODO: 비밀번호에 특수문자 포함되도록 변경하기
 const btnEmailAuth = async ()=>{
   try {
-    console.log("Email ", registerInfo.value.email)
     const response = await myAxios.post(BASE_URL + "/email-auth/"+ registerInfo.value.email);
-    console.log("response data ", JSON.stringify(response.data));
+    // 이메일 중복 확인 후 값 할당
     countEmail.value = response.data.countEmail;
-    console.log("****Email count**** : ",countEmail);
-    if (countEmail === 0) {
-      console.log("사용 가능한 아이디")
-    } else if (countEmail === 1) {
-      console.log("이미 있는 아이디")
-    } else {
-      console.log("이상한 에러 생김", countEmail)
+    // 키 할당
+    authKey.value = response.data.key;
+    if (countEmail.value === 0) {
+      console.log("Accepted")
+    } else if (response.status === 409) {
+      countEmail.value =1;
+      console.log("Duplicated Email")
     }
   }catch (err){
     console.log(err);
   }
 }
+///////////// 인증코드 확인 //////////////
+const keyErrorMessage = ref('');
+const keyConfirmMessage = ref('');
+const btnKeyConfirm = () => {
+  if (registerInfo.value.confirmationCode !== authKey.value) {
+    keyErrorMessage.value = '인증번호를 다시 확인해주십시오.';
+  } else {
+    keyConfirmMessage.value = '인증이 완료되었습니다.';
+  }
+};
 
 </script>
 <template>
@@ -132,19 +138,21 @@ const btnEmailAuth = async ()=>{
               />
               <button class="checkEmail btn btn-outline-secondary" @click="btnEmailAuth">인증번호 받기</button>
             </div>
-            <span v-if="result === 1" class="error-message">이미 사용중인 이메일입니다.</span>
-            <span v-else-if="result === 0" class="confirm-message">사용가능한 아이디 입니다.</span>
+            <span v-if="countEmail === 1" class="error-message">이미 사용 중인 이메일 입니다.</span>
+            <span v-else-if="countEmail === 0" class="confirm-message">사용 가능한 아이디 입니다.</span>
             <ErrorMessage class="error-message" name="email"/><br>
             <label class="form-label">인증번호 입력</label>
             <div id="txtBoxDiv">
               <Field
                   name="confirmationCode"
                   type="text"
-                  id="regiEmailBox"
                   class="form-control"
+                  v-model="registerInfo.confirmationCode"
               />
+              <button class="checkKey btn btn-outline-secondary" @click="btnKeyConfirm">확인</button>
             </div>
-            <ErrorMessage class="error-message" name="confirmationCode"/><br>
+            <span v-if="keyErrorMessage" class="error-message">{{ keyErrorMessage }}</span>
+            <span v-if="keyConfirmMessage" class="confirm-message">{{ keyConfirmMessage }}</span><br>
             <label class="form-label">비밀번호</label>
             <div id="txtBoxDiv">
               <Field
@@ -179,7 +187,6 @@ const btnEmailAuth = async ()=>{
                   v-model="registerInfo.phone"
                   placeholder="- 를 포함하여 입력하십시오"
               />
-
             </div>
             <ErrorMessage class="error-message" name="phone"/><br>
 
@@ -249,12 +256,16 @@ const btnEmailAuth = async ()=>{
   align-items: center;
 }
 .form-label{
-  margin-top:7px;
+  margin-top:5px;
 }
 .checkEmail {
   margin-left: 10px;
 }
 button.checkEmail {
+  white-space: nowrap;
+}
+.checkKey{
+  margin-left: 10px;
   white-space: nowrap;
 }
 </style>
