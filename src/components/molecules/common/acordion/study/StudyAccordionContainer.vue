@@ -71,6 +71,7 @@ const curMiddle = ref("");
    top: calc(100%);
    z-index: 1;
    color: black;
+   font-weight: bold;
  }
  .accordion-menu:hover {
    color: #ce0f38;

@@ -11,11 +11,15 @@ const router = useRouter();
     middleCateId : Number,
     smallCateIds : Number
   });
+  const curKey = ref({
+    major: "",
+    middle: ""
+  })
 const isFirstFetched = ref(false);
 const dataFetchFlag = ref(0);
   const searchCond = ref({
     middleCateId: props.middleCateId,
-    smallCateIds: isNaN(props.smallCateIds)? null : props.smallCateIds ,
+    smallCateIds: isNaN(props.smallCateIds) || props.smallCateIds === null? new Set([]) : new Set([props.smallCateIds]) ,
     page: null,
     title: null,
     sort: null
@@ -23,13 +27,7 @@ const dataFetchFlag = ref(0);
 const pageData = ref({});
 const cateStore = useCateStore();
 const smallCates = ref(null)
-  onMounted(async ()=>{
-    console.log('내가 요청하는 params',searchCond.value)
-    pageData.value = await searchStudy(searchCond.value);
-    isFirstFetched.value = true;
-    console.log(cateStore.globalCate)
-    smallCates.value = cateStore.globalCate['프로그래밍 1'][`${props.middleCateId === 11 ? '프론트엔드 11' : '백엔드 12'}`]
-  })
+
 const onSearchCondUpdateHandler = async ()=>{
     pageData.value = null;
     pageData.value = await searchStudy(searchCond.value)
@@ -43,6 +41,46 @@ const onPagingHandler = (num)=>{
   searchCond.value.page = num;
   console.log(searchCond.value, dataFetchFlag.value,pageData.value)
 }
+const findMatchingKey = (targetMajor,targetMiddle) => {
+  let majorKeys = Object.keys(cateStore.getCate());
+  for (const majorKey of majorKeys) { // javascript Array 순회는 for ... of
+    let keySet = majorKey.split(" ");
+    if (keySet[keySet.length-1] === targetMajor) {
+      curKey.value.major = majorKey;
+      break;
+    }
+  }
+  let middleKeys = Object.keys(cateStore.getCate()[curKey.value.major]);
+  for (const middleKey of middleKeys) {
+    let keySet = middleKey.split(" ");
+    if (keySet[keySet.length-1] === targetMiddle) {
+      curKey.value.middle = middleKey;
+      break;
+    }
+  }
+};
+const extractIdFromKeySet = (smallKeySet) => {
+  let keyList = smallKeySet.split(" ");
+  return keyList[keyList.length - 1];
+};
+const toggleSmallKeyIdFromSet = (rawSmallKey) => {
+  let targetSmallId = extractIdFromKeySet(rawSmallKey);
+  if (searchCond.value['smallCateIds'].has(targetSmallId)) {
+    searchCond.value['smallCateIds'].delete(rawSmallKey);
+  }else{
+    searchCond.value['smallCateIds'].add(rawSmallKey);
+  }
+  dataFetchFlag.value++;
+  console.log(searchCond.value);
+};
+onMounted(async ()=>{
+  console.log('내가 요청하는 params',searchCond.value)
+  pageData.value = await searchStudy(searchCond.value);
+  isFirstFetched.value = true;
+  console.log(cateStore.globalCate)
+  findMatchingKey('1',String(props.middleCateId))
+  smallCates.value = cateStore.globalCate[curKey.value.major][curKey.value.middle]
+})
 </script>
 
 <template>
@@ -50,6 +88,7 @@ const onPagingHandler = (num)=>{
     <div class="filter-container">
       <div class="small-cate-wrapper">
         <SmallCateBtn v-for="smallKey in smallCates" :small-cate-key="smallKey"
+                      @click="toggleSmallKeyIdFromSet(smallKey)"
         />
       </div>
     </div>

@@ -21,5 +21,6 @@ const props = defineProps({
     gap: 0px 3px;
     overflow-x: auto;
     margin: 5px 0px;
+    font-weight: bold;
   }
 </style>

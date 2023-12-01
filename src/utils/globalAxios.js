@@ -1,6 +1,4 @@
 import axios from "axios";
-import { AUTH_CONST } from "@/constants/authConst";
-import { useAuthStore } from "../stores/authStore";
 
 /**
  * 인증 되기 전에 사용하는 axios
@@ -9,6 +7,7 @@ import { useAuthStore } from "../stores/authStore";
 export const axiClient = axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_URL,
 });
+
 /**
  * 인증 후 사용하는 axios
  * @type {axios.AxiosInstance}
