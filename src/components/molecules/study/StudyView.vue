@@ -355,8 +355,8 @@ const applyStudy = async () => {
         `${BASE_URL}/ApplyStudy`,
         StudyMemberJoinRequest
       );
-      console.log(response);
-      alert("신청이 완료되었습니다.");
+      console.log(response.data);
+      alert(response.data);
     } catch (error) {
       console.error(error);
       alert("신청이 되지 않았습니다.");
