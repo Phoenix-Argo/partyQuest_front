@@ -27,15 +27,15 @@
           style="margin-top:0px"
       ></li>
     </ol>
-    <div class="carousel-inner">
+    <div class="carousel-inner container py-3">
       <div class="carousel-item active">
         <div class="w-100 d-flex justify-content-center">
           <div class="w-75">
             <div class="row p-2">
               <div class="mx-auto col-md-4 col-lg-4 order-lg-last">
-                <img class="img-fluid mw-100" src="/img/banner_img_01.png" />
+                <img class="banner img-fluid mw-100" src="/img/banner_img_01.png" />
               </div>
-              <div class="col-lg-7 mb-0 d-flex align-items-center">
+              <div class="col-lg-7 mb-0 d-flex align-items-center banner_description">
                 <div class="text-align-left align-self-center">
                   <h1 class="h1 text-success">
                     <b>EVENT</b>
@@ -53,9 +53,9 @@
           <div class="w-75">
             <div class="row p-2">
               <div class="mx-auto col-md-8 col-lg-4 order-lg-last">
-                <img class="img-fluid" src="/img/banner_img_02.png" alt="" />
+                <img class="banner img-fluid" src="/img/banner_img_02.png" alt="" />
               </div>
-              <div class="col-lg-6 mb-0 d-flex align-items-center">
+              <div class="col-lg-6 mb-0 d-flex align-items-center banner_description">
                 <div class="text-align-left">
                   <h1 class="h1">Come with us</h1>
                   <h3 class="h2">함께 성장할 스터디를 모집해보세요. <br/>파티퀘스트에서는 다양한 스터디가 준비되어 있어요.</h3>
@@ -72,9 +72,9 @@
           <div class="w-75">
             <div class="row p-2">
               <div class="mx-auto col-md-8 col-lg-4 order-lg-last">
-                <img class="img-fluid" src="/img/banner_img_03.png" alt="" />
+                <img class="banner img-fluid" src="/img/banner_img_03.png" alt="" />
               </div>
-              <div class="col-lg-7 mb-0 d-flex align-items-center">
+              <div class="col-lg-7 mb-0 d-flex align-items-center banner_description">
                 <div class="text-align-left">
                   <h1 class="h1">파티원을 구하세요!</h1>
                   <p>
@@ -109,5 +109,11 @@
 </template>
 
 <style scoped>
+.banner_description{
+  margin-left: -15%;
 
+}
+.banner{
+  margin-left: 30%;
+}
 </style>

@@ -103,7 +103,7 @@ onMounted( async ()=>{
           </div>
         </div>
         <div class="col-8 col-md-12 text-center">
-          <button
+          <RouterLink to="/noticeList"
             class="btn btn-outline-secondary d-inline-flex align-items-center"
             type="button"
             style="font-weight: bold"
@@ -112,7 +112,7 @@ onMounted( async ()=>{
             <svg class="bi ms-1" width="5" height="20">
               <use xlink:href="#arrow-right-short"></use>
             </svg>
-          </button>
+          </RouterLink>
         </div>
       </div>
     </section>

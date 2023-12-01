@@ -64,10 +64,10 @@ const fetchCates = async () => {
         // cates의 key(major cate)들을 먼저 등록 해준다.
         major.value.majors = Object.keys(cates.value);
       });
-      console.log("my cate objs", cates.value);
+      //console.log("my cate objs", cates.value);
     })
     .catch((err) => {
-      console.log(err);
+      //console.log(err);
     });
 };
 
@@ -127,7 +127,6 @@ const submitForm = async () => {
   );
   newStudy.partyOnOff = newStudy_onOff.value;
   newStudy.locationId = newStudy_Location.value;
-  console.log("newStudy.data : " + JSON.stringify(newStudy));
 
   // 필수 정보 입력 검증
   if (
@@ -152,9 +151,6 @@ const submitForm = async () => {
 
     const createdStudyId = createResponse.data.studyId;
 
-    console.log("CreateResponse:", createResponse.data);
-    console.log("Created study ID:", createdStudyId);
-
     newStudy.studyId = createdStudyId;
     formData.append("studyId", createdStudyId);
 
@@ -168,10 +164,8 @@ const submitForm = async () => {
       }
     );
 
-    console.log("Upload File Response:", uploadResponse.data);
     alert("모집 신청이 완료 되었습니다.");
   } catch (error) {
-    console.error("Error:", error);
     alert("모집 신청 중 오류가 발생했습니다. 다시 시도해주세요.");
   }
 };

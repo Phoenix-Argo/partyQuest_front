@@ -55,7 +55,7 @@ const handlerSignUp = async () => {
         router.push('/profile');
       }
     } else {
-      console.error('회원가입 실패', response.statusText);
+      alert('회원가입을 할 수 없습니다. 다시 시도해주십시오.');
     }
   } catch (e) {
     isValid.value = false;
@@ -73,7 +73,7 @@ const handlerSignUp = async () => {
       alert("유효하지 않은 정보가 있습니다. 다시 한 번 확인해주십시오."+ errorMessages.join(', '));
     } else {
       // 유효성 검증 외의 오류 발생
-      console.error(e);
+      //console.error(e);
     }
   }
 };
@@ -88,13 +88,13 @@ const btnEmailAuth = async ()=>{
     // 키 할당
     authKey.value = response.data.key;
     if (countEmail.value === 0) {
-      console.log("Accepted")
+
     } else if (response.status === 409) {
       countEmail.value =1;
-      console.log("Duplicated Email")
+
     }
   }catch (err){
-    console.log(err);
+    //console.log(err);
   }
 }
 ///////////// 인증코드 확인 //////////////

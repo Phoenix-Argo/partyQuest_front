@@ -98,8 +98,8 @@ onMounted(async ()=>{
 
   <!-- Header -->
   <nav class="navbar navbar-expand-md navbar-light shadow ml-3 d-flex justify-content-start" style="padding-left: 80px; height: 100px;">
-    <div class="d-flex justify-content-center align-items-center w-75">
-      <router-link to="/index"><img class="logo" src="/img/logo_with_name3.png" /></router-link>
+    <div class="d-flex justify-content-center align-items-center w-75 container">
+      <router-link to="/index"><img class="logo" src="/img/logo_with_name3.png"/></router-link>
       <button
         class="navbar-toggler border-0"
         type="button"
@@ -145,4 +145,6 @@ onMounted(async ()=>{
   </nav>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+
+</style>
