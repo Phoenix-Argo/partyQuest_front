@@ -41,7 +41,7 @@ const router = createRouter({
     { path: "/noticeList", name:'noticeList', component: NoticeList },
     { path: "/faqList", name:'faqList', component: FaqList },
     { path: "/communityList", component: CommunityList },
-    { path: "/communityView", component: CommunityView },
+    { path: "/communityView/:communityId", component: CommunityView },
     { path: "/communityWrite", component: CommunityWrite},
     { path: "/qnAList", component: QnAList},
     { path: "/myStudyPage", component: MyStudyPage },

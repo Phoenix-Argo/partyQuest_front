@@ -2,6 +2,41 @@
 import Banner from "@/components/molecules/board/Banner.vue";
 import Img from "@/components/molecules/common/Img.vue";
 import CommunityAside from "@/components/molecules/board/CommunityAside.vue";
+import {useAuthStore} from "@/stores/authStore";
+import {useRoute} from "vue-router";
+import {getValidatedAxios} from "@/utils/globalAxios";
+import {onMounted, ref} from "vue";
+import axios from "axios";
+
+const BASE_URL = "/api/community";
+
+const { user, accessToken } = useAuthStore();
+
+// 라우터 인스턴스 가져오기
+const route = useRoute();
+
+// 서버 데이터
+const communityView = ref({});
+const fetchedCommunityId = ref(null);
+const myAxios = getValidatedAxios(accessToken);
+
+// mount 전 서버에 해당 id json 요청
+onMounted(async ()=>{
+  // 라우터 파라미터 수신
+  const {communityId} = route.params;
+  try {
+    //const response = await myAxios.get(BASE_URL+"/communityView/"+communityId);
+    const response = await axios.get("http://localhost:8080/api/community/communityView/"+communityId);
+
+    communityView.value = response.data;
+    console.log("CommunityView : " + communityView.value);
+  }catch (err){
+    console.log(err);
+  }finally {
+    fetchedCommunityId.value = communityId;
+    console.log("fetched communityId : ", fetchedCommunityId.value);
+  }
+});
 </script>
 <template>
   <main id="main">
@@ -19,13 +54,13 @@ import CommunityAside from "@/components/molecules/board/CommunityAside.vue";
           <div class="card">
             <div class="card-body">
               <div >
-                <h2 class="card-title">Title</h2>
-                <h6 class="communityViewDate">23.11.25 작성
+                <h2 class="card-title">{{ communityView.title }}</h2>
+                <h6 class="communityViewDate">{{ communityView.rdate }}
                   <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
                 </h6>
                 <hr class="sectionLine" />
               </div>
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+              <p class="card-text">{{communityView.content}}</p>
 
             </div>
             <img src="#" class="card-img-bottom" alt="만약 사진이 있으면 나오도록">
