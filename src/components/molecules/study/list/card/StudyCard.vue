@@ -43,7 +43,7 @@ const router = useRouter();
 
 <style scoped>
   .study-card {
-    width:18vw;
+
     display: flex;
     flex-direction: column;
     position: relative;

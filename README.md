@@ -30,4 +30,5 @@ npm run build
     긴 경우 utils에 정의할 것
 6. Number type 넘겨 줄 때에는 v-bind나 :prop으로 넘겨 주어야한다.
 7. asset quest logo 사진 핏하게 해주기
+8. 폰트 bold별로 가져오기
 ```

@@ -6,6 +6,7 @@ import {axiValid} from "@/utils/globalAxios";
 import {onMounted, ref} from "vue";
 import HoverAcordianRoot from "@/components/molecules/common/acordion/HoverAccordianRoot.vue";
 import StudyAccordionContainer from "@/components/molecules/common/acordion/study/StudyAccordionContainer.vue";
+import {useCateStore} from "@/stores/cateStore";
 
 const auth = useAuthStore();
 const myAxios = axiValid;
@@ -39,6 +40,8 @@ onMounted(async ()=>{
           //major.value.majors = Object.keys(cates.value);
         });
         console.log("my cate objs", cates.value);
+        let cateStore = useCateStore();
+        cateStore.setCate(cates.value);
       })
       .catch((err) => {
         console.log(err);

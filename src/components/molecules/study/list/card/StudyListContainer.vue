@@ -29,11 +29,13 @@ const props = defineProps({
 
   }
   .study-list-carousel {
+    overflow-x:scroll;
     max-width: 100%;
-    display: inline-flex;
-    justify-content: flex-start;
-    overflow-x: scroll;
-    gap: 0px 5px;
+    display:grid;
+    grid-template-columns: repeat(5,minmax(220px,1fr));
+    grid-auto-columns: minmax(220px,1fr);
+    grid-auto-flow: column;
+    grid-column-gap: 10px;
   }
   .study-iter {
     flex: 1 1 0;
