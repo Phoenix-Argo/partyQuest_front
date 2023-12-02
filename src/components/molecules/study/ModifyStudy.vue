@@ -156,6 +156,17 @@ const onSmallSelected = (curSmall) => {
 //
 // );
 
+// 썸네일 업로드에 필요한 변수 선언
+const tnail = ref();
+const formData = new FormData();
+
+// 썸네일 업로드
+const onFileUploadHandler = (e) => {
+  let file = e.target.files[0];
+  formData.append("thumb", file);
+};
+
+
 /* 최종 전송 FORM  */
 const submitForm = async () => {
   // TODO: 호스트 아이디 받기 (Member)
@@ -176,28 +187,32 @@ const submitForm = async () => {
   modifyStudy.locationId = newStudy_Location.value;
   console.log("selectModifyStudy.data : " + JSON.stringify(selectModifyStudy));
 
-  // 필수 항목 확인
-  if (
-      modifyStudy.title === null || modifyStudy.title === '' ||
-      modifyStudy.middleCateIds === null || modifyStudy.middleCateIds.length === 0 ||
-      modifyStudy.partyOnOff === null ||
-      modifyStudy.studyStartDate === null ||
-      modifyStudy.studyEndDate === null ||
-      modifyStudy.memberUpperLimit === null ||
-      modifyStudy.description === null || modifyStudy.description === ''
-  ) {
-    alert("입력하지 않은 항목이 있습니다. 다시 한 번 확인해주세요.");
-    return;
+
+  try {
+
+    const modifyResponse = await myAxios.post(BASE_URL+"/modifyStudy", modifyStudy);
+
+    const modifyStudyId = modifyResponse.data.studyId;
+
+    modifyStudy.studyId = modifyStudyId;
+    formData.append("studyId", modifyStudyId);
+
+    const uploadResponse = await myAxios.post(
+        BASE_URL + "/uploadThumb",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+    );
+
+    console.log("Upload File Response:", uploadResponse.data);
+    alert("수정이 완료 되었습니다.");
+  } catch (error) {
+    console.error("Error:", error);
+    alert("수정 중 오류가 발생했습니다. 다시 시도해주세요.");
   }
-  myAxios
-    .post( BASE_URL+"/modifyStudy", modifyStudy)
-    .then((response) => {
-      console.log(JSON.stringify(response));
-      alert("수정이 완료되었습니다.");
-    })
-    .catch((err) => {
-      console.log(err);
-    });
 };
 </script>
 
@@ -490,12 +505,14 @@ const submitForm = async () => {
               <br />
             </div>
             <input
-              type="file"
-              class="form-control-file"
-              id="exampleFormControlFile1"
-              @change="fileChange"
+                ref="tnail"
+                type="file"
+                class="form-control-file"
+                id="thumb"
+                name="thumb"
+                @change="onFileUploadHandler"
             />
-            <div type="text" v-if="selectedFile">
+            <div type="text" v-if="selectModifyStudy.thumb != null">
               파일 이름 : {{ selectModifyStudy.thumb }}
             </div>
           </section>
