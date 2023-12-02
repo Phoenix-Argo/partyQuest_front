@@ -31,8 +31,6 @@ const fetchData = async () => {
         size : size.value,
       },
     });
-
-    console.log("Response : ",response.data);
     boards.value = response.data;
     if (response.data.pg !== undefined) {
       pg.value = response.data.pg;
@@ -42,12 +40,8 @@ const fetchData = async () => {
     }
     total.value = response.data.totalElements;
     boardList.value = boards.value.content;
-    console.log("BoardList size : ", pg.value);
-    console.log("BoardList size : ", size.value);
-    console.log("BoardList total : ", total.value);
-    console.log("BoardList data : ", boardList.value);
   } catch (err) {
-    console.log(err);
+
   }
 };
 onMounted(async () => {
@@ -59,20 +53,17 @@ const prevPage = () => {
   if (pg.value > 1) {
     pg.value--;
     fetchData();
-    console.log('Current pg.value:', pg.value);
   }
 };
 
 const nextPage = () => {
   pg.value++;
   fetchData();
-  console.log('Current pg.value:', pg.value);
 };
 
 const selectPage =  (pageNumber) => {
   pg.value = pageNumber;
   fetchData();
-  console.log('Current pg.value:', pg.value);
 };
 const getPageArray = () => {
   const countInPages = Math.ceil(total.value / size.value);
