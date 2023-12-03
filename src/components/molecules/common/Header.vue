@@ -118,15 +118,15 @@ onMounted(async ()=>{
       >
         <div class="flex-fill px-5 d-flex">
           <ul class="d-flex w-100 align-items-center align-self-center mb-0 justify-content-start flex-wrap gap-4 mx-auto" style="list-style : none">
-            <li class="">
+            <li class="nav">
               <HoverAcordianRoot title="스터디 모임">
                 <StudyAccordionContainer :study-cate="cates"/>
               </HoverAcordianRoot>
             </li>
-            <li class="">
+            <li class="nav">
               <router-link class="fs-6" to="/communityList">커뮤니티</router-link>
             </li>
-            <li class="">
+            <li class="nav">
               <router-link to="/noticeList">고객센터</router-link>
             </li>
           </ul>
@@ -145,6 +145,8 @@ onMounted(async ()=>{
   </nav>
 </template>
 
-<style lang="scss" scoped>
-
+<style scoped>
+nav{
+  font-weight: bold;
+}
 </style>

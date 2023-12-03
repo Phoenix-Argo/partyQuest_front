@@ -1,9 +1,9 @@
 <script setup>
 import {useAuthStore} from "@/stores/authStore";
 import {getValidatedAxios} from "@/utils/globalAxios";
-import { ref } from 'vue';
+import {ref} from 'vue';
 import {Form, Field, ErrorMessage} from 'vee-validate';
-import {useRouter} from "vue-router";
+import {useRouter, useRoute} from "vue-router";
 import * as yup from 'yup';
 
 /**
@@ -14,6 +14,8 @@ const router = useRouter();
 const BASE_URL = "/api/member";
 const { accessToken } = useAuthStore();
 const myAxios = getValidatedAxios(accessToken);
+//const kakaoClientId = import.meta.env.VITE_APP_KAKAO_CLIENT_ID;
+//const kakaoRedirectUri = import.meta.env.VITE_APP_KAKAO_REDIRECT_URI;
 
 const registerInfo = ref({
   name:"",
@@ -108,6 +110,31 @@ const btnKeyConfirm = () => {
   }
 };
 
+
+//////////// kakao oauth //////////////
+
+
+/*const handleKakaoLogin = () => {
+  const url = `https://kauth.kakao.com/oauth/authorize?client_id=${kakaoClientId}&redirect_uri=${kakaoRedirectUri}&response_type=code&scope=account_email profile_nickname`;
+
+  showSocialLoginPopup(url);
+};
+
+const showSocialLoginPopup = (url) => {
+  const popupHeight = '500';
+  const popupWidth = '500';
+  let popupOptions = `height=${popupHeight},width=${popupWidth},left=--popupX--,top=--popupY--,scrollbars=yes,resizable=yes`;
+
+  popupOptions = popupOptions.replace('--popupX--', window.innerWidth / 2 - parseInt(popupWidth) / 2);
+  popupOptions = popupOptions.replace('--popupY--', window.innerHeight / 2 - parseInt(popupHeight) / 2);
+
+  openPopup(url, popupOptions);
+  return false;
+};
+
+const openPopup = (url, options) => {
+  window.open(url, '_blank', options);
+};*/
 </script>
 <template>
   <!-- Start Register -->
@@ -222,7 +249,7 @@ const btnKeyConfirm = () => {
                 <a href="#"
                   ><img class="google" src="/img/Google_logo.png" alt="#"
                 /></a>
-                <a href="#"
+                <a @click="handleKakaoLogin"
                   ><img class="kakao" src="/img/kakaotalk_logo.png" alt="#"
                 /></a>
               </div>
@@ -267,5 +294,8 @@ button.checkEmail {
 .checkKey{
   margin-left: 10px;
   white-space: nowrap;
+}
+label{
+  font-weight: bold;
 }
 </style>
