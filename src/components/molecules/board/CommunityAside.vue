@@ -5,21 +5,13 @@
       <ul class="community-aside">
         <li class="community-aside__group">
           <ul class="community-aside__menu-list">
-            <li class="community-aside__menu community-aside__menu--selected">
-              <a href="/community/Q&A" target="_self"><span>질문 &amp; 답변</span></a>
+
+            <!--community-aside__menu--selected-->
+            <li class="community-aside__menu" v-for="cate in categories" :key="fetchCommunityCates.id">
+              <router-link :to="`/communityList/${cate.id}`" >{{ cate.cateName }}</router-link>
             </li>
 
-            <li class="community-aside__menu ">
-              <a href="/community/chats" target="_self"><span>고민있어요</span></a>
-            </li>
 
-            <li class="community-aside__menu ">
-              <a href="/community/studies" target="_self"><span>자유게시판</span></a>
-            </li>
-
-            <li class="community-aside__menu ">
-              <a href="/blogs" target="_self"><span>블로그</span></a>
-            </li>
           </ul>
         </li>
       </ul>
@@ -28,6 +20,36 @@
 </template>
 
 <script setup>
+
+import {useAuthStore} from "@/stores/authStore";
+import {useRoute} from "vue-router";
+import {onMounted, ref} from "vue";
+import {getValidatedAxios} from "@/utils/globalAxios";
+
+const BASE_URL = "/api/community";
+const { user, accessToken } = useAuthStore();
+const categories = ref({});
+
+// 라우터 인스턴스 가져오기
+const route = useRoute();
+
+// 서버 데이터
+const myAxios = getValidatedAxios(accessToken);
+
+onMounted(()=>{
+  fetchCommunityCates();
+});
+
+// 라우터 파라미터 수신
+const fetchCommunityCates = async()=> {
+  try {
+    const response = await myAxios.get(BASE_URL + '/communityCate');
+    categories.value = response.data;
+  } catch (err) {
+    console.log(err);
+  }
+}
+{categories}
 
 </script>
 
