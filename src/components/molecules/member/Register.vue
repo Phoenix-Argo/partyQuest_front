@@ -15,8 +15,8 @@ const router = useRouter();
 const BASE_URL = "/api/member";
 const authStore = useAuthStore();
 const myAxios = axiClient;
-//const kakaoClientId = import.meta.env.VITE_APP_KAKAO_CLIENT_ID;
-//const kakaoRedirectUri = import.meta.env.VITE_APP_KAKAO_REDIRECT_URI;
+const kakaoClientId = import.meta.env.VITE_APP_KAKAO_CLIENT_ID;
+const kakaoRedirectUri = import.meta.env.VITE_APP_KAKAO_REDIRECT_URI;
 
 const registerInfo = ref({
   name:"",
@@ -111,16 +111,14 @@ const btnKeyConfirm = () => {
   }
 };
 
-
 //////////// kakao oauth //////////////
-
-
-/*const handleKakaoLogin = () => {
+const kakaoLogin = () => {
   const url = `https://kauth.kakao.com/oauth/authorize?client_id=${kakaoClientId}&redirect_uri=${kakaoRedirectUri}&response_type=code&scope=account_email profile_nickname`;
 
   showSocialLoginPopup(url);
 };
 
+///// 팝업창 //////
 const showSocialLoginPopup = (url) => {
   const popupHeight = '500';
   const popupWidth = '500';
@@ -135,7 +133,7 @@ const showSocialLoginPopup = (url) => {
 
 const openPopup = (url, options) => {
   window.open(url, '_blank', options);
-};*/
+};
 </script>
 <template>
   <!-- Start Register -->
@@ -250,7 +248,8 @@ const openPopup = (url, options) => {
                 <a href="#"
                   ><img class="google" src="/img/Google_logo.png" alt="#"
                 /></a>
-                <a @click="handleKakaoLogin"
+
+                <a @click="kakaoLogin"
                   ><img class="kakao" src="/img/kakaotalk_logo.png" alt="#"
                 /></a>
               </div>
@@ -296,7 +295,7 @@ button.checkEmail {
   margin-left: 10px;
   white-space: nowrap;
 }
-label{
+label, span, button, div{
   font-weight: bold;
 }
 </style>

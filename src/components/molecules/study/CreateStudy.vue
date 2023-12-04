@@ -8,6 +8,7 @@ import { useStudyLocation } from "@/modules/study/StudyLocation";
 import { useStudyPeriod } from "@/modules/study/StudyPeriod";
 import {useAuthStore} from "@/stores/authStore";
 import {getValidatedAxios} from "@/utils/globalAxios";
+import router from "@/router";
 
 const BASE_URL = "/api/study";
 const { user, accessToken } = useAuthStore();
@@ -165,6 +166,7 @@ const submitForm = async () => {
     );
 
     alert("모집 신청이 완료 되었습니다.");
+    router.push({ path: `/studyView/${createdStudyId}` });
   } catch (error) {
     alert("모집 신청 중 오류가 발생했습니다. 다시 시도해주세요.");
   }

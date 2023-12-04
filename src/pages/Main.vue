@@ -120,4 +120,8 @@ onMounted( async ()=>{
   </main>
 </template>
 
-<style scoped></style>
+<style scoped>
+#title1{
+  font-weight: bold;
+}
+</style>
