@@ -59,8 +59,8 @@
               </table>
             </div>
           </div>
-          <div>
-          </div>
+          <div v-if="memberList.hostId===user.email">
+
           <!--참여자 대기명단-->
           <div v-if="memberList.recruitOption=='PNP'">
             <p id="title1">참여자 대기명단</p>
@@ -152,6 +152,10 @@
                 </tbody>
               </table>
             </div>
+          </div>
+          </div>
+          <div v-else>
+
           </div>
         </div>
       </div>

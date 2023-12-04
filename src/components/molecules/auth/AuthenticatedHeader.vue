@@ -10,8 +10,9 @@
     </div>
     <ul class="dropdown-menu" aria-labelledby="head">
       <li class="member-greeting"><span class="member-nickName">{{member.nickName}}</span>님 안녕하세요</li>
-      <li v-for="menu in authMenu" :key="menu" class="dropdown-item">
-        <button class="dropdown-item" @click="navigateToPage(menu)">
+      <li v-for="menu in authMenu"  :key="menu" class="dropdown-item">
+        <button class="dropdown-item"
+                :class="{ 'custom-css-class': isNotification(menu) }" @click="navigateToPage(menu)">
           {{ menu }}
         </button>
       </li>
@@ -24,17 +25,18 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import {onMounted, ref} from "vue";
 import { useAuthStore } from "@/stores/authStore";
 import { logout } from "@/utils/fetch/auth";
 import { useRouter } from "vue-router";
 import MemberAvatar from "@/components/icons/MemberAvatar.vue";
+import axios from "axios";
 
 defineProps({
   member: Object,
 });
 let authStore = useAuthStore();
-const authMenu = ref(["마이페이지", "마이스터디", "좋아요"]);
+const authMenu = ref(["마이페이지", "마이스터디","알림", "좋아요"]);
 const router = useRouter();
 const onClickHandler = async () => {
   await logout(authStore.accessToken)
@@ -66,6 +68,38 @@ const navigateToPage = (menu) => {
   // 페이지 이동
   router.push(routePath);
 };
+
+//메세지 여부 확인
+const user = useAuthStore();
+const memberId =ref(user.user.email);
+console.log("memberId :"+memberId.value);
+const BASE_URL = "http://localhost:8080";
+const unreadMessageSize = ref(0);
+const findUnreadMessage = async () =>{
+  const url = `${BASE_URL}/api/member/unreadMessage/${memberId.value}`;
+  try{
+    const response = await axios.get(url);
+    unreadMessageSize.value  = response.data;
+    console.log("size : "+unreadMessageSize.value);
+  }catch (error){
+    console.error("error : "+JSON.stringify(error));
+  }
+};
+const isNotification = (menu) => {
+  const condition1 = unreadMessageSize.value >= 1;
+  const condition2 = menu.trim().includes("알림");
+
+  console.log(`Condition 1: ${condition1}`);
+  console.log(`Condition 2: ${condition2}`);
+
+  const result = condition1 && condition2;
+  console.log(`isNotification(${menu}): ${result}`);
+  return result;
+};
+
+onMounted(()=>{
+  findUnreadMessage();
+});
 </script>
 
 <style scoped>
@@ -88,5 +122,9 @@ const navigateToPage = (menu) => {
 #head:hover{
   box-shadow: 6px 6px 2px 1px rgba(125, 125, 125, .2);
   cursor:pointer;
+}
+
+.custom-css-class {
+  color: red; /* 예시로 빨간색 텍스트를 지정했습니다. */
 }
 </style>
