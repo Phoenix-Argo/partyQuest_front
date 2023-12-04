@@ -22,7 +22,12 @@ export const useAuthStore = defineStore(
       user.value.nickName = claims["nickname"];
     };
     //getter
-
+      const getAccessToken = ()=>{
+          return accessToken;
+      }
+      const getUser = ()=>{
+          return user;
+      }
     //util
     /**
      * rawAccessToken -> accessToken 처리하고
@@ -40,10 +45,12 @@ export const useAuthStore = defineStore(
     };
     return {
       user,
-      accessToken,
       changeUser,
       accessTokenHandler,
       invalidateUser,
+        accessToken,
+        getAccessToken,
+        getUser
     };
   },
   {

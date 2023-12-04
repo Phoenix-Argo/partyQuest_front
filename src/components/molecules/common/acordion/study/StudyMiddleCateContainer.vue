@@ -4,17 +4,20 @@
       <div class="accordion-menu" @click="onMiddleClickHandler(middleCate)" @mouseenter="curMiddle=middleCate">{{middleCate.split(" ").slice(0,-1).join(" ")}}</div>
     </div>
   </div>
-  <StudySmallCateContainer v-if="curMiddle.length>0" :small-cates="middleCates[curMiddle]" :cur-middle-cate-id="getMiddleCateId(curMiddle)"/>
+  <StudySmallCateContainer v-if="curMiddle.length>0" :small-cates="middleCates[curMiddle]" :cur-middle-cate-id="getMiddleCateId(curMiddle)"
+  :cur-major-key-set="props.curMajorKeySet"
+  :cur-middle-key-set="curMiddle"/>
 </template>
 
 <script setup>
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import {useRouter} from "vue-router";
 import StudySmallCateContainer from "@/components/molecules/common/acordion/study/StudySmallCateContainer.vue";
 
 const router = useRouter();
 const props = defineProps({
-  middleCates : Object
+  middleCates : Object,
+  curMajorKeySet: String
 });
 const curMiddle = ref("")
 const emit = defineEmits(['middle']);
@@ -25,12 +28,19 @@ const onMiddleClickHandler = (middleCateKey) => {
   const splitted = middleCateKey.split(' ');
   const middleCateId = splitted[splitted.length - 1];
 
-  router.push({path: STUDY_LIST_URL, query:{middleCateId : Number(middleCateId)}}).then(res=>router.go())
+  router.push({path: STUDY_LIST_URL, query:{
+    middleCateId : Number(middleCateId),
+      curMiddleKeySet: curMiddle.value,
+      curMajorKeySet: props.curMajorKeySet
+    }}).then(res=>router.go()).catch(err=>console.log(err))
 };
 const getMiddleCateId = (middleCateKey) => {
   const splitted = middleCateKey.split(" ");
   return splitted[splitted.length - 1];
 };
+onMounted(()=>{
+  console.log('뭐여 시벌',props.curMajorKeySet)
+})
 </script>
 
 <style scoped>

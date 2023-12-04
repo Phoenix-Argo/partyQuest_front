@@ -7,7 +7,7 @@
             바로가기
           </h3>
           <ul class="list-unstyled text-light footer-link-list">
-            <li><RouterLink to="/studyList">스터디 모임</RouterLink></li>
+            <li><RouterLink to="/studies/search">스터디 모임</RouterLink></li>
             <li><RouterLink to="/communityList">커뮤니티</RouterLink></li>
             <li><RouterLink to="/noticeList">공지사항</RouterLink></li>
           </ul>

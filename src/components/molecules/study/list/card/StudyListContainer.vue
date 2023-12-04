@@ -24,20 +24,20 @@ const props = defineProps({
 }
   .container-title {
     padding-top: 20px;
-    font-size: 20px;
-    margin-bottom: 10px;
-
+    font-size: 30px;
+    margin-bottom: 20px;
+    font-weight: bold;
   }
   .study-list-carousel {
-    overflow-x:scroll;
-    max-width: 100%;
-    display:grid;
-    grid-template-columns: repeat(5,minmax(220px,1fr));
-    grid-auto-columns: minmax(220px,1fr);
+    display: grid;
+    grid-gap: 20px 10px;
+    grid-template-columns: repeat(5, minmax(220px,1fr));
+    grid-template-rows: repeat(2, 1fr);
     grid-auto-flow: column;
-    grid-column-gap: 10px;
+    grid-auto-columns: minmax(330px,1fr);
+    place-content: start start;
+    overflow-x: hidden;
+    margin-bottom:30px;
   }
-  .study-iter {
-    flex: 1 1 0;
-  }
+
 </style>

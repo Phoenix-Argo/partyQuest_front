@@ -20,7 +20,9 @@ import StudyMember from "@/components/molecules/member/StudyMember.vue";
 import QnAList from "@/components/molecules/board/QnAList.vue";
 import Aside from "@/components/molecules/admin/Aside.vue";
 import ProfileMain from "@/components/molecules/study/ProfileMain.vue";
-import StudyListPage from "@/pages/StudyListPage.vue";
+import StudyListPage from "@/pages/study/StudyListPage.vue";
+import TestBed from "@/pages/TestBed.vue";
+import PopUpAfterSignUp from "@/pages/member/PopUpAfterSignUp.vue";
 
 // router 인스턴스 생성
 const router = createRouter({
@@ -30,6 +32,10 @@ const router = createRouter({
     { path: "/index", component: Main },
     { path: "/profile", component: Profile },
     { path: "/register", component: Register },
+    { path: "/register/popup", component: PopUpAfterSignUp ,
+    props: route =>({
+      userNickName: route.query.userNickName
+    })},
     { path: "/login", component: Login },
     { path: "/waitingList/:hostId", component: WaitingList },
     { path: "/studyView/:studyId", component: StudyView },
@@ -51,8 +57,12 @@ const router = createRouter({
     {path:"/studies/search",component: StudyListPage,
       props: route => ({
         middleCateId: Number(route.query.middleCateId),
-      smallCateIds: Number(route.query.smallCateIds)})
-    }
+        smallCateIds: Number(route.query.smallCateIds),
+        curMiddleKeySet: String(route.query.curMiddleKeySet),
+        curMajorKeySet: String(route.query.curMajorKeySet)
+      }),
+    },
+    {path:"/test-bed",component: TestBed}
   ],
 });
 // router 인스턴스 내보내기 -> main.js 에서 등록

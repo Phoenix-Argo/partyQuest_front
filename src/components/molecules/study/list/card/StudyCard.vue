@@ -1,6 +1,5 @@
 <script setup>
-import {onMounted, ref} from "vue";
-import {URLCONST} from "@/constants/APIconst";
+import { ref} from "vue";
 import Img from "@/components/molecules/common/Img.vue";
 import IconHeart from "@/components/icons/IconHeart.vue";
 import {useRouter} from "vue-router";
@@ -18,9 +17,6 @@ const router = useRouter();
   const onCardClickHandler = ()=>{
     router.push('/studyView/' + localStudyInfo.value.studyId);
   }
-  onMounted(()=>{
-    console.log("hello child")
-  })
 </script>
 
 <template>

@@ -1,10 +1,11 @@
 <script setup>
 import {useAuthStore} from "@/stores/authStore";
-import {getValidatedAxios} from "@/utils/globalAxios";
-import {ref} from 'vue';
+import {axiClient, getValidatedAxios} from "@/utils/globalAxios";
+import { ref } from 'vue';
 import {Form, Field, ErrorMessage} from 'vee-validate';
 import {useRouter, useRoute} from "vue-router";
 import * as yup from 'yup';
+import {AUTH_CONST} from "@/constants/authConst";
 
 /**
  * 유효성 검증에 사용된 라이브러리 : Vee-validate 4.0.0 & Yup
@@ -12,8 +13,8 @@ import * as yup from 'yup';
  */
 const router = useRouter();
 const BASE_URL = "/api/member";
-const { accessToken } = useAuthStore();
-const myAxios = getValidatedAxios(accessToken);
+const authStore = useAuthStore();
+const myAxios = axiClient;
 //const kakaoClientId = import.meta.env.VITE_APP_KAKAO_CLIENT_ID;
 //const kakaoRedirectUri = import.meta.env.VITE_APP_KAKAO_REDIRECT_URI;
 
@@ -47,18 +48,18 @@ const handlerSignUp = async () => {
     await schema.validate(registerInfo.value,{ abortEarly: false }); // validation 을 한꺼번에 진행하고, 모두 끝난 뒤에 결과 리턴
     isValid.value = true;
 
-    const response = await myAxios.post(BASE_URL + '/sign-up', registerInfo.value);
-
-    if (response.status === 200) {
-      validationErrors.value = {};
-      alert('성공적으로 회원가입이 되었습니다.');
-      const route = useRoute();
-      if (route.path !== '/profile') {
-        router.push('/profile');
-      }
-    } else {
-      alert('회원가입을 할 수 없습니다. 다시 시도해주십시오.');
-    }
+    await myAxios.post(BASE_URL + '/sign-up', registerInfo.value)
+        .then(res => {
+          if (res.status == 200) {
+            validationErrors.value = {};
+            alert('성공적으로 회원가입이 되었습니다.');
+            let accessToken = res.headers.get(AUTH_CONST.AUTH_HEADER);
+            authStore.accessTokenHandler(accessToken);
+            let user = authStore.getUser();
+            let userNickName = user.value.nickName;
+            router.push({path:'/register/popup',query:{userNickName:userNickName}})
+          }
+        });
   } catch (e) {
     isValid.value = false;
     // 발생한 오류가 유효성 검사(Yup)통해서 된 건지 확인

@@ -5,7 +5,8 @@
         <div class="accordion-menu" @mouseenter="curMajor=majorKey">{{majorKey.split(" ")[0]}}</div>
       </div>
     </div>
-    <StudyMiddleCateContainer v-if="curMajor.length>0" :middle-cates="studyCate[curMajor]" @middle="(mid)=> curMiddle=mid" />
+    <StudyMiddleCateContainer v-if="curMajor.length>0" :middle-cates="studyCate[curMajor]" @middle="(mid)=> curMiddle=mid"
+                              :cur-major-key-set="curMajor"/>
   </div>
 </template>
 
