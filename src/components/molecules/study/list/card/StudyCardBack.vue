@@ -35,7 +35,7 @@ const recruitOption = ref(props.studyInfo.recruitOption === 'PNP' ? '승인제' 
     background-color: black;
     opacity: 0.8;
     width: 100%;
-    height: 100%;
+    aspect-ratio: 5/3;
     color: white;
     position: absolute;
     display: flex;

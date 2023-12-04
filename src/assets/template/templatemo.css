@@ -101,12 +101,7 @@ a {
 #templatemo_nav_top * {
   font-size: 0.9em !important;
 }
-#templatemo_main_nav a {
-  color: #212934;
-}
-#templatemo_main_nav a:hover {
-  color: #d62600;
-}
+
 #templatemo_main_nav .navbar .nav-icon {
   margin-right: 20px;
 }

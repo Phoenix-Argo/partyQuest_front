@@ -8,11 +8,14 @@
 
 <script setup>
 import {useRouter} from "vue-router";
+import {onMounted} from "vue";
 
 const router = useRouter();
 const props = defineProps({
   smallCates : Array,
-  curMiddleCateId : String
+  curMiddleCateId : String,
+  curMajorKeySet: String,
+  curMiddleKeySet: String
 });
 const onSmallClickHandler = (smallCateKey)=>{
   const STUDY_LIST_URL = "/studies/search"
@@ -20,8 +23,16 @@ const onSmallClickHandler = (smallCateKey)=>{
   const smallCateId = splitted[splitted.length - 1];
   //LEARN: router.push() query string,
   // query param으로 넘김
-  router.push({path: STUDY_LIST_URL, query: {middleCateId: Number(props.curMiddleCateId), smallCateIds: Number(smallCateId)}}).then(res=>router.go());
+  router.push({path: STUDY_LIST_URL, query: {
+    middleCateId: Number(props.curMiddleCateId),
+      smallCateIds: Number(smallCateId),
+      curMajorKeySet:props.curMajorKeySet,
+      curMiddleKeySet:props.curMiddleKeySet
+  }}).then(res=>router.go()).catch(err=>console.log(err));
 }
+onMounted(()=>{
+  console.log('뭔교',props.curMajorKeySet)
+})
 </script>
 
 <style scoped>

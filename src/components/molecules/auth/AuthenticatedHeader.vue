@@ -79,4 +79,14 @@ const navigateToPage = (menu) => {
   padding-left: 3px;
   margin-right: 2px;
 }
+#head {
+  border-radius: 10px;
+  display: inline-block;
+  padding: 10px;
+
+}
+#head:hover{
+  box-shadow: 6px 6px 2px 1px rgba(125, 125, 125, .2);
+  cursor:pointer;
+}
 </style>

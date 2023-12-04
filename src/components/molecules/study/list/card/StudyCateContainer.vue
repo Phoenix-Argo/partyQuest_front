@@ -23,4 +23,5 @@ const props = defineProps({
     margin: 5px 0px;
     font-weight: bold;
   }
+
 </style>
