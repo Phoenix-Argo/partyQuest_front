@@ -6,7 +6,7 @@ import {useAuthStore} from "@/stores/authStore";
 import {useRoute} from "vue-router";
 import {getValidatedAxios} from "@/utils/globalAxios";
 import {onMounted, ref} from "vue";
-import axios from "axios";
+import dateFormat from "@/modules/community/DateFormat";
 
 const BASE_URL = "/api/community";
 
@@ -25,9 +25,7 @@ onMounted(async ()=>{
   // 라우터 파라미터 수신
   const {communityId} = route.params;
   try {
-    //const response = await myAxios.get(BASE_URL+"/communityView/"+communityId);
-    const response = await axios.get("http://localhost:8080/api/community/communityView/"+communityId);
-
+    const response = await myAxios.get(BASE_URL+"/communityView/"+communityId);
     communityView.value = response.data;
     console.log("CommunityView : " + communityView.value);
   }catch (err){
@@ -37,6 +35,39 @@ onMounted(async ()=>{
     console.log("fetched communityId : ", fetchedCommunityId.value);
   }
 });
+const elapsedText = (date)=>{
+  return dateFormat.elapsedText(new Date(date));
+}
+
+// communityView.rdate를 원하는 형식으로 가공하는 함수
+const formatDate = (rawDate) => {
+  const dateObject = new Date(rawDate);
+  const formattedDate = dateObject.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+  return formattedDate;
+};
+
+//글수정 삭제 하기
+const btnModifyCommunity= (communityId) =>{
+  router.push(`/modifyCommunity/${communityId}`);
+}
+const btnDeleteCommunity= async (communityId) =>{
+  const requestData = {
+    writeId : user.hostId,
+    communityId : communityId,
+  }
+  try {
+    const response = await myAxios.delete(BASE_URL+"/deleteCommunity/"+communityId,{data:requestData});
+
+  } catch (err){
+    console.error("error : " + err);
+  }
+}
+
+
 </script>
 <template>
   <main id="main">
@@ -55,8 +86,14 @@ onMounted(async ()=>{
             <div class="card-body">
               <div >
                 <h2 class="card-title">{{ communityView.title }}</h2>
-                <h6 class="communityViewDate">{{ communityView.rdate }}
-                  <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+                <h6 class="communityViewDate">{{ formatDate(communityView.rdate) }}
+                  <p class="card-text">
+                    <small class="text-body-secondary">{{ elapsedText(communityView.rdate) }}</small><br/>
+                    <small class="text-body-secondary">{{communityView.writer}}</small>
+                  </p>
+
+
+
                 </h6>
                 <hr class="sectionLine" />
               </div>
@@ -68,11 +105,13 @@ onMounted(async ()=>{
         </section>
 
         <section>
-          <div class="status" style="margin-top:1%;">
-            <button class="btn btn-danger" style="float : right" >글수정</button>
-            <button class="btn btn-outline-danger" style="float : right; margin-right : 1%;" >글삭제</button>
+          <div class="status" style="margin-top:1%;" v-if="communityView.writeId === user.hostId">
+
+            <button class="btn btn-danger" style="float : right" @click="()=>btnModifyCommunity(communityView.communityId)" >글수정</button>
+            <button class="btn btn-outline-danger" style="float : right; margin-right : 1%;" @click="()=>btnDeleteCommunity(communityView.communityId)" >글삭제</button>
 
           </div>
+
         </section>
         <hr class="sectionLine" />
 

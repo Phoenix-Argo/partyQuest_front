@@ -2,6 +2,38 @@
 import Banner from "@/components/molecules/board/Banner.vue";
 import Img from "@/components/molecules/common/Img.vue";
 import CommunityAside from "@/components/molecules/board/CommunityAside.vue";
+import {useAuthStore} from "@/stores/authStore";
+import {useRoute} from "vue-router";
+import {onBeforeMount, onMounted, ref} from "vue";
+import {getValidatedAxios} from "@/utils/globalAxios";
+import dateFormat from "@/modules/community/DateFormat";
+
+const BASE_URL = "/api/community";
+
+const { user, accessToken } = useAuthStore();
+
+// 라우터 인스턴스 가져오기
+const route = useRoute();
+
+// 서버 데이터
+const communityList = ref({});
+const myAxios = getValidatedAxios(accessToken);
+
+// mount 시 서버에 해당 id json 요청
+onMounted(async ()=> {
+  // 라우터 파라미터 수신
+  const {cateId} = route.params;
+  try {
+    const response = await myAxios.get(BASE_URL + "/communityList/" + cateId);
+
+    communityList.value = response.data;
+  } catch (err) {
+    console.log(err);
+  }
+});
+const elapsedText = (date)=>{
+  return dateFormat.elapsedText(new Date(date));
+}
 </script>
 <template>
   <main id="main">
@@ -13,8 +45,8 @@ import CommunityAside from "@/components/molecules/board/CommunityAside.vue";
       <!-- 상단 카테고리 시작 -->
       <div class ="community-body__content">
         <section>
+          <div></div>
           <div class="status">
-
             <router-link to="/communityWrite">
               <button class="btn btn-danger" style="float : right" >
             <span class="posts-container-header__button-text">
@@ -28,31 +60,22 @@ import CommunityAside from "@/components/molecules/board/CommunityAside.vue";
         <!-- Content List 시작-->
         <hr class="sectionLine" />
         <section class="community-list-container">
-          <div class="card qnaList">
+          <div class="card qnaList" v-for="list in communityList">
             <div class="card-header">
-              <label>제 2회 기출 작업형 2번 문제 관련 질문입니다.</label>
+              <router-link :to="`/communityView/${list.communityId}`">{{ list.title }}</router-link>
             </div>
             <div class="card-body">
               <blockquote class="blockquote mb-0 ">
-                <p>안녕하세요 선생님. 문제 풀이 궁금증이 있어 글 남깁니다. 작업형 2번 문제중 X_train ...</p>
-                <footer class="blockquote-footer">Bacchus · 25분 전</footer>
+                <p>{{ list.content }}</p>
+                <footer class="blockquote-footer">{{ list.writer }} · {{ elapsedText(list.rdate) }}</footer>
               </blockquote>
             </div>
           </div>
-          <div class="card qnaList">
-            <div class="card-header">
-              <label>제 2회 기출 작업형 2번 문제 관련 질문입니다.</label>
-            </div>
-            <div class="card-body qnaList">
-              <blockquote class="blockquote mb-0">
-                <p>안녕하세요 선생님. 문제 풀이 궁금증이 있어 글 남깁니다. 작업형 2번 문제중 X_train ...</p>
-                <footer class="blockquote-footer">Bacchus · 25분 전</footer>
-              </blockquote>
-            </div>
-          </div>
+
         </section>
-        <!-- Content List 끝 -->
       </div>
+        <!-- Content List 끝-->
+
 
       <!-- 오른쪽 어사이드 시작-->
       <sec>
