@@ -1,6 +1,6 @@
 <script setup>
 import {onMounted, ref,watch} from "vue";
-  import {searchStudy} from "@/utils/fetch/studyFetch";
+import {getPagedStudies, searchStudy} from "@/utils/fetch/studyFetch";
 import {useRouter} from "vue-router";
 import StudyCard from "@/components/molecules/study/list/card/StudyCard.vue";
 import Paging from "@/components/molecules/study/list/Paging.vue";
@@ -95,9 +95,12 @@ const onSubmitSearchCondHandler = async () => {
 };
 onMounted(async ()=>{
   console.log('내가 요청하는 params',searchCond.value)
-  pageData.value = await searchStudy(searchCond.value);
+  if(isNaN(searchCond.value.middleCateId)){
+    pageData.value = await getPagedStudies();
+  }else{
+    pageData.value = await searchStudy(searchCond.value);
+  }
   isFirstFetched.value = true;
-  console.log(cateStore.globalCate)
   findMatchingKey('1',String(props.middleCateId))
   smallCates.value = cateStore.globalCate[curKey.value.major][curKey.value.middle]
 })

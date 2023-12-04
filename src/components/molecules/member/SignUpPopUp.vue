@@ -2,7 +2,7 @@
   <div class="my-popup-container">
     <div class="popup-imogi">🎉</div>
     <div class="popup-greeting">
-      <article>{{props.userNickName}} {{greeting1}}</article>
+      <article><span class="nickName-span">{{nickName}}</span> {{greeting1}}</article>
       <article>{{greeting2}}</article>
     </div>
     <div class="popup-info">
@@ -12,18 +12,22 @@
       <article>{{info4}}</article>
     </div>
     <div class="popup-btnGroup">
-      <button id="profile-btn" class="redirect-btn">프로필 설정하러 가기</button>
-      <button id="studyList_btn" class="redirect-btn">스터디룸 살펴보러 가기</button>
+      <button @click="onProfileClickHandler" id="profile-btn" class="redirect-btn">프로필 설정하러 가기</button>
+      <button @click="onStudyClickHandler" id="studyList_btn" class="redirect-btn">스터디모임 살펴보러 가기</button>
     </div>
   </div>
 </template>
 
 <script setup>
 import {ref} from "vue";
+import {useRouter} from "vue-router";
+import {useAuthStore} from "@/stores/authStore";
 
 const props = defineProps({
   userNickName: String
 });
+const router = useRouter();
+const authStore = useAuthStore();
 
 const greeting1 = ref('모험가님, 회원가입을 축하드려요!');
 const greeting2 = ref('저희 파티퀘스트에 오신걸 환영해요');
@@ -31,6 +35,15 @@ const info1 = ref('다양한 스터디 모임부터 공모전 참여까지');
 const info2 = ref('파타퀘스트에서 함께할 파티원을 모집하세요');
 const info3 = ref('프로필에 본인 소개를 더하면 확률이 UP!');
 const info4 = ref('바로 프로필 설정을 하러 가볼까요?');
+
+let nickName = ref(authStore.getUser().value.nickName);
+
+const onStudyClickHandler = () => {
+  router.push("/studies/search");
+};
+const onProfileClickHandler = () => {
+  router.push("/profile");
+};
 </script>
 <style scoped>
   .my-popup-container{
@@ -82,6 +95,10 @@ const info4 = ref('바로 프로필 설정을 하러 가볼까요?');
     border:none;
     border-radius: 10px;
     font-size: 20px;
+  }
+  .nickName-span{
+    font-size: 2.8rem;
+    font-weight:bold;
   }
   #profile-btn{
     flex-grow:1;
