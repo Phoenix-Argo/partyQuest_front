@@ -15,15 +15,11 @@ const router = useRouter();
 //내가 만든 스터디 script 모음
 
 const myPg = ref(0);
-console.log(myPg.value);
-console.log(typeof myPg.value);
 const myStudyList = ref([]);
 const mySize = ref(0);
-console.log("mySize : " + mySize.value);
 const fetchedStudyId = ref(null);
 
 const findStudyMadeByMe = async () => {
-  console.log("findStudyMadeByMe called. mySize:", mySize.value);
   const url = `${BASE_URL}/api/study/findStudyMadeByMe`;
   const StudyMyPageRequest = {
     hostId: hostId.value,
@@ -38,9 +34,6 @@ const findStudyMadeByMe = async () => {
     myStudyList.value = response.data;
     mySize.value = response.data.length;
 
-    console.log(myStudyList.value);
-    console.log("myStudyListSize : " + mySize);
-    console.log("myStudyListSize.value : " + mySize.value);
   } catch (error) {
     console.log("error : " + JSON.stringify(error));
   }
@@ -48,13 +41,11 @@ const findStudyMadeByMe = async () => {
 
 const BtnNextMyStudy = () => {
   myPg.value = myPg.value + 3;
-  console.log(myPg.value);
   findStudyMadeByMe();
 };
 const BtnPrevMyStudy = () => {
   // 이전 버튼 클릭 시 pg 값을 3 감소시키고 데이터를 새로고침
   myPg.value = myPg.value - 3;
-  console.log(myPg.value);
   findStudyMadeByMe();
 };
 
@@ -64,7 +55,6 @@ const studyIAttend = ref([]);
 const attendSize = ref(0);
 
 const findStudyIAttended = async () => {
-  console.log("findStudyMadeByMe called. attendPg:", attendPg.value);
   const url = `${BASE_URL}/api/study/findStudyIAttended`;
   const StudyMyPageRequest = {
     hostId: hostId.value,
@@ -79,9 +69,6 @@ const findStudyIAttended = async () => {
     studyIAttend.value = response.data;
     attendSize.value = response.data.length;
 
-    console.log(studyIAttend.value);
-    console.log("attendSize : " + attendSize);
-    console.log("attendSize.value : " + attendSize.value);
   } catch (error) {
     console.log("error : " + JSON.stringify(error));
   }
@@ -89,13 +76,11 @@ const findStudyIAttended = async () => {
 
 const BtnNextAttend = () => {
   attendPg.value = attendPg.value + 3;
-  console.log(attendPg.value);
   findStudyIAttended();
 };
 const BtnPrevAttend = () => {
   // 이전 버튼 클릭 시 pg 값을 3 감소시키고 데이터를 새로고침
   attendPg.value = mattendPg.value - 3;
-  console.log(attendPg.value);
   findStudyIAttended();
 };
 
@@ -104,7 +89,6 @@ const likePg = ref(0);
 const studyIlike = ref([]);
 const likeSize = ref(0);
 const findLikeStudy = async () => {
-  console.log("findStudyMadeByMe called. likePg:", likePg.value);
   const url = `${BASE_URL}/api/study/findLikeList`;
   const StudyMyPageRequest = {
     hostId: hostId.value,
@@ -119,9 +103,6 @@ const findLikeStudy = async () => {
     studyIlike.value = response.data;
     likeSize.value = response.data.length;
 
-    console.log(studyIAttend.value);
-    console.log("likeSize : " + likeSize);
-    console.log("likeSize.value : " + likeSize.value);
   } catch (error) {
     console.log("error : " + JSON.stringify(error));
   }
@@ -129,22 +110,91 @@ const findLikeStudy = async () => {
 
 const BtnNextILike = () => {
   likePg.value = likePg.value + 3;
-  console.log(likePg.value);
   findLikeStudy();
 };
 const BtnPrevILike = () => {
   // 이전 버튼 클릭 시 pg 값을 3 감소시키고 데이터를 새로고침
   likePg.value = likePg.value - 3;
-  console.log(likePg.value);
   findLikeStudy();
 };
+//대기 중인 스터디 모음
 
-/////
+const waitPg = ref(0);
+const studywaitingList = ref([]);
+const waitSize = ref(0);
+const findWaitingList = async () => {
+  const url = `${BASE_URL}/api/study/findMyWaitingList`;
+  const StudyMyPageRequest = {
+    hostId: hostId.value,
+    pg: waitPg.value,
+  };
+  try {
+    const response = await axios.post(url, StudyMyPageRequest, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    studywaitingList.value = response.data;
+    waitSize.value = response.data.length;
+
+  } catch (error) {
+    console.log("error : " + JSON.stringify(error));
+  }
+};
+
+const BtnNextWaitingList = () => {
+  waitPg.value = waitPg.value + 3;
+  findWaitingList();
+};
+const BtnPrevWaitingList = () => {
+  // 이전 버튼 클릭 시 pg 값을 3 감소시키고 데이터를 새로고침
+  waitPg.value = waitPg.value - 3;
+  findWaitingList();
+};
+
+//거절당한 스터디 모음
+const rejectPg = ref(0);
+const studyRejectedList = ref([]);
+const rejectSize = ref(0);
+const findRejectedList = async () => {
+  const url = `${BASE_URL}/api/study/findMyRejectedList`;
+  const StudyMyPageRequest = {
+    hostId: hostId.value,
+    pg: rejectPg.value,
+  };
+  try {
+    const response = await axios.post(url, StudyMyPageRequest, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    studyRejectedList.value = response.data;
+    rejectSize.value = response.data.length;
+
+  } catch (error) {
+    console.log("error : " + JSON.stringify(error));
+  }
+};
+
+const BtnNextRejectedList = () => {
+  rejectPg.value = rejectPg.value + 3;
+  findRejectedList();
+};
+const BtnPrevRejectedList = () => {
+  // 이전 버튼 클릭 시 pg 값을 3 감소시키고 데이터를 새로고침
+  rejectPg.value = rejectPg.value - 3;
+  findRejectedList();
+};
+
+////////////////////////
+////////////////////////
 onMounted(() => {
   console.log("Mounted. mySize:", mySize.value);
   findStudyMadeByMe();
   findStudyIAttended();
   findLikeStudy();
+  findWaitingList();
+  findRejectedList();
 });
 //참가자 명단 보기
 const BtnMemberList =  (studyId) => {
@@ -256,29 +306,6 @@ console.log("requestData" + requestData)
                         <button @click="()=>BtnDeleteStudy(study.studyId)">삭제</button>
                       </div>
                     </div>
-                    <!-- <div class="event-item">
-                    <a href="#" class="event-title">{{ study.title }}</a>
-                    <p class="event-content">
-                      ERP system conference in Canada team
-                    </p>
-                    <ul class="event-participants">
-                      <li
-                        class="event-user"
-                        data-toggle="tooltip"
-                        data-placement="top"
-                        data-skin-class="tooltip-base"
-                        data-html="true"
-                        title=""
-                        data-original-title="<b>Saun K</b>"
-                      >
-                        <img
-                          class="event-user-pic"
-                          src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                          alt="Profile Pic"
-                        />
-                      </li>
-                    </ul>
-                  </div> -->
                   </div>
                 </div>
               </div>
@@ -506,6 +533,186 @@ console.log("requestData" + requestData)
                       stroke-linecap="round"
                       stroke-linejoin="round"
                       class="feather feather-chevron-right text-primary"
+                    >
+                      <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- 대기 중인 스터디 -->
+          <div id="events" class="event-list owl-carousel owl-loaded owl-drag">
+            <div class="owl-stage-outer">
+              <p>대기 중인 스터디</p>
+              <div class="owl-stage">
+                <div v-if="studywaitingList.length == 0">
+                  <p>대기중인 스터디가 없습니다.</p>
+                </div>
+                <div v-else>
+                  <div
+                      class="owl-item"
+                      style="width: 33.3%"
+                      v-for="waitList in studywaitingList"
+                      :key="waitList.studyId"
+                  >
+                    <div class="event-item">
+                      <Img :content="waitList.thumb"
+                           class="img-fluid border"
+                      />
+                      <p class="event-title">
+                        {{ waitList.title }}
+                      </p>
+                      <p class="event-content">
+                        {{ waitList.onOff === "ON_OFF" ? "[온라인]" : "" }}[{{
+                          waitList.location
+                        }}]({{ waitList.curMembersSize }}/{{
+                          waitList.memberUpperLimit
+                        }})({{ waitList.studyStartDate }}~{{ waitList.studyEndDate }})
+                      </p>
+                      <div>
+                        <button @click="() => BtnMemberList(study.studyId)">
+                          참여자현황
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="owl-nav">
+                <button
+                    type="button"
+                    role="presentation"
+                    class="owl-prev"
+                    v-if="myPg !== 0"
+                    @click="BtnPrevWaitingList"
+                >
+                  <div class="owl-nav-wrapper bg-soft-primary">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="feather feather-chevron-left text-primary"
+                    >
+                      <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                  </div>
+                </button>
+                <button
+                    type="button"
+                    role="presentation"
+                    class="owl-next"
+                    v-if="mySize === 3"
+                    @click="BtnNextWaitingList"
+                >
+                  <div class="owl-nav-wrapper bg-soft-primary">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="feather feather-chevron-right text-primary"
+                    >
+                      <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>
+          <!--    거절당한 스터디      -->
+          <div id="events" class="event-list owl-carousel owl-loaded owl-drag">
+            <div class="owl-stage-outer">
+              <p>참여 거절된 스터디</p>
+              <div class="owl-stage">
+                <div v-if="studyRejectedList.length == 0">
+                  <p>거절된 스터디가 없습니다.</p>
+                </div>
+                <div v-else>
+                  <div
+                      class="owl-item"
+                      style="width: 33.3%"
+                      v-for="rejectList in studyRejectedList"
+                      :key="rejectList.studyId"
+                  >
+                    <div class="event-item">
+                      <Img :content="rejectList.thumb"
+                           class="img-fluid border"
+                      />
+                      <p class="event-title">
+                        {{ rejectList.title }}
+                      </p>
+                      <p class="event-content">
+                        {{ rejectList.onOff === "ON_OFF" ? "[온라인]" : "" }}[{{
+                          rejectList.location
+                        }}]({{ rejectList.curMembersSize }}/{{
+                          rejectList.memberUpperLimit
+                        }})({{ rejectList.studyStartDate }}~{{ rejectList.studyEndDate }})
+                      </p>
+                      <div>
+                        <button @click="() => BtnMemberList(study.studyId)">
+                          참여자현황
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="owl-nav">
+                <button
+                    type="button"
+                    role="presentation"
+                    class="owl-prev"
+                    v-if="waitPg !== 0"
+                    @click="BtnPrevRejectedList"
+                >
+                  <div class="owl-nav-wrapper bg-soft-primary">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="feather feather-chevron-left text-primary"
+                    >
+                      <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                  </div>
+                </button>
+                <button
+                    type="button"
+                    role="presentation"
+                    class="owl-next"
+                    v-if="waitSize === 3"
+                    @click="BtnNextRejectedList"
+                >
+                  <div class="owl-nav-wrapper bg-soft-primary">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="feather feather-chevron-right text-primary"
                     >
                       <polyline points="9 18 15 12 9 6"></polyline>
                     </svg>
