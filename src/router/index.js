@@ -40,7 +40,7 @@ const router = createRouter({
     { path: "/paymentPolicy", name:'paymentPolicy', component: PaymentPolicy },
     { path: "/noticeList", name:'noticeList', component: NoticeList },
     { path: "/faqList", name:'faqList', component: FaqList },
-    { path: "/communityList", component: CommunityList },
+    { path: "/communityList/:cateId", component: CommunityList },
     { path: "/communityView/:communityId", component: CommunityView },
     { path: "/communityWrite", component: CommunityWrite},
     { path: "/qnAList", component: QnAList},

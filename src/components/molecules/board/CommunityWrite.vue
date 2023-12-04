@@ -3,7 +3,6 @@ import Banner from "@/components/molecules/board/Banner.vue";
 import CommunityAside from "@/components/molecules/board/CommunityAside.vue";
 import {useAuthStore} from "@/stores/authStore";
 import {ref, onMounted, reactive} from "vue";
-import axios from "axios";
 import {getValidatedAxios} from "@/utils/globalAxios";
 
 const BASE_URL = "/api/community";
@@ -20,10 +19,8 @@ onMounted(()=>{
 // 카테고리 가져오기
 const fetchCommunityCates = async()=>{
   try {
-    // const response = await myAxios.get(BASE_URL + '/communityCate');
-    const response = await axios.get('http://localhost:8080/api/community/communityCate');
+    const response = await myAxios.get(BASE_URL + '/communityCate');
     categories.value = response.data;
-    console.log("categoriesData : " + categories.value)
     } catch(err){
     console.log(err);
   }
@@ -53,26 +50,17 @@ const onFileUploadHandler = (e) => {
 /* Article Form */
 const submitForm = async () => {
   saveCommunity.writerId = user.hostId; // 이후 user.hostId로 변경
-  console.log("writerId : " + saveCommunity.writerId);
-
-
   try {
-    // 첨부된 파일이 있다면 FormData에 추가
-
-    if (selectedCate.value){
-      saveCommunity.cateId = selectCate.value;
+    // 카테고리 값 전송
+    if (!selectedCate.value) {
+      alert("카테고리를 선택해 주세요!");
+      return;
+    }
+      saveCommunity.cateId = selectedCate.value.id;
       formData.append("cateId", selectedCate.value.id)
 
-      console.log("cateId1 : " + saveCommunity.cateId);
-      console.log("cateId2 : " + selectedCate.value.id);
-    }else {
-      alert("카테고리를 선택해 주세요!");
-    }
     // 서버로 데이터 전송
-    // const insertResponse = await myAxios.post(BASE_URL+'/communityWrite', saveCommunity )
-    const insertResponse = await axios.post('http://localhost:8080/api/community/communityWrite', saveCommunity);
-
-
+    const insertResponse = await myAxios.post(BASE_URL+'/communityWrite', saveCommunity )
     const createdCommunityId = insertResponse.data.communityId;
 
     console.log("insertResponse : ", insertResponse);
@@ -81,29 +69,19 @@ const submitForm = async () => {
     saveCommunity.communityId = createdCommunityId;
     formData.append("communityId", createdCommunityId);
 
-    /*
-    const uploadResponse = await myAxios.post(
-        BASE_URL + "/uploadFile",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-    );
-    */
+    // 파일이 첨부되어 있는 경우에만 파일업로드
+    if(formData.has("file")){
+      const uploadResponse = await myAxios.post(
+          BASE_URL + "/uploadFile",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
 
-    const uploadResponse = await axios.post(
-        'http://localhost:8080/api/community/uploadFile',
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-    );
-
-    console.log("upload File Response : ", uploadResponse.data);
+          }
+      );
+    };
     // 성공적으로 전송되었을 때의 처리
     alert("게시물이 성공적으로 등록되었습니다.");
     console.log(response.data); // 서버에서 반환한 데이터
@@ -131,11 +109,11 @@ const submitForm = async () => {
           <form @submit.prevent="submitForm">
             <div class="input-group mb-3">
               <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                {{ selectedCate ? selectedCate.cate : '게시판 선택' }}
+                {{ selectedCate ? selectedCate.cateName : '게시판 선택' }}
               </button>
               <ul class="dropdown-menu">
 
-                <li v-for="cate in categories" :key="fetchCommunityCates.id"><a class="dropdown-item" @click="selectCate(cate)">{{ cate.cate }}</a></li>
+                <li v-for="cate in categories" :key="fetchCommunityCates.id"><a class="dropdown-item" @click="selectCate(cate)">{{ cate.cateName }}</a></li>
 
               </ul>
               <input type="text" class="form-control" aria-label="Text input with dropdown button"  v-model="saveCommunity.title">
