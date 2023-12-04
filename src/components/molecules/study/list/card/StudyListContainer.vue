@@ -24,9 +24,9 @@ const props = defineProps({
 }
   .container-title {
     padding-top: 20px;
-    font-size: 30px;
-    margin-bottom: 20px;
-    font-weight: bold;
+    font-size: 27px;
+    margin-bottom: 30px;
+    font-weight: 500;
   }
   .study-list-carousel {
     display: grid;

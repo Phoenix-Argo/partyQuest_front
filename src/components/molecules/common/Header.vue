@@ -146,6 +146,9 @@ onMounted(async ()=>{
 </template>
 
 <style scoped>
+.logo{
+  width: 150px;
+}
 .nav-li{
   padding:10px;
   border-radius:10px;
@@ -153,6 +156,9 @@ onMounted(async ()=>{
 .nav-li:hover{
   box-shadow: 6px 6px 2px 1px rgba(125, 125, 125, .2);
   cursor:pointer;
+  color:tomato;
+}
+.nav-li > a:hover{
   color:tomato;
 }
 </style>
