@@ -35,6 +35,15 @@ export const searchStudy = async(params)=>{
         }).catch(err => console.log(err))
 };
 
+export const getPagedStudies = async ()=>{
+    return await axiClient.get(`${URLCONST.STUDY_SEARCH_URL}`
+    )
+        .then(res=>{
+            console.log(res.data);
+            return res.data;
+        }).catch(err => console.log(err))
+}
+
 const makeQueryString = (obj) => {
     for (const key of Object.keys(obj)) {
         if (obj[key] === null || obj[key].length === 0) {
