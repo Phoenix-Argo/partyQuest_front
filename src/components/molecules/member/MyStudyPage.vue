@@ -189,7 +189,6 @@ const BtnPrevRejectedList = () => {
 ////////////////////////
 ////////////////////////
 onMounted(() => {
-  console.log("Mounted. mySize:", mySize.value);
   findStudyMadeByMe();
   findStudyIAttended();
   findLikeStudy();
@@ -571,7 +570,7 @@ console.log("requestData" + requestData)
                         }})({{ waitList.studyStartDate }}~{{ waitList.studyEndDate }})
                       </p>
                       <div>
-                        <button @click="() => BtnMemberList(study.studyId)">
+                        <button @click="() => BtnMemberList(waitList.studyId)">
                           참여자현황
                         </button>
                       </div>
@@ -661,7 +660,7 @@ console.log("requestData" + requestData)
                         }})({{ rejectList.studyStartDate }}~{{ rejectList.studyEndDate }})
                       </p>
                       <div>
-                        <button @click="() => BtnMemberList(study.studyId)">
+                        <button @click="() => BtnMemberList(studyRejectedList.studyId)">
                           참여자현황
                         </button>
                       </div>

@@ -1,4 +1,5 @@
 <script setup>
+import MyStudyPage from "@/components/molecules/member/MyStudyPage.vue";
 </script>
 <template>
   <main class>
@@ -28,7 +29,7 @@
                     <span class="mantine-Text-root mantine-1qwal2x">프로필 수정</span>
                   </a>
                 </li>
-                <li class="mantine-3wtmzi">
+                <li class="mantine-3wtmzi" @click="loadMyStudyPage">
                   <a aria-label="게시글페이지로 이동" href="/users/1252125/posts" style="display: block;">
                     <span class="mantine-Text-root mantine-mhxzfq">•</span>
                     <span class="mantine-Text-root mantine-fozvjm"> 나의 모임 리스트</span>
@@ -47,6 +48,8 @@
       </div>
     </section>
   </main>
+  <!-- 동적으로 로드할 컴포넌트 영역 -->
+  <component :is="dynamicComponent" />
 </template>
 <style scoped>
 .css-1t4blpu {
