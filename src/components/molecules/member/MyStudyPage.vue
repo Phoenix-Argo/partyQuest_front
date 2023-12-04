@@ -152,7 +152,7 @@ const BtnMemberList =  (studyId) => {
 
 
 };
-//글수정하기
+//글수정 삭제 하기
 const BtnmodifyStudy= (studyId) =>{
   router.push(`/modifyStudy/${studyId}`);
 }
