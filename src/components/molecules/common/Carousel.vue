@@ -58,7 +58,7 @@
               <div class="col-lg-6 mb-0 d-flex align-items-center banner_description">
                 <div class="text-align-left">
                   <h1 class="h1">Come with us</h1>
-                  <h3 class="h2">함께 성장할 스터디를 모집해보세요. <br/>파티퀘스트에서는 다양한 스터디가 준비되어 있어요.</h3>
+                  <h5>함께 성장할 스터디를 모집해보세요. <br/>파티퀘스트에서는 다양한 스터디가 준비되어 있어요.</h5>
 
                   <p>혼자 하던 공부를 더 나아가 함께 스터디까지!</p>
                 </div>
@@ -115,5 +115,8 @@
 }
 .banner{
   margin-left: 30%;
+}
+.h2{
+  font-weight: bold;
 }
 </style>

@@ -97,7 +97,7 @@ import IconTerms from "@/components/icons/IconTerms.vue";
   color: rgba(255, 21, 21, 0.8)
 }
 span {
-  font-weight: inherit;
+  font-weight: bold;
   font-style: inherit;
 }
 *, :after, :before {

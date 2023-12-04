@@ -19,7 +19,7 @@ h2{
   font-weight: bold;
 }
  p{
-   font-weight: lighter;
+   font-weight: 300;
  }
 </style>
 <template>
