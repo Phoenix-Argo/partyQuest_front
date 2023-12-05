@@ -17,7 +17,7 @@
 
 <script setup>
 import {useAuthStore} from "@/stores/authStore";
-import ProfileImg from "@/components/molecules/member/profile/ProfileImg.vue";
+import ProfileImg from "@/components/atoms/member/profile/ProfileImg.vue";
 import ProfileLink from "@/components/molecules/member/profile/ProfileLink.vue";
 import {ref} from "vue";
 
