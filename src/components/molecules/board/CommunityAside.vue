@@ -8,7 +8,7 @@
 
             <!--community-aside__menu--selected-->
             <li class="community-aside__menu" v-for="cate in categories" :key="fetchCommunityCates.id">
-              <router-link :to="`/communityList/${cate.id}`" >{{ cate.cateName }}</router-link>
+              <router-link :to="`/communityList/${cate.id}`" @change="">{{ cate.cateName }}</router-link>
             </li>
 
 
