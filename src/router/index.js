@@ -24,6 +24,7 @@ import ProfileMain from "@/components/molecules/study/ProfileMain.vue";
 import StudyListPage from "@/pages/study/StudyListPage.vue";
 import TestBed from "@/pages/TestBed.vue";
 import PopUpAfterSignUp from "@/pages/member/PopUpAfterSignUp.vue";
+import Message from "@/components/molecules/member/Message.vue";
 
 // router 인스턴스 생성
 const router = createRouter({
@@ -56,6 +57,7 @@ const router = createRouter({
     { path: "/aside", component: Aside },
     { path: "/studyMember/:studyId", component: StudyMember },
     { path: "/profileMain", component: ProfileMain },
+    { path: "/message", component: Message },
     {path:"/studies/search",component: StudyListPage,
       props: route => ({
         middleCateId: Number(route.query.middleCateId),
