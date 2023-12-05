@@ -14,6 +14,7 @@
         <button class="dropdown-item"
                 :class="{ 'custom-css-class': isNotification(menu) }" @click="navigateToPage(menu)">
           {{ menu }}
+          <span v-if="isNotification(menu) && unreadMessageSize >= 1">✉</span>
         </button>
       </li>
       <li class="dropdown-divider"><hr /></li>
@@ -63,6 +64,10 @@ const navigateToPage = (menu) => {
     case "좋아요":
       routePath = "/likes";
       break;
+    case "알림":
+      routePath="/message";
+      break;
+
   }
 
   // 페이지 이동
@@ -72,7 +77,6 @@ const navigateToPage = (menu) => {
 //메세지 여부 확인
 const user = useAuthStore();
 const memberId =ref(user.user.email);
-console.log("memberId :"+memberId.value);
 const BASE_URL = "http://localhost:8080";
 const unreadMessageSize = ref(0);
 const findUnreadMessage = async () =>{
@@ -80,7 +84,6 @@ const findUnreadMessage = async () =>{
   try{
     const response = await axios.get(url);
     unreadMessageSize.value  = response.data;
-    console.log("size : "+unreadMessageSize.value);
   }catch (error){
     console.error("error : "+JSON.stringify(error));
   }
@@ -88,12 +91,7 @@ const findUnreadMessage = async () =>{
 const isNotification = (menu) => {
   const condition1 = unreadMessageSize.value >= 1;
   const condition2 = menu.trim().includes("알림");
-
-  console.log(`Condition 1: ${condition1}`);
-  console.log(`Condition 2: ${condition2}`);
-
   const result = condition1 && condition2;
-  console.log(`isNotification(${menu}): ${result}`);
   return result;
 };
 
@@ -125,6 +123,6 @@ onMounted(()=>{
 }
 
 .custom-css-class {
-  color: red; /* 예시로 빨간색 텍스트를 지정했습니다. */
+  color: #d62600; /* 예시로 빨간색 텍스트를 지정했습니다. */
 }
 </style>
