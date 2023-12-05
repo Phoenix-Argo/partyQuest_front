@@ -2,7 +2,7 @@
   <div class="profile-container">
     <ProfileAside/>
     <div>
-      content
+      <ProfileInfo/>
     </div>
   </div>
 </template>
@@ -11,6 +11,7 @@
 
 
 import ProfileAside from "@/components/molecules/member/profile/ProfileAside.vue";
+import ProfileInfo from "@/components/molecules/member/profile/ProfileInfo.vue";
 </script>
 
 <style scoped>

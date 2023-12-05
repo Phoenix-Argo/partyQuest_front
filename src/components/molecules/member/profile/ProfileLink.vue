@@ -40,6 +40,6 @@ const isActivated = ref(false);
 }
 .activated-title {
   color: black;
-
+  font-weight: bold;
 }
 </style>
