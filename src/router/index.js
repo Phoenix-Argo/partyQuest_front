@@ -14,6 +14,7 @@ import NoticeList from "@/components/molecules/board/NoticeList.vue";
 import FaqList from "@/components/molecules/board/FaqList.vue";
 import CommunityList from "@/components/molecules/board/CommunityList.vue";
 import CommunityWrite from "@/components/molecules/board/CommunityWrite.vue";
+import CommunityModify from "@/components/molecules/board/CommunityModify.vue";
 import CommunityView from "@/components/molecules/board/CommunityView.vue";
 import MyStudyPage from "@/components/molecules/member/MyStudyPage.vue";
 import StudyMember from "@/components/molecules/member/StudyMember.vue";
@@ -49,6 +50,7 @@ const router = createRouter({
     { path: "/communityList/:cateId", component: CommunityList },
     { path: "/communityView/:communityId", component: CommunityView },
     { path: "/communityWrite", component: CommunityWrite},
+    { path: "/communityModify/:communityId", component: CommunityModify},
     { path: "/qnAList", component: QnAList},
     { path: "/myStudyPage", component: MyStudyPage },
     { path: "/aside", component: Aside },

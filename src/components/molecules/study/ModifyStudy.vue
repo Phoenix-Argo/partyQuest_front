@@ -33,18 +33,14 @@ const { cates, major, middle, small, selectedMiddles, selectedSmalls } =
 onBeforeMount(async () => {
   // 라우터 파라미터 수신
   const { studyId } = route.params;
-  console.log("studyId : " + studyId);
   try {
     const response = await myAxios.get(BASE_URL + "/modifyStudy/" + studyId);
     selectModifyStudy.value = response.data;
-    console.log("response : " + response.data);
-    console.log("modifyStudyData : " + selectModifyStudy.value);
 
   } catch (err) {
     console.log(err);
   }finally {
     fetchedStudyId.value = studyId;
-    console.log("Fetched StudyId:", fetchedStudyId.value);
   }
 });
 
@@ -135,26 +131,6 @@ const onSmallSelected = (curSmall) => {
   small.value.curSmall = curSmall;
   selectedSmalls.value.add(curSmall);
 };
-
-// cate change handler end
-
-// pnpToggle
-// let switchState = ref({isPnp:false});
-// console.log("switchState : " +switchState);
-//
-// const handleToggleChange = (selectModifyStudy) => {
-//
-//     switchState.value.isPnp = selectModifyStudy.recruitOption === 'PNP'
-//       console.log("switchState" + switchState.value.isPnp);
-// } ;
-//
-// watch(
-//     () => switchState.value.isPnp,
-//     (newValue) => {
-//       console.log("switchState changed : ", newValue);
-// }
-//
-// );
 
 // 썸네일 업로드에 필요한 변수 선언
 const tnail = ref();
