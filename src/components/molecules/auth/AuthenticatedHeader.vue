@@ -26,12 +26,12 @@
 </template>
 
 <script setup>
-import {onMounted, ref} from "vue";
+import {onMounted, ref,  watch} from "vue";
 import { useAuthStore } from "@/stores/authStore";
 import { logout } from "@/utils/fetch/auth";
 import { useRouter } from "vue-router";
 import MemberAvatar from "@/components/icons/MemberAvatar.vue";
-import axios from "axios";
+import {useMessageStore} from "@/stores/messageStore";
 
 defineProps({
   member: Object,
@@ -39,6 +39,8 @@ defineProps({
 let authStore = useAuthStore();
 const authMenu = ref(["마이페이지", "마이스터디","알림", "좋아요"]);
 const router = useRouter();
+
+const messageStore = useMessageStore();
 const onClickHandler = async () => {
   await logout(authStore.accessToken)
       .catch(err => {
@@ -67,9 +69,7 @@ const navigateToPage = (menu) => {
     case "알림":
       routePath="/message";
       break;
-
   }
-
   // 페이지 이동
   router.push(routePath);
 };
@@ -77,17 +77,8 @@ const navigateToPage = (menu) => {
 //메세지 여부 확인
 const user = useAuthStore();
 const memberId =ref(user.user.email);
-const BASE_URL = "http://localhost:8080";
 const unreadMessageSize = ref(0);
-const findUnreadMessage = async () =>{
-  const url = `${BASE_URL}/api/member/unreadMessage/${memberId.value}`;
-  try{
-    const response = await axios.get(url);
-    unreadMessageSize.value  = response.data;
-  }catch (error){
-    console.error("error : "+JSON.stringify(error));
-  }
-};
+
 const isNotification = (menu) => {
   const condition1 = unreadMessageSize.value >= 1;
   const condition2 = menu.trim().includes("알림");
@@ -95,9 +86,18 @@ const isNotification = (menu) => {
   return result;
 };
 
-onMounted(()=>{
-  findUnreadMessage();
+onMounted(async()=>{
+  await messageStore.findUnreadMessage(memberId.value);
+  unreadMessageSize.value = messageStore.unReadMessageSize;
+
 });
+
+// 스토어의 값이 변경될 때마다 갱신
+watch(() => messageStore.unReadMessageSize, (newValue) => {
+  unreadMessageSize.value = newValue;
+});
+
+
 </script>
 
 <style scoped>
