@@ -206,17 +206,13 @@ const BtnmodifyStudy= (studyId) =>{
   router.push(`/modifyStudy/${studyId}`);
 }
 const BtnDeleteStudy= async (studyId) =>{
-  console.log("BtnDeleteStudy 인식1")
   const requestData = {
     hostId : user.hostId,
     studyId : studyId,
   }
-console.log("BtnDeleteStudy 인식2")
-console.log("requestData" + requestData)
   try {
     const response = await myAxios.delete(BASE_URL+"/api/study/deleteStudy/"+studyId,{data:requestData});
 
-    console.log("delete!!! : ", response);
   } catch (err){
     console.error("error : " + err);
   }

@@ -7,6 +7,7 @@ import {useRoute} from "vue-router";
 import {getValidatedAxios} from "@/utils/globalAxios";
 import {onMounted, ref} from "vue";
 import dateFormat from "@/modules/community/DateFormat";
+import router from "@/router";
 
 const BASE_URL = "/api/community";
 
@@ -52,7 +53,7 @@ const formatDate = (rawDate) => {
 
 //글수정 삭제 하기
 const btnModifyCommunity= (communityId) =>{
-  router.push(`/modifyCommunity/${communityId}`);
+  router.push(`/communityModify/${communityId}`);
 }
 const btnDeleteCommunity= async (communityId) =>{
   const requestData = {
