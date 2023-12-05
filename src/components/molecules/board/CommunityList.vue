@@ -47,6 +47,7 @@ const elapsedText = (date)=>{
         <section>
           <div></div>
           <div class="status">
+            <!--<h1>{{communityList.cateName}}</h1>-->
             <router-link to="/communityWrite">
               <button class="btn btn-danger" style="float : right" >
             <span class="posts-container-header__button-text">
