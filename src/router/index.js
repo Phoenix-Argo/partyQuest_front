@@ -25,6 +25,7 @@ import StudyListPage from "@/pages/study/StudyListPage.vue";
 import TestBed from "@/pages/TestBed.vue";
 import PopUpAfterSignUp from "@/pages/member/PopUpAfterSignUp.vue";
 import Message from "@/components/molecules/member/Message.vue";
+import HyTestBed from "@/pages/HyTestBed.vue";
 
 // router 인스턴스 생성
 const router = createRouter({
@@ -66,7 +67,8 @@ const router = createRouter({
         curMajorKeySet: String(route.query.curMajorKeySet)
       }),
     },
-    {path:"/test-bed",component: TestBed}
+    {path:"/test-bed",component: TestBed},
+    {path:"/hy-test-bed",component: HyTestBed}
   ],
 });
 // router 인스턴스 내보내기 -> main.js 에서 등록
