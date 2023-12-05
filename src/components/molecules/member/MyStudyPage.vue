@@ -6,6 +6,8 @@ import {useAuthStore} from "@/stores/authStore";
 import {useRoute, useRouter} from "vue-router";
 import Img from "@/components/molecules/common/Img.vue";
 import {getValidatedAxios} from "@/utils/globalAxios";
+import StudyCreateBtn from "@/components/molecules/study/list/StudyCreateBtn.vue";
+import StudyListBtn from "@/components/molecules/study/list/StudyListBtn.vue";
 
 const BASE_URL = "http://localhost:8080";
 const {user , accessToken} = useAuthStore();
@@ -267,10 +269,15 @@ const BtnDeleteStudy= async (studyId) =>{
           <!-- 내가 만든 스터디 -->
           <div id="events" class="event-list owl-carousel owl-loaded owl-drag">
             <div class="owl-stage-outer">
-              <p>내가 만든 스터디</p>
+              <p class="title">내가 만든 스터디</p>
               <div class="owl-stage">
                 <div v-if="myStudyList.length == 0">
-                  <p>생성한 스터디가 없습니다.</p>
+                  <div class="notice">
+                  <p class="context">생성한 스터디가 없습니다.</p>
+                  <p>함께 공부할 파티원을 모집해보세요</p>
+                    <StudyCreateBtn @click="router.push('/createStudy')"/>
+
+                  </div>
                 </div>
                 <div v-else>
                   <div
@@ -359,10 +366,14 @@ const BtnDeleteStudy= async (studyId) =>{
           <!-- 내가 참여하는 스터디 -->
           <div id="events" class="event-list owl-carousel owl-loaded owl-drag">
             <div class="owl-stage-outer">
-              <p>내가 참여한 스터디</p>
+              <p class="title">내가 참여한 스터디</p>
               <div class="owl-stage">
                 <div v-if="studyIAttend.length == 0">
-                  <p>참여하는 스터디가 없습니다.</p>
+                  <div class="notice">
+                    <p class="context">참여하는 스터디가 없습니다.</p>
+                    <p>파티에 가입해서 스터디원들과 함께 공부해 보세요.</p>
+                    <StudyListBtn/>
+                  </div>
                 </div>
                 <div v-else>
                   <div
@@ -449,10 +460,14 @@ const BtnDeleteStudy= async (studyId) =>{
           <!-- 내가 좋아요한 스터디 -->
           <div id="events" class="event-list owl-carousel owl-loaded owl-drag">
             <div class="owl-stage-outer">
-              <p>내가 좋아요한 스터디</p>
+              <p class="title">내가 좋아요한 스터디</p>
               <div class="owl-stage">
                 <div v-if="studyIlike.length == 0">
-                  <p>좋아요한 스터디가 없습니다.</p>
+                  <div class="notice">
+                    <p class="context">종아요한 스터디가 없습니다.</p>
+                    <p>여러 스터디를 구경해보세요.</p>
+                    <StudyListBtn/>
+                  </div>
                 </div>
                 <div v-else>
                   <div
@@ -539,10 +554,14 @@ const BtnDeleteStudy= async (studyId) =>{
           <!-- 대기 중인 스터디 -->
           <div id="events" class="event-list owl-carousel owl-loaded owl-drag">
             <div class="owl-stage-outer">
-              <p>대기 중인 스터디</p>
+              <p class="title">대기 중인 스터디</p>
               <div class="owl-stage">
                 <div v-if="studywaitingList.length == 0">
-                  <p>대기중인 스터디가 없습니다.</p>
+                  <div class="notice">
+                    <p class="content">참여 대기중인 스터디가 없습니다.</p>
+                    <p>파티에 가입해서 스터디원들과 함께 공부해 보세요.</p>
+                    <StudyListBtn/>
+                  </div>
                 </div>
                 <div v-else>
                   <div
@@ -629,10 +648,14 @@ const BtnDeleteStudy= async (studyId) =>{
           <!--    거절당한 스터디      -->
           <div id="events" class="event-list owl-carousel owl-loaded owl-drag">
             <div class="owl-stage-outer">
-              <p>참여 거절된 스터디</p>
+              <p class="title">참여 거절된 스터디</p>
               <div class="owl-stage">
                 <div v-if="studyRejectedList.length == 0">
-                  <p>거절된 스터디가 없습니다.</p>
+                  <div class="notice">
+                    <p class="context">거절된 스터디가 없습니다.</p>
+                    <p>파티에 가입해서 스터디원들과 함께 공부해 보세요.</p>
+                    <StudyListBtn/>
+                  </div>
                 </div>
                 <div v-else>
                   <div
@@ -721,4 +744,19 @@ const BtnDeleteStudy= async (studyId) =>{
     </div>
   </body>
 </template>
-<style></style>
+<style scoped>
+
+.notice{
+  margin : 0 auto;
+  text-align: center;
+}
+
+.notice>.context{
+  font-weight: bold;
+}
+
+.title{
+  font-size: 20px;
+  font-weight: bold;
+}
+</style>
