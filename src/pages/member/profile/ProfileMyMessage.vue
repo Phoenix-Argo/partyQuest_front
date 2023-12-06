@@ -1,7 +1,7 @@
 <template>
   <div class="profile-container">
     <ProfileAside/>
-    <div>
+    <div class="profile-body">
       <Message/>
     </div>
   </div>
@@ -19,5 +19,12 @@ import Message from "@/components/molecules/member/Message.vue";
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 4fr;
+}
+.profile-body{
+  min-height: 600px;
+  box-sizing: border-box;
+}
+.profile-body> .messageBody{
+  height:auto;
 }
 </style>

@@ -82,7 +82,7 @@ const BtnNextAttend = () => {
 };
 const BtnPrevAttend = () => {
   // 이전 버튼 클릭 시 pg 값을 3 감소시키고 데이터를 새로고침
-  attendPg.value = mattendPg.value - 3;
+  attendPg.value = attendPg.value - 3;
   findStudyIAttended();
 };
 
@@ -413,7 +413,7 @@ const BtnDeleteStudy= async (studyId) =>{
                   role="presentation"
                   class="owl-prev"
                   v-if="attendPg !== 0"
-                  @click="BtnPrev"
+                  @click="BtnPrevAttend"
                 >
                   <div class="owl-nav-wrapper bg-soft-primary">
                     <svg
@@ -437,7 +437,7 @@ const BtnDeleteStudy= async (studyId) =>{
                   role="presentation"
                   class="owl-next"
                   v-if="attendSize === 3"
-                  @click="BtnNext"
+                  @click="BtnNextAttend"
                 >
                   <div class="owl-nav-wrapper bg-soft-primary">
                     <svg
@@ -681,7 +681,7 @@ const BtnDeleteStudy= async (studyId) =>{
                         }})<br>({{ rejectList.studyStartDate }}~{{ rejectList.studyEndDate }})
                       </p>
                       <div>
-                        <button class="BtnStudyPage" @click="() => BtnMemberList(studyRejectedList.studyId)">
+                        <button class="BtnStudyPage" @click="() => BtnMemberList(rejectList.studyId)">
                           [<span class="applicant">참여자현황</span>]
                         </button>
                       </div>
@@ -781,6 +781,9 @@ const BtnDeleteStudy= async (studyId) =>{
 .BtnStudyPage {
   border : 3px solid white;
   background: white;
+}
 
+.img-fluid{
+  height:10rem;
 }
 </style>

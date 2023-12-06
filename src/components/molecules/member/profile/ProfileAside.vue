@@ -10,7 +10,7 @@
       </div>
     </div>
     <div class="aside-link-container">
-      <ProfileLink v-for="profileLink in profileLinks" :title="profileLink.title"/>
+      <ProfileLink v-for="profileLink in profileLinks" :title="profileLink.title" @click="navigateToPage(profileLink)"/>
     </div>
   </div>
 </template>
@@ -20,14 +20,21 @@ import {useAuthStore} from "@/stores/authStore";
 import ProfileImg from "@/components/atoms/member/profile/ProfileImg.vue";
 import ProfileLink from "@/components/molecules/member/profile/ProfileLink.vue";
 import {ref} from "vue";
+import {useRouter} from "vue-router";
 
+const router = useRouter();
 const authStore = useAuthStore();
 const profileLinks = ref([
   {title:'마이프로필',url:'/profile'},
-  {title:'나의 모임 리스트',url:'/profile'},
-  {title:'알림',url:'/profile'},
+  {title:'나의 모임 리스트',url:'/profileMyStudyPage'},
+  {title:'알림',url:'/profileMyMessage'},
   {title:'계정삭제',url:'/profile'}
 ])
+
+const navigateToPage = (menu) =>{
+  router.push(menu.url);
+}
+
 </script>
 
 <style scoped>

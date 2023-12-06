@@ -1,12 +1,11 @@
 <template>
-  <body>
+  <body class="messageBody">
   <link
       rel="stylesheet"
       type="text/css"
       href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css"
   />
-  <hr />
-  <div class="container bootstrap snippets bootdey">
+  <div class="container">
     <div class="row">
       <div class="col-lg-12">
         <div class="main-box no-header clearfix" v-for="message in messageList">
@@ -58,7 +57,6 @@ const findMessageList = async () =>{
   try{
     const response = await axios.get(url);
     messageList.value = response.data;
-    console.log("messageList :",messageList.value);
   }catch (error){
     console.error("error : "+JSON.stringify(error));
   }
@@ -80,6 +78,12 @@ onMounted(async () => {
 </script>
 
 <style  scoped>
+.messageBody{
+  box-sizing: border-box;
+  min-height: 600px;
+
+}
+
 .main-box {
   width: 40%;
   margin: 0 auto;
@@ -115,7 +119,9 @@ a:hover {
   margin-bottom: 0rem;
 }
 
-
+.container{
+  margin-top:20px;
+}
 .label-success {
   background-color: #5cb85c;
 }
