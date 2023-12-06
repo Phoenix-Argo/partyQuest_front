@@ -4,9 +4,10 @@ import Img from "@/components/molecules/common/Img.vue";
 import CommunityAside from "@/components/molecules/board/CommunityAside.vue";
 import {useAuthStore} from "@/stores/authStore";
 import {useRoute} from "vue-router";
-import {onBeforeMount, onMounted, ref} from "vue";
+import {onBeforeMount, onMounted, onUpdated, ref} from "vue";
 import {getValidatedAxios} from "@/utils/globalAxios";
 import dateFormat from "@/modules/community/DateFormat";
+import router from "@/router";
 
 const BASE_URL = "/api/community";
 
@@ -19,8 +20,9 @@ const route = useRoute();
 const communityList = ref({});
 const myAxios = getValidatedAxios(accessToken);
 
-// mount 시 서버에 해당 id json 요청
-onMounted(async ()=> {
+// update 시 서버에 해당 id json 요청
+onMounted(async ()=>{
+  console.log("onUpdated!!");
   // 라우터 파라미터 수신
   const {cateId} = route.params;
   try {
@@ -31,6 +33,7 @@ onMounted(async ()=> {
     console.log(err);
   }
 });
+
 const elapsedText = (date)=>{
   return dateFormat.elapsedText(new Date(date));
 }
@@ -47,7 +50,6 @@ const elapsedText = (date)=>{
         <section>
           <div></div>
           <div class="status">
-            <!--<h1>{{communityList.cateName}}</h1>-->
             <router-link to="/communityWrite">
               <button class="btn btn-danger" style="float : right" >
             <span class="posts-container-header__button-text">
