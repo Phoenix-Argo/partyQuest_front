@@ -4,11 +4,14 @@ const props = defineProps({
   color: String,
   backgroundColor: String
 });
+const sliceNameFromKeySet = (keySet)=>{
+  return keySet.split(" ").slice(0, -1).join(' ');
+}
 </script>
 
 <template>
   <div class="hash-tag">
-    {{props.value}}
+    {{sliceNameFromKeySet(props.value)}}
   </div>
 </template>
 

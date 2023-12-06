@@ -7,8 +7,8 @@ import ProfileSelectContainer from "@/components/molecules/member/profile/modify
 const profileFields = ref({
   favoriteLocations: ['서울특별시','부산광역시'],
   mbtis: ['INTP','INTJ','ENTP','ENTJ'],
-  favoriteFields: ['백엔드','프론트엔드'],
-  favoriteTechs: ['Spring boot','JPA','Vue']
+  favoriteFields: ['백엔드 12','프론트엔드 11'],
+  favoriteTechs: ['Spring boot 1201','JPA 1202','Vue 1101']
 })
 </script>
 
@@ -35,25 +35,19 @@ const profileFields = ref({
       </div>
     </div>
     <div class="profile-field-container-tech">
-      <div>
-      <div class="field-name-div">나의 관심 분야</div>
-      <div class="field-content-div">
-        <HashTagDiv v-for="field in profileFields.favoriteFields" :value="field" color="white" background-color="#008B8B"/>
-      </div>
-      </div>
-      <div>
-        <ProfileSelectContainer select-type="middle"/>
+      <div class="fr1">
+        <div class="field-name-div">나의 관심 분야 <ProfileSelectContainer select-type="middle"/></div>
+        <div class="field-content-div">
+          <HashTagDiv v-for="field in profileFields.favoriteFields" :value="field" color="white" background-color="#008B8B"/>
+        </div>
       </div>
     </div>
     <div class="profile-field-container-tech">
-      <div>
-      <div class="field-name-div">나의 관심 기술</div>
-      <div class="field-content-div">
-        <HashTagDiv v-for="field in profileFields.favoriteTechs" :value="field" color="white" background-color="#1CAC78"/>
-      </div>
-      </div>
-      <div>
-        <ProfileSelectContainer select-type="small"/>
+      <div class="fr1">
+        <div class="field-name-div">나의 관심 기술 <ProfileSelectContainer select-type="small"/></div>
+        <div class="field-content-div">
+          <HashTagDiv v-for="field in profileFields.favoriteTechs" :value="field" color="white" background-color="#1CAC78"/>
+        </div>
       </div>
     </div>
     <div class="profile-field-container">
@@ -81,6 +75,12 @@ const profileFields = ref({
   margin-bottom: 1.5rem;
   padding-top: .3rem;
 }
+/*.fr1{*/
+/*  flex*/
+/*}*/
+/*.fr2{*/
+
+/*}*/
 .profile-field-container{
   border-top: solid 1px rgba(128, 128, 128, 0.5);
   margin-bottom: 1.5rem;
@@ -89,6 +89,8 @@ const profileFields = ref({
 .field-name-div{
   font-weight: 600;
   font-size:1.2rem;
-  margin-bottom: .5rem;
+  margin-bottom: .8rem;
+  display:flex;
+  gap: 1rem;
 }
 </style>

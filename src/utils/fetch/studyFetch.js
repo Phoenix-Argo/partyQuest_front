@@ -8,7 +8,7 @@ export const getLocations = ()=>{
 }
 
 export const getStudies = async (sort) => {
-    return await axiValid.get(URLCONST.STUDY_LIST+`?sort=${sort}`)
+    return await axiClient.get(URLCONST.STUDY_LIST+`?sort=${sort}`)
         .then(res => {
             console.log(res.data);
             return res.data;
