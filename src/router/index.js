@@ -27,6 +27,8 @@ import Message from "@/components/molecules/member/Message.vue";
 import HyTestBed from "@/pages/HyTestBed.vue";
 import ProfileModify from "@/pages/member/profile/ProfileModify.vue";
 import ProfileMain from "@/pages/member/profile/ProfileMain.vue";
+import ProfileMyStudyPage from "@/pages/member/profile/ProfileMyStudyPage.vue";
+import ProfileMyMessage from "@/pages/member/profile/ProfileMyMessage.vue";
 
 // router 인스턴스 생성
 const router = createRouter({
@@ -69,7 +71,9 @@ const router = createRouter({
       }),
     },
     {path:"/test-bed",component: TestBed},
-    {path:"/hy-test-bed",component: HyTestBed}
+    {path:"/hy-test-bed",component: HyTestBed},
+    {path:"/profileMyStudyPage",component: ProfileMyStudyPage},
+    {path:"/profileMyMessage",component: ProfileMyMessage},
   ],
 });
 // router 인스턴스 내보내기 -> main.js 에서 등록

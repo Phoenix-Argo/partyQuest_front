@@ -198,77 +198,84 @@ const findMemberList = async ()=>{
 };
 
 const Btnapprove = async (memberId) => {
-  alert("accepted");
-  const url = BASE_URL + "/api/study/changeApplicationStatus";
-  console.log("hostId : " + user.email);
-  console.log("memberId : " + memberId);
-  console.log("studyId : " + studyId);
-  // StudyChangeApplicantStatusRequest에 데이터를 담음
-  const StudyChangeApplicantStatusRequest = new FormData();
-  StudyChangeApplicantStatusRequest.append("hostId", user.email);
-  StudyChangeApplicantStatusRequest.append("applicantId", memberId);
-  StudyChangeApplicantStatusRequest.append("studyId", studyId);
-  StudyChangeApplicantStatusRequest.append("status", "ACCEPTED");
+  if(!confirm("승인하시겠습니까?")) {
+    alert("승인이 취소되었습니다.");
+  }else {
 
-  try {
-    const response = await axios.post(url, StudyChangeApplicantStatusRequest, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    console.log("Response data:", response.data);
-    if (response.status >= 200 && response.status < 300) {
-      // HTTP 상태가 성공인 경우
+
+    const url = BASE_URL + "/api/study/changeApplicationStatus";
+    console.log("hostId : " + user.email);
+    console.log("memberId : " + memberId);
+    console.log("studyId : " + studyId);
+    // StudyChangeApplicantStatusRequest에 데이터를 담음
+    const StudyChangeApplicantStatusRequest = new FormData();
+    StudyChangeApplicantStatusRequest.append("hostId", user.email);
+    StudyChangeApplicantStatusRequest.append("applicantId", memberId);
+    StudyChangeApplicantStatusRequest.append("studyId", studyId);
+    StudyChangeApplicantStatusRequest.append("status", "ACCEPTED");
+
+    try {
+      const response = await axios.post(url, StudyChangeApplicantStatusRequest, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      console.log("Response data:", response.data);
+      if (response.status >= 200 && response.status < 300) {
+        // HTTP 상태가 성공인 경우
+        // 응답 확인
+
+        // 새로운 데이터를 가져오는 함수 호출
+        await findMemberList();
+      } else {
+        // HTTP 상태가 실패인 경우
+        throw new Error(`HTTP error ! Status: ${response.status}`);
+      }
       // 응답 확인
-
-      // 새로운 데이터를 가져오는 함수 호출
-      await findMemberList();
-    } else {
-      // HTTP 상태가 실패인 경우
-      throw new Error(`HTTP error ! Status: ${response.status}`);
+    } catch (error) {
+      console.error("Axios error : ", error);
     }
-    // 응답 확인
-  } catch (error) {
-    console.error("Axios error : ", error);
   }
 }; //BTN Approve END
 
 const Btnreject = async (memberId) => {
-  alert("Reject");
-  const url = BASE_URL + "/api/study/changeApplicationStatus";
-  console.log("hostId : " + user.email);
-  console.log("memberId : " + memberId);
-  console.log("studyId : " + studyId);
-  // StudyChangeApplicantStatusRequest에 데이터를 담음
-  const StudyChangeApplicantStatusRequest = new FormData();
-  StudyChangeApplicantStatusRequest.append("hostId", user.email);
-  StudyChangeApplicantStatusRequest.append("applicantId", memberId);
-  StudyChangeApplicantStatusRequest.append("studyId", studyId);
-  StudyChangeApplicantStatusRequest.append("status", "REJECTED");
+  if (!confirm("거절하시겠습니까?")) {
+    alert("취소 되었습니다.");
+  } else {
+    const url = BASE_URL + "/api/study/changeApplicationStatus";
+    console.log("hostId : " + user.email);
+    console.log("memberId : " + memberId);
+    console.log("studyId : " + studyId);
+    // StudyChangeApplicantStatusRequest에 데이터를 담음
+    const StudyChangeApplicantStatusRequest = new FormData();
+    StudyChangeApplicantStatusRequest.append("hostId", user.email);
+    StudyChangeApplicantStatusRequest.append("applicantId", memberId);
+    StudyChangeApplicantStatusRequest.append("studyId", studyId);
+    StudyChangeApplicantStatusRequest.append("status", "REJECTED");
 
-  try {
-    const response = await axios.post(url, StudyChangeApplicantStatusRequest, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    console.log("Response data:", response.data);
-    if (response.status >= 200 && response.status < 300) {
-      // HTTP 상태가 성공인 경우
+    try {
+      const response = await axios.post(url, StudyChangeApplicantStatusRequest, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      console.log("Response data:", response.data);
+      if (response.status >= 200 && response.status < 300) {
+        // HTTP 상태가 성공인 경우
+        // 응답 확인
+
+        // 새로운 데이터를 가져오는 함수 호출
+        await findMemberList();
+      } else {
+        // HTTP 상태가 실패인 경우
+        throw new Error(`HTTP error ! Status: ${response.status}`);
+      }
       // 응답 확인
-
-      // 새로운 데이터를 가져오는 함수 호출
-      await findMemberList();
-    } else {
-      // HTTP 상태가 실패인 경우
-      throw new Error(`HTTP error ! Status: ${response.status}`);
+    } catch (error) {
+      console.error("Axios error : ", error);
     }
-    // 응답 확인
-  } catch (error) {
-    console.error("Axios error : ", error);
   }
-};
-
+}
 onMounted(()=>{
   findMemberList();
 });

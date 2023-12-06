@@ -25,7 +25,7 @@ const authStore = useAuthStore();
 const profileLinks = ref([
   {title:'마이프로필',url:'/profile'},
   {title:'나의 모임 리스트',url:'/profile'},
-  {title:'게시글',url:'/profile'},
+  {title:'알림',url:'/profile'},
   {title:'계정삭제',url:'/profile'}
 ])
 </script>
