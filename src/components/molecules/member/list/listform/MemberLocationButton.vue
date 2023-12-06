@@ -17,4 +17,8 @@
   height: 25px;
   text-align: center;
 }
+.btn:hover {
+  background-color: transparent;
+  color: black
+}
 </style>
