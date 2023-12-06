@@ -39,7 +39,7 @@ const getMiddleCateId = (middleCateKey) => {
   return splitted[splitted.length - 1];
 };
 onMounted(()=>{
-  console.log('뭐여 시벌',props.curMajorKeySet)
+
 })
 </script>
 

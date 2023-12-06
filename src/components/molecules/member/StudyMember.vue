@@ -175,7 +175,6 @@ const { studyId } = route.params;
 const { user, accessToken } = useAuthStore();
 
 const memberList = ref([]);
-console.log("studyId :"+studyId);
 
 const findMemberList = async ()=>{
   const url = `${BASE_URL}/api/study/studyMember`;
@@ -190,8 +189,6 @@ const findMemberList = async ()=>{
       },
     });
       memberList.value = response.data;
-      console.log(response.data);
-      console.log("memberList : "+memberList.value);
   }catch (error){
     console.error("error : "+JSON.stringify(error));
   }
@@ -204,9 +201,6 @@ const Btnapprove = async (memberId) => {
 
 
     const url = BASE_URL + "/api/study/changeApplicationStatus";
-    console.log("hostId : " + user.email);
-    console.log("memberId : " + memberId);
-    console.log("studyId : " + studyId);
     // StudyChangeApplicantStatusRequest에 데이터를 담음
     const StudyChangeApplicantStatusRequest = new FormData();
     StudyChangeApplicantStatusRequest.append("hostId", user.email);
@@ -220,7 +214,6 @@ const Btnapprove = async (memberId) => {
           "Content-Type": "application/json",
         },
       });
-      console.log("Response data:", response.data);
       if (response.status >= 200 && response.status < 300) {
         // HTTP 상태가 성공인 경우
         // 응답 확인
@@ -243,9 +236,6 @@ const Btnreject = async (memberId) => {
     alert("취소 되었습니다.");
   } else {
     const url = BASE_URL + "/api/study/changeApplicationStatus";
-    console.log("hostId : " + user.email);
-    console.log("memberId : " + memberId);
-    console.log("studyId : " + studyId);
     // StudyChangeApplicantStatusRequest에 데이터를 담음
     const StudyChangeApplicantStatusRequest = new FormData();
     StudyChangeApplicantStatusRequest.append("hostId", user.email);
@@ -259,7 +249,6 @@ const Btnreject = async (memberId) => {
           "Content-Type": "application/json",
         },
       });
-      console.log("Response data:", response.data);
       if (response.status >= 200 && response.status < 300) {
         // HTTP 상태가 성공인 경우
         // 응답 확인
