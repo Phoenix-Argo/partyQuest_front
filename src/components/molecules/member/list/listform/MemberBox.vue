@@ -1,29 +1,41 @@
 <script setup>
-import MemberLocationButton from "@/components/molecules/member/list/listform/MemberLocationButton.vue";
-import IconNotice from "@/components/icons/IconNotice.vue";
+import SmallCateButton from "@/components/molecules/member/list/listform/SmallCateButton.vue";
+import Location from "@/components/icons/Location.vue";
+import IconMbti from "@/components/icons/IconMbti.vue";
+import Img from "@/components/molecules/common/Img.vue";
+import {ref} from "vue";
+import MiddleContainer from "@/components/molecules/member/list/listform/MiddleContainer.vue";
+const props = defineProps({
+  memberInfo: Object
+});
+const localMemberInfo = ref(props.memberInfo);
+console.log("[localMemberInfo]"+localMemberInfo.value);
+
 </script>
 <template>
-  <div class="card" style="width: 18rem;">
+  <div class="card" style="width: 17rem; height: 12.5rem;">
     <div class="card-body">
       <div class="card-avatar">
-        <img class= "avatar-img" src="img/profile_simple.png">
+        <Img :content="memberInfo.avatar" class="avatar-img"/>
       </div>
-      <div class="card-info dropdown">
-        <div class="card-nickName dropbtn">Bella
+      <div class="card-profile dropdown">
+        <div class="card-nickName dropbtn">{{localMemberInfo.nickname}}
           <div class="dropdown-content">
             <a>프로필 상세</a>
             <a>채팅 하기</a>
           </div>
         </div>
-        <div class="card-role mb-2 text-body-secondary">운영자</div>
+        <div class="card-role mb-2 text-body-secondary">
+          {{ localMemberInfo.role === 'ROLE_ADMIN' ? 'NPC' : localMemberInfo.role === 'ROLE_USER' ? '파티원' : localMemberInfo.role }}
+        </div>
       </div>
+      <div class="card-info">
+        <div class="card-mbti"><IconMbti class="mbti-icon"></IconMbti> {{localMemberInfo.mbti}}</div>
+        <MiddleContainer :cate-list="localMemberInfo.middleCates" cate-kind="middle"></MiddleContainer>
+      </div>
+      <div class="card-location"><Location></Location>{{localMemberInfo.preferredLocation.locationName}}</div>
       <div class="cate-container">
-        <div class="middle-cate">1</div>
-        <div class="small-cate">2</div>
-      </div>
-      <div class="card-mbti">ENFJ</div>
-      <div class="location-container">
-        <MemberLocationButton></MemberLocationButton>
+        <SmallCateButton :cate-list="localMemberInfo.smallCates" cate-kind="small"></SmallCateButton>
       </div>
     </div>
   </div>
@@ -35,32 +47,41 @@ import IconNotice from "@/components/icons/IconNotice.vue";
   grid-template-rows: repeat(3, auto);
   grid-template-areas:
       "avatar avatar header"
+      "info info info"
+      "location location location"
       "cate cate cate"
-      "mbti mbti mbti"
-      "location location location";
+      ;
   overflow: auto;
 }
 .card-avatar {
   grid-area: avatar;
 }
-.card-info {
+.card-profile {
   margin-top:8px;
   margin-right:8px;
   grid-area: header;
   text-align: right;
   position: relative;
 }
-.cate-container {
-  grid-area: cate;
-}
-.card-mbti {
-  grid-area: mbti;
-}
-.location-container {
+.card-location{
+  margin-top:2px;
   grid-area: location;
 }
+.card-info {
+  grid-area: info;
+  display: flex;
+  align-items: center;
+}
+.card-mbti {
+  margin-right: 4px;
+}
+.cate-container {
+  margin-top:2px;
+  margin-left:7px;
+  grid-area: cate;
+}
 .avatar-img{
-  width: 70px;
+  width: 60px;
   margin-bottom:20px;
 }
 
@@ -93,5 +114,8 @@ import IconNotice from "@/components/icons/IconNotice.vue";
 .dropdown-content a:hover {background-color: #f1f1f1}
 .dropdown:hover .dropdown-content {
   display: block;
+}
+.mbti-icon{
+  margin-left: 4px;
 }
 </style>
