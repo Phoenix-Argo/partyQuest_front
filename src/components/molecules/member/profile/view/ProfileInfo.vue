@@ -27,6 +27,7 @@ const onModifyBtnClick = ()=>{
     @bio = "bio=>updateRequest.bio=bio"
     />
     <ProfileFields/>
+    <div class="route-to-modify" @click="onModifyBtnClick">수정 하기</div>
   </div>
   <div v-else class="profile-main-container">
     <ProfileAvatarAndBio/>
