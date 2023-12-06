@@ -18,11 +18,11 @@
                   <td>
                     <p v-if="message.status =='ACCEPTED'">
                       <span class="label label-success" >승인</span>
-                      <span>{{ message.rdate }}</span>
+                      <span class="messageDate">{{ elapsedText(message.rdate)}}</span>
                     </p>
                     <p v-else>
                       <span class="label label-danger" >거절</span>
-                      <span>{{ message.rdate }}</span>
+                      <span class="messageDate">{{ elapsedText(message.rdate)}}</span>
                     </p>
                     <p v-if="message.status =='ACCEPTED'">{{ message.studyTitle }}에 승인되었습니다.</p>
                     <p v-else>{{ message.studyTitle }}에 거절되었습니다.</p>
@@ -44,6 +44,7 @@ import {useAuthStore} from "@/stores/authStore";
 import { onMounted, ref} from "vue";
 import axios from "axios";
 import {useMessageStore} from "@/stores/messageStore";
+import dateFormat from "@/modules/community/DateFormat";
 
 
 const BASE_URL = "http://localhost:8080";
@@ -61,6 +62,10 @@ const findMessageList = async () =>{
   }catch (error){
     console.error("error : "+JSON.stringify(error));
   }
+}
+
+const elapsedText = (date)=>{
+  return dateFormat.elapsedText(new Date(date));
 }
 
 onMounted(async () => {
@@ -128,5 +133,9 @@ a:hover {
   white-space: nowrap;
   vertical-align: baseline;
   border-radius: 0.25em;
+}
+
+.messageDate{
+margin-left: 10px;
 }
 </style>

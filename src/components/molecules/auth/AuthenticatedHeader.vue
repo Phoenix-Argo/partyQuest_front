@@ -123,6 +123,6 @@ watch(() => messageStore.unReadMessageSize, (newValue) => {
 }
 
 .custom-css-class {
-  color: #d62600; /* 예시로 빨간색 텍스트를 지정했습니다. */
+  color: #d62600;
 }
 </style>

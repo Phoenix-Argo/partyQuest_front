@@ -298,15 +298,15 @@ const BtnDeleteStudy= async (studyId) =>{
                           study.location
                         }}]({{ study.curMembersSize }}/{{
                           study.memberUpperLimit
-                        }})({{ study.studyStartDate }}~{{ study.studyEndDate }})
+                        }})<br>({{ study.studyStartDate }}~{{ study.studyEndDate }})
                       </p>
                       <div>
-                        <button @click="() => BtnMemberList(study.studyId)">
-                          참여자현황
+                        <button class="BtnStudyPage" @click="() => BtnMemberList(study.studyId)">
+                          [<span class="applicant">참여자현황</span>]
                         </button>
                       <div class="BtnStudyStatus">
-                        <button @click="()=>BtnmodifyStudy(study.studyId)">수정</button>
-                        <button @click="()=>BtnDeleteStudy(study.studyId)">삭제</button>
+                        <button class="BtnStudyPage" @click="()=>BtnmodifyStudy(study.studyId)">[<span class=" statusModify">수정</span>]</button>
+                        <button class="BtnStudyPage" @click="()=>BtnDeleteStudy(study.studyId)">[<span class=" statusDelete">삭제</span>]</button>
                       </div>
                       </div>
                     </div>
@@ -396,11 +396,11 @@ const BtnDeleteStudy= async (studyId) =>{
                           study.location
                         }}]({{ study.curMembersSize }}/{{
                           study.memberUpperLimit
-                        }})({{ study.studyStartDate }}~{{ study.studyEndDate }})
+                        }})<br>({{ study.studyStartDate }}~{{ study.studyEndDate }})
                       </p>
                       <div>
-                        <button @click="() => BtnMemberList(study.studyId)">
-                          참여자현황
+                        <button class="BtnStudyPage" @click="() => BtnMemberList(study.studyId)">
+                          [<span class="applicant">참여자현황</span>]
                         </button>
                       </div>
                     </div>
@@ -490,11 +490,11 @@ const BtnDeleteStudy= async (studyId) =>{
                           study.location
                         }}]({{ study.curMembersSize }}/{{
                           study.memberUpperLimit
-                        }})({{ study.studyStartDate }}~{{ study.studyEndDate }})
+                        }})<br>({{ study.studyStartDate }}~{{ study.studyEndDate }})
                       </p>
                       <div>
-                        <button @click="() => BtnMemberList(study.studyId)">
-                          참여자현황
+                        <button class="BtnStudyPage" @click="() => BtnMemberList(study.studyId)">
+                          [<span class="applicant">참여자현황</span>]
                         </button>
                       </div>
                     </div>
@@ -584,11 +584,11 @@ const BtnDeleteStudy= async (studyId) =>{
                           waitList.location
                         }}]({{ waitList.curMembersSize }}/{{
                           waitList.memberUpperLimit
-                        }})({{ waitList.studyStartDate }}~{{ waitList.studyEndDate }})
+                        }})<br>({{ waitList.studyStartDate }}~{{ waitList.studyEndDate }})
                       </p>
                       <div>
-                        <button @click="() => BtnMemberList(waitList.studyId)">
-                          참여자현황
+                        <button class="BtnStudyPage" @click="() => BtnMemberList(waitList.studyId)">
+                          [<span class="applicant">참여자현황</span>]
                         </button>
                       </div>
                     </div>
@@ -678,11 +678,11 @@ const BtnDeleteStudy= async (studyId) =>{
                           rejectList.location
                         }}]({{ rejectList.curMembersSize }}/{{
                           rejectList.memberUpperLimit
-                        }})({{ rejectList.studyStartDate }}~{{ rejectList.studyEndDate }})
+                        }})<br>({{ rejectList.studyStartDate }}~{{ rejectList.studyEndDate }})
                       </p>
                       <div>
-                        <button @click="() => BtnMemberList(studyRejectedList.studyId)">
-                          참여자현황
+                        <button class="BtnStudyPage" @click="() => BtnMemberList(studyRejectedList.studyId)">
+                          [<span class="applicant">참여자현황</span>]
                         </button>
                       </div>
                     </div>
@@ -767,4 +767,20 @@ const BtnDeleteStudy= async (studyId) =>{
   float: right;
 }
 
+.BtnStudyPage > .applicant {
+  color : olive;
+}
+
+.statusModify {
+  color : lightseagreen;
+}
+
+.statusDelete {
+  color : #d62600;
+}
+.BtnStudyPage {
+  border : 3px solid white;
+  background: white;
+
+}
 </style>
