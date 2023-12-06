@@ -63,6 +63,9 @@ const btnDeleteCommunity= async (communityId) =>{
   try {
     const response = await myAxios.delete(BASE_URL+"/deleteCommunity/"+communityId,{data:requestData});
 
+    alert("삭제가 완료되었습니다.");
+    router.push({path:`/communityList/1`})
+
   } catch (err){
     console.error("error : " + err);
   }
@@ -101,7 +104,11 @@ const btnDeleteCommunity= async (communityId) =>{
               <p class="card-text">{{communityView.content}}</p>
 
             </div>
-            <img src="#" class="card-img-bottom" alt="만약 사진이 있으면 나오도록">
+            <Img
+                :content="communityView.file"
+                class="card-img img-fluid"
+                id="communityFile"
+            />
           </div>
         </section>
 

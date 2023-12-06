@@ -4,6 +4,7 @@ import CommunityAside from "@/components/molecules/board/CommunityAside.vue";
 import {useAuthStore} from "@/stores/authStore";
 import {ref, onMounted, reactive} from "vue";
 import {getValidatedAxios} from "@/utils/globalAxios";
+import router from "@/router";
 
 const BASE_URL = "/api/community";
 const { user, accessToken } = useAuthStore();
@@ -84,7 +85,8 @@ const submitForm = async () => {
     };
     // 성공적으로 전송되었을 때의 처리
     alert("게시물이 성공적으로 등록되었습니다.");
-    console.log(response.data); // 서버에서 반환한 데이터
+    router.push({path:`/communityView/${createdCommunityId}`})
+
   }catch (error) {
     // 전송 중 에러 발생시의 처리
     console.error("게시물 등록 중 오류가 발생했습니다.", error);

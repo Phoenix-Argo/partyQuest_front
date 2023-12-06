@@ -2,7 +2,7 @@
   <div class="profile-container">
     <ProfileAside/>
     <div>
-      <ProfileInfo/>
+      <ProfileInfo state="modify"/>
     </div>
   </div>
 </template>

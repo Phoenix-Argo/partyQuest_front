@@ -162,7 +162,7 @@
 }
 
 .owl-prev {
-  width: 100px;
+  width: 40px;
   height: 100%;
   position: absolute;
   top: 0;
@@ -188,7 +188,7 @@
 }
 
 .owl-next {
-  width: 100px;
+  width: 40px;
   height: 100%;
   position: absolute;
   top: 0;

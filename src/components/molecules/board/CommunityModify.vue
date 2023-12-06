@@ -5,12 +5,15 @@ import {useAuthStore} from "@/stores/authStore";
 import {ref, onMounted, reactive, onBeforeMount} from "vue";
 import {getValidatedAxios} from "@/utils/globalAxios";
 import {useRoute} from "vue-router";
+import router from "@/router";
 
 const BASE_URL = "/api/community";
 const { user, accessToken } = useAuthStore();
 const selectModifyCommunity = ref({});
 const categories = ref({});
 const selectedCate = ref([]);
+const modifyCommunity = reactive({});
+const fetchedCommunityId = ref(null);
 
 const route = useRoute();
 
@@ -29,6 +32,8 @@ onBeforeMount(async ()=>{
     }
   }catch (err){
     console.log(err);
+  }finally {
+    fetchedCommunityId.value = communityId;
   }
 });
 
@@ -65,36 +70,38 @@ const formData = new FormData();
 
 const onFileUploadHandler = (e) => {
   let file = e.target.files[0];
-  formData.append("file", file);
+  if (file){
+    formData.append("file", file);
+  }
 }
 
 /* Article Form */
 const submitForm = async () => {
-  console.log("submitForm!!", selectModifyCommunity)
-  selectModifyCommunity.writerId = user.hostId; // 이후 user.hostId로 변경
+  modifyCommunity.communityId = fetchedCommunityId.value;
+  modifyCommunity.title = selectModifyCommunity.value.title;
+  modifyCommunity.content = selectModifyCommunity.value.content;
+  modifyCommunity.writerId = user.hostId; // 이후 user.hostId로 변경
+  // modifyCommunity.file = selectModifyCommunity.value.file; 파일이 안들어감 다시확인!!
   try {
     // 카테고리 값 전송
-    console.log("submitForm!!2")
     if (!selectedCate.value) {
       alert("카테고리를 선택해 주세요!");
       return;
     }
 
-    console.log("submitForm!!3")
-    selectModifyCommunity.cateId = selectedCate.value.id;
-      formData.append("cateId", selectedCate.value.id)
+    modifyCommunity.cateId = selectedCate.value.id;
+    formData.append("cateId", selectedCate.value.id)
 
-    console.log("submitForm!!4")
+
     // 서버로 데이터 전송
-    const updateResponse = await myAxios.post(BASE_URL+'/modifyCommunity', selectModifyCommunity )
+    const updateResponse = await myAxios.post(BASE_URL+'/modifyCommunity', modifyCommunity )
     const modifyCommunityId = updateResponse.data.communityId;
+    modifyCommunity.communityId = modifyCommunityId;
 
-    console.log("submitForm!!5")
-    console.log("communityModify -> 서버 전송1", updateResponse);
-    console.log("communityModify -> 서버 전송2", modifyCommunityId);
-
-    selectModifyCommunity.communityId = modifyCommunityId;
-    formData.append("communityId", modifyCommunityId);
+    // 파일이 선택되었을 때만 formData에 파일 업로드 추가
+    if (fileRef.value && fileRef.value.files.length > 0) {
+      formData.append("file", fileRef.value.files[0]);
+    }
 
     // 파일이 첨부되어 있는 경우에만 파일업로드
     if(formData.has("file")){
@@ -111,26 +118,26 @@ const submitForm = async () => {
     };
     // 성공적으로 전송되었을 때의 처리
     alert("게시물 수정이 성공적으로 완료되었습니다.");
-    console.log(response.data); // 서버에서 반환한 데이터
+    router.push({path:`/communityView/${modifyCommunityId}`}); // 서버에서 반환한 데이터
   }catch (error) {
     // 전송 중 에러 발생시의 처리
     console.error("게시물 등록 중 오류가 발생했습니다.", error);
     // 추가적으로 필요한 에러 처리 로직을 여기에 추가
   }
 }
-
-// 파일 업로드 취소
-const deleteFile = async ()=>{
-  try {
-    // 서버에 파일 삭제 요청
-    await myAxios.post(BASE_URL+"/deleteFile/"+communityId)
-
-    // 파일 삭제 후 클라이언트에서도 업데이트
-    savedFileName.value = "";
-  }catch (err){
-    console.error("파일 삭제 오류",err);
-  }
-}
+//
+// // 파일 업로드 취소
+// const deleteFile = async ()=>{
+//   try {
+//     // 서버에 파일 삭제 요청
+//     await myAxios.post(BASE_URL+"/deleteFile/"+communityId)
+//
+//     // 파일 삭제 후 클라이언트에서도 업데이트
+//     savedFileName.value = "";
+//   }catch (err){
+//     console.error("파일 삭제 오류",err);
+//   }
+// }
 </script>
 <template>
   <main id="main">
