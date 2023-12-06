@@ -20,12 +20,13 @@ import MyStudyPage from "@/components/molecules/member/MyStudyPage.vue";
 import StudyMember from "@/components/molecules/member/StudyMember.vue";
 import QnAList from "@/components/molecules/board/QnAList.vue";
 import Aside from "@/components/molecules/admin/Aside.vue";
-import ProfileMain from "@/components/molecules/study/ProfileMain.vue";
 import StudyListPage from "@/pages/study/StudyListPage.vue";
 import TestBed from "@/pages/TestBed.vue";
 import PopUpAfterSignUp from "@/pages/member/PopUpAfterSignUp.vue";
 import Message from "@/components/molecules/member/Message.vue";
 import HyTestBed from "@/pages/HyTestBed.vue";
+import ProfileModify from "@/pages/member/profile/ProfileModify.vue";
+import ProfileMain from "@/pages/member/profile/ProfileMain.vue";
 
 // router 인스턴스 생성
 const router = createRouter({
@@ -33,7 +34,8 @@ const router = createRouter({
   routes: [
     { path: "/", component: Main },
     { path: "/index", component: Main },
-    { path: "/profile", component: Profile },
+    { path: "/profile", component: ProfileMain },
+    { path: "/profile/update", component: ProfileModify },
     { path: "/register", component: Register },
     { path: "/register/popup", component: PopUpAfterSignUp ,
     props: route =>({
@@ -57,7 +59,6 @@ const router = createRouter({
     { path: "/myStudyPage", component: MyStudyPage },
     { path: "/aside", component: Aside },
     { path: "/studyMember/:studyId", component: StudyMember },
-    { path: "/profileMain", component: ProfileMain },
     { path: "/message", component: Message },
     {path:"/studies/search",component: StudyListPage,
       props: route => ({
