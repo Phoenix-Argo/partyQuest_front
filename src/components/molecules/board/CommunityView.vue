@@ -3,7 +3,7 @@ import Banner from "@/components/molecules/board/Banner.vue";
 import Img from "@/components/molecules/common/Img.vue";
 import CommunityAside from "@/components/molecules/board/CommunityAside.vue";
 import {useAuthStore} from "@/stores/authStore";
-import {useRoute} from "vue-router";
+import {useRoute, useRouter} from "vue-router";
 import {getValidatedAxios} from "@/utils/globalAxios";
 import {onMounted, ref} from "vue";
 import dateFormat from "@/modules/community/DateFormat";
@@ -15,6 +15,7 @@ const { user, accessToken } = useAuthStore();
 
 // 라우터 인스턴스 가져오기
 const route = useRoute();
+
 
 // 서버 데이터
 const communityView = ref({});
@@ -28,14 +29,13 @@ onMounted(async ()=>{
   try {
     const response = await myAxios.get(BASE_URL+"/communityView/"+communityId);
     communityView.value = response.data;
-    console.log("CommunityView : " + communityView.value);
   }catch (err){
     console.log(err);
   }finally {
     fetchedCommunityId.value = communityId;
-    console.log("fetched communityId : ", fetchedCommunityId.value);
   }
 });
+
 const elapsedText = (date)=>{
   return dateFormat.elapsedText(new Date(date));
 }
@@ -88,7 +88,6 @@ const btnDeleteCommunity= async (communityId) =>{
 
           <div class="card">
             <div class="card-body">
-              <div >
                 <h2 class="card-title">{{ communityView.title }}</h2>
                 <h6 class="communityViewDate">{{ formatDate(communityView.rdate) }}
                   <p class="card-text">
@@ -101,15 +100,15 @@ const btnDeleteCommunity= async (communityId) =>{
                 </h6>
                 <hr class="sectionLine" />
               </div>
-              <p class="card-text">{{communityView.content}}</p>
-
-            </div>
             <Img
                 :content="communityView.file"
                 class="card-img img-fluid"
                 id="communityFile"
             />
-          </div>
+              <p class="card-text">{{communityView.content}}</p>
+
+            </div>
+
         </section>
 
         <section>
@@ -176,10 +175,6 @@ const btnDeleteCommunity= async (communityId) =>{
         <!-- 댓글 끝 -->
         <!-- Content List 끝 -->
       </div>
-
-      <!-- 오른쪽 어사이드 시작-->
-      <sec></sec>
-      <!-- 오른쪽 어사이드 끝-->
 
 
     </section>

@@ -23,7 +23,7 @@
 
 import {useAuthStore} from "@/stores/authStore";
 import {useRoute} from "vue-router";
-import {onMounted, ref} from "vue";
+import {onBeforeMount, onMounted, ref} from "vue";
 import {getValidatedAxios} from "@/utils/globalAxios";
 
 const BASE_URL = "/api/community";
@@ -36,7 +36,7 @@ const route = useRoute();
 // 서버 데이터
 const myAxios = getValidatedAxios(accessToken);
 
-onMounted(()=>{
+onBeforeMount(()=>{
   fetchCommunityCates();
 });
 
