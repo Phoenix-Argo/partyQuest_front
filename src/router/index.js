@@ -25,6 +25,7 @@ import TestBed from "@/pages/TestBed.vue";
 import PopUpAfterSignUp from "@/pages/member/PopUpAfterSignUp.vue";
 import Message from "@/components/molecules/member/Message.vue";
 import HyTestBed from "@/pages/HyTestBed.vue";
+import MemberList from "@/pages/member/list/MemberList.vue";
 import ProfileModify from "@/pages/member/profile/ProfileModify.vue";
 import ProfileMain from "@/pages/member/profile/ProfileMain.vue";
 
@@ -68,6 +69,7 @@ const router = createRouter({
         curMajorKeySet: String(route.query.curMajorKeySet)
       }),
     },
+    { path: "/memberList", component: MemberList },
     {path:"/test-bed",component: TestBed},
     {path:"/hy-test-bed",component: HyTestBed}
   ],
