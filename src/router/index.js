@@ -71,7 +71,7 @@ const router = createRouter({
         curMajorKeySet: String(route.query.curMajorKeySet)
       }),
     },
-    { path: "/memberList", component: MemberList },
+    { path: "/memberList", component: MemberList},
     {path:"/test-bed",component: TestBed},
     {path:"/hy-test-bed",component: HyTestBed},
     {path:"/profileMyStudyPage",component: ProfileMyStudyPage},

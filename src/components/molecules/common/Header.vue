@@ -124,6 +124,9 @@ onMounted(async ()=>{
               </HoverAcordianRoot>
             </li>
             <li class="nav-li">
+              <router-link class="fs-6" to="/memberList">파티원</router-link>
+            </li>
+            <li class="nav-li">
               <router-link class="fs-6" to="/communityList/1">커뮤니티</router-link>
             </li>
             <li class="nav-li">

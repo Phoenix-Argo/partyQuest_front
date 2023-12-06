@@ -5,11 +5,16 @@ import IconNotice from "@/components/icons/IconNotice.vue";
 <template>
   <div class="card" style="width: 18rem;">
     <div class="card-body">
-      <div class="card-info">
-        <div class="card-avatar">
-          <IconNotice></IconNotice>
+      <div class="card-avatar">
+        <img class= "avatar-img" src="img/profile_simple.png">
+      </div>
+      <div class="card-info dropdown">
+        <div class="card-nickName dropbtn">Bella
+          <div class="dropdown-content">
+            <a>프로필 상세</a>
+            <a>채팅 하기</a>
+          </div>
         </div>
-        <div class="card-nickName">Bella</div>
         <div class="card-role mb-2 text-body-secondary">운영자</div>
       </div>
       <div class="cate-container">
@@ -24,28 +29,69 @@ import IconNotice from "@/components/icons/IconNotice.vue";
   </div>
 </template>
 <style scoped>
-.card-body{
+.card-body {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: auto repeat(2, 1fr);
   grid-template-rows: repeat(3, auto);
+  grid-template-areas:
+      "avatar avatar header"
+      "cate cate cate"
+      "mbti mbti mbti"
+      "location location location";
+  overflow: auto;
 }
-.card-avatar{
-  grid-row-start: 1;
+.card-avatar {
+  grid-area: avatar;
 }
-.card-nickName{
-  grid-row-start: 2;
+.card-info {
+  margin-top:8px;
+  margin-right:8px;
+  grid-area: header;
+  text-align: right;
+  position: relative;
 }
-.cate-container{
-  grid-row-start: 2;
+.cate-container {
+  grid-area: cate;
 }
-.card-mbti{
-  grid-row-start: 3;
+.card-mbti {
+  grid-area: mbti;
 }
-.location-container{
-  grid-row-start: 4;
+.location-container {
+  grid-area: location;
 }
-.card-info{
-  grid-column-start: 3;
-  justify-content: end;
+.avatar-img{
+  width: 70px;
+  margin-bottom:20px;
+}
+
+.dropbtn {
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+.dropdown {
+  display: inline-block;
+}
+.dropdown-content {
+  display: none;
+  background-color: #f9f9f9;
+  min-width: 80px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  text-align:center;
+}
+
+.dropdown-content a {
+  color: black;
+  padding:5px;
+  text-decoration: none;
+  display: block;
+}
+.dropdown-content a:hover {background-color: #f1f1f1}
+.dropdown:hover .dropdown-content {
+  display: block;
 }
 </style>
