@@ -5,6 +5,7 @@ import ProfileFields from "@/components/atoms/member/profile/ProfileFields.vue";
 import ProfileAvatarAndBioEdit from "@/components/molecules/member/profile/modify/ProfileAvatarAndBioEdit.vue";
 import {useRouter} from "vue-router";
 import {ref} from "vue";
+import ProfileUpdateFields from "@/components/atoms/member/profile/ProfileUpdateFields.vue";
 
 const router = useRouter();
 const props = defineProps({
@@ -13,10 +14,21 @@ const props = defineProps({
 const updateRequest = ref({
   nickName: '',
   bio: '',
+  favoriteLocation:'',
+  mbti:'',
+  favoriteFields: [],
+  favoriteTechs:[],
+  links:[]
 })
 
-const onModifyBtnClick = ()=>{
+const onModifyRouteBtnClick = ()=>{
   router.push('/profile/update');
+}
+const onModifyBtnClick = ()=>{
+
+}
+const onCancelBtnClick = ()=>{
+  router.push('/profile')
 }
 </script>
 
@@ -26,13 +38,19 @@ const onModifyBtnClick = ()=>{
     @nick-name="nick=> updateRequest.nickName=nick"
     @bio = "bio=>updateRequest.bio=bio"
     />
-    <ProfileFields/>
-    <div class="route-to-modify" @click="onModifyBtnClick">수정 하기</div>
+    <ProfileUpdateFields/>
+    <div class="btn-container">
+      <div class="myBtn" @click="onModifyBtnClick">업데이트</div>
+      <div class="myBtn cancel-btn" @click="onCancelBtnClick">취소하기</div>
+    </div>
+
   </div>
   <div v-else class="profile-main-container">
     <ProfileAvatarAndBio/>
     <ProfileFields/>
-    <div class="route-to-modify" @click="onModifyBtnClick">프로필 수정하기</div>
+    <div class="btn-container">
+      <div class="myBtn" @click="onModifyRouteBtnClick">프로필 수정하기</div>
+    </div>
   </div>
 </template>
 
@@ -40,7 +58,13 @@ const onModifyBtnClick = ()=>{
 .profile-main-container{
   padding-left: 2rem;
 }
-.route-to-modify{
+.btn-container{
+  margin-left:2rem;
+  display:flex;
+  gap: .3rem;
+}
+.myBtn {
+  cursor: pointer;
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -49,7 +73,9 @@ const onModifyBtnClick = ()=>{
   color: white;
   border-radius: 0.4rem;
   font-size: 1.2rem;
-  margin-left: 2rem;
+}
+.cancel-btn{
+  background: #a9333e;
 }
 .route-to-modify:hover{
   cursor:pointer;
