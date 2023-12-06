@@ -1,5 +1,23 @@
 <script setup>
 import MyStudyPage from "@/components/molecules/member/MyStudyPage.vue";
+import {ref, watchEffect} from "vue";
+import Message from "@/components/molecules/member/Message.vue";
+
+const dynamicComponent = ref();
+const myStudyPage = MyStudyPage;
+const myMessage = Message;
+const loadMyStudyPage = () =>{
+  dynamicComponent.value = myStudyPage;
+}
+
+const loadMyMessage = () =>{
+  dynamicComponent.value = myMessage;
+
+}
+
+watchEffect(() => {
+  console.log(`컴포넌트가 변경되었습니다: ${dynamicComponent.value}`);
+});
 </script>
 <template>
   <main class>
@@ -30,9 +48,15 @@ import MyStudyPage from "@/components/molecules/member/MyStudyPage.vue";
                   </a>
                 </li>
                 <li class="mantine-3wtmzi" @click="loadMyStudyPage">
-                  <a aria-label="게시글페이지로 이동" href="/users/1252125/posts" style="display: block;">
+                  <a aria-label="게시글페이지로 이동" href="#" style="display: block;">
                     <span class="mantine-Text-root mantine-mhxzfq">•</span>
                     <span class="mantine-Text-root mantine-fozvjm"> 나의 모임 리스트</span>
+                  </a>
+                </li>
+                <li class="mantine-3wtmzi" @click="loadMyMessage">
+                  <a aria-label="게시글페이지로 이동" href="#" style="display: block;">
+                    <span class="mantine-Text-root mantine-mhxzfq">•</span>
+                    <span class="mantine-Text-root mantine-fozvjm"> 알림</span>
                   </a>
                 </li>
                 <li class="mantine-3wtmzi">
@@ -45,11 +69,15 @@ import MyStudyPage from "@/components/molecules/member/MyStudyPage.vue";
             </nav>
           </div>
         </aside>
+        <div class="profileBody">
+          <!-- 동적으로 로드할 컴포넌트 영역 -->
+          <component :is="dynamicComponent" />
+        </div>
       </div>
+
     </section>
+
   </main>
-  <!-- 동적으로 로드할 컴포넌트 영역 -->
-  <component :is="dynamicComponent" />
 </template>
 <style scoped>
 .css-1t4blpu {
@@ -221,6 +249,8 @@ ul{
   line-height: 1.5;
 }
 
-
+.profileBody{
+  width:100%;
+}
 
 </style>

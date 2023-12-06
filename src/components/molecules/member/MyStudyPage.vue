@@ -304,8 +304,10 @@ const BtnDeleteStudy= async (studyId) =>{
                         <button @click="() => BtnMemberList(study.studyId)">
                           참여자현황
                         </button>
+                      <div class="BtnStudyStatus">
                         <button @click="()=>BtnmodifyStudy(study.studyId)">수정</button>
                         <button @click="()=>BtnDeleteStudy(study.studyId)">삭제</button>
+                      </div>
                       </div>
                     </div>
                   </div>
@@ -598,7 +600,7 @@ const BtnDeleteStudy= async (studyId) =>{
                     type="button"
                     role="presentation"
                     class="owl-prev"
-                    v-if="myPg !== 0"
+                    v-if="waitPg !== 0"
                     @click="BtnPrevWaitingList"
                 >
                   <div class="owl-nav-wrapper bg-soft-primary">
@@ -622,7 +624,7 @@ const BtnDeleteStudy= async (studyId) =>{
                     type="button"
                     role="presentation"
                     class="owl-next"
-                    v-if="mySize === 3"
+                    v-if="waitSize === 3"
                     @click="BtnNextWaitingList"
                 >
                   <div class="owl-nav-wrapper bg-soft-primary">
@@ -692,7 +694,7 @@ const BtnDeleteStudy= async (studyId) =>{
                     type="button"
                     role="presentation"
                     class="owl-prev"
-                    v-if="waitPg !== 0"
+                    v-if="rejectPg !== 0"
                     @click="BtnPrevRejectedList"
                 >
                   <div class="owl-nav-wrapper bg-soft-primary">
@@ -716,7 +718,7 @@ const BtnDeleteStudy= async (studyId) =>{
                     type="button"
                     role="presentation"
                     class="owl-next"
-                    v-if="waitSize === 3"
+                    v-if="rejectSize === 3"
                     @click="BtnNextRejectedList"
                 >
                   <div class="owl-nav-wrapper bg-soft-primary">
@@ -756,7 +758,13 @@ const BtnDeleteStudy= async (studyId) =>{
 }
 
 .title{
+  margin-top:1rem;
   font-size: 20px;
   font-weight: bold;
 }
+
+.BtnStudyStatus{
+  float: right;
+}
+
 </style>
