@@ -3,7 +3,14 @@
 import ProfileImg from "@/components/atoms/member/profile/ProfileImg.vue";
 import {ref} from "vue";
 import ProfileFields from "@/components/atoms/member/profile/ProfileFields.vue";
-const bio = ref("안녕하세요 선생님\n안녕 친구야")
+
+let props = defineProps({
+});
+const AVATAR_NICKNAME=ref('')
+const AVATAR_BIO=ref('')
+let emit = defineEmits(['nickName', 'bio']);
+emit('nickName',AVATAR_NICKNAME)
+emit('bio',AVATAR_BIO)
 </script>
 
 <template>
@@ -12,8 +19,13 @@ const bio = ref("안녕하세요 선생님\n안녕 친구야")
       <ProfileImg/>
     </div>
     <div class="name-bio-container">
-      <div class="name-div">닉네임</div>
-      <div class="bio-div">{{bio}}</div>
+      <div class="name-div">
+        <input type="text" v-model="AVATAR_NICKNAME"/>
+      </div>
+      <div class="bio-fluid-container">
+        <textarea v-model="AVATAR_BIO" />
+        <div class="bio-div">{{}}</div>
+      </div>
     </div>
   </div>
 </template>
@@ -35,12 +47,18 @@ const bio = ref("안녕하세요 선생님\n안녕 친구야")
   padding-top: .5rem;
   padding-left: .4rem;
   height:8rem;
+  overflow-y:hidden;
 }
 .name-div{
   font-size:2rem;
 }
+.bio-fluid-container{
+  height: 4.5rem;
+  overflow-y: scroll;
+}
 .bio-div{
   white-space: pre;
   color:dimgray;
+
 }
 </style>

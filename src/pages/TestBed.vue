@@ -11,7 +11,7 @@
 
 
 import ProfileAside from "@/components/molecules/member/profile/ProfileAside.vue";
-import ProfileInfo from "@/components/molecules/member/profile/ProfileInfo.vue";
+import ProfileInfo from "@/components/molecules/member/profile/view/ProfileInfo.vue";
 </script>
 
 <style scoped>
