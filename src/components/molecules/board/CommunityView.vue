@@ -107,6 +107,7 @@ const btnDeleteCommunity= async (communityId) =>{
             />
               <p class="card-text">{{communityView.content}}</p>
 
+
             </div>
 
         </section>
