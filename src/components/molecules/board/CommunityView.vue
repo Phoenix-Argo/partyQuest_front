@@ -100,11 +100,9 @@ const btnDeleteCommunity= async (communityId) =>{
                 </h6>
                 <hr class="sectionLine" />
               </div>
-            <Img
-                :content="communityView.file"
-                class="card-img img-fluid"
-                id="communityFile"
-            />
+            <div v-if="communityView.file != null ">
+              <Img :content="'community/'+communityView.file" class="card-img img-fluid" id="communityFile" />
+            </div>
               <p class="card-text">{{communityView.content}}</p>
 
 
@@ -143,12 +141,12 @@ const btnDeleteCommunity= async (communityId) =>{
             <div class="card-body">
               <div class="commentInfo" >
                 <Img
-                    :content="communityView"
+                    :content="communityView.file"
                     class="card-img img-fluid"
                     id="communityFile"
                     style="height : 40px; width: 40px"
                 />
-                <h5 class="card-title">작성자 닉네임</h5>
+                <h5 class="card-title">삼순</h5>
                 <h6 class="communityViewDate">23.11.25</h6>
 
                 <div class="commentModDel">
@@ -156,7 +154,7 @@ const btnDeleteCommunity= async (communityId) =>{
                 </div>
               </div>
               <hr class="sectionLine commentSectionLine" />
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+              <p class="card-text">희희</p>
 
             </div>
           </div>
@@ -164,12 +162,12 @@ const btnDeleteCommunity= async (communityId) =>{
             <div class="card-body">
               <div class="commentInfo">
                 <Img
-                    :content="communityView"
+                    :content="communityView.file"
                     class="card-img img-fluid"
                     style="height : 40px; width: 40px"
                 />
-                <h5 class="card-title">작성자 닉네임</h5>
-                <h6 class="communityViewDate">23.11.25</h6>
+                <h5 class="card-title">박카스</h5>
+                <h6 class="communityViewDate">23.12.07</h6>
 
                 <div class="commentModDel">
                   <a>수정</a> | <a>삭제</a>
@@ -177,7 +175,7 @@ const btnDeleteCommunity= async (communityId) =>{
               </div>
 
               <hr class="sectionLine commentSectionLine" />
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+              <p class="card-text">이제 겨울이네여</p>
 
             </div>
           </div>
