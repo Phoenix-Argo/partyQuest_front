@@ -8,7 +8,10 @@
 
             <!--community-aside__menu--selected-->
             <li class="community-aside__menu" v-for="cate in categories" :key="fetchCommunityCates.id" >
-              <router-link :to="`/communityList/${cate.id}`" @change=""><span class="hoverTag" @click="cateNameToCommunityList(cate.cateName)">{{ cate.cateName }}</span></router-link>
+              <!--<router-link :to="`/communityList/${cate.id}`" @change=""><span class="hoverTag" @click="cateNameToCommunityList(cate.cateName)">{{ cate.cateName }}</span></router-link>-->
+              <router-link :to="{ path: `/communityList/${cate.id}`, query: { cateName: cate.cateName } }">
+                <span class="hoverTag" @click="cateNameToCommunityList(cate.cateName)">{{ cate.cateName }}</span>
+              </router-link>
             </li>
 
           </ul>
