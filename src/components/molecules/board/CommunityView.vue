@@ -85,7 +85,7 @@ const btnDeleteCommunity= async (communityId) =>{
         <!-- 상단 카테고리 끝 -->
         <!-- Content View 시작-->
         <section class="community-list-container">
-
+          <span style="float : right"> 커뮤니티 > <span style="font-weight : bold; color : tomato;"> {{communityView.cateName}}</span></span><br/>
           <div class="card">
             <div class="card-body">
                 <h2 class="card-title">{{ communityView.title }}</h2>
@@ -140,8 +140,13 @@ const btnDeleteCommunity= async (communityId) =>{
 
           <div class="card commentOutLine">
             <div class="card-body">
-              <div class="commentInfo">
-                <img src="#" />
+              <div class="commentInfo" >
+                <Img
+                    :content="communityView"
+                    class="card-img img-fluid"
+                    id="communityFile"
+                    style="height : 40px; width: 40px"
+                />
                 <h5 class="card-title">작성자 닉네임</h5>
                 <h6 class="communityViewDate">23.11.25</h6>
 
@@ -157,7 +162,11 @@ const btnDeleteCommunity= async (communityId) =>{
           <div class="card commentOutLine">
             <div class="card-body">
               <div class="commentInfo">
-                <img src="#" />
+                <Img
+                    :content="communityView"
+                    class="card-img img-fluid"
+                    style="height : 40px; width: 40px"
+                />
                 <h5 class="card-title">작성자 닉네임</h5>
                 <h6 class="communityViewDate">23.11.25</h6>
 

@@ -7,10 +7,9 @@
           <ul class="community-aside__menu-list">
 
             <!--community-aside__menu--selected-->
-            <li class="community-aside__menu" v-for="cate in categories" :key="fetchCommunityCates.id">
-              <router-link :to="`/communityList/${cate.id}`" @change="">{{ cate.cateName }}</router-link>
+            <li class="community-aside__menu" v-for="cate in categories" :key="fetchCommunityCates.id" >
+              <router-link :to="`/communityList/${cate.id}`" @change=""><span class="hoverTag" @click="cateNameToCommunityList(cate.cateName)">{{ cate.cateName }}</span></router-link>
             </li>
-
 
           </ul>
         </li>
@@ -23,8 +22,9 @@
 
 import {useAuthStore} from "@/stores/authStore";
 import {useRoute} from "vue-router";
-import {onBeforeMount, onMounted, ref} from "vue";
+import {onBeforeMount, ref} from "vue";
 import {getValidatedAxios} from "@/utils/globalAxios";
+import router from "@/router";
 
 const BASE_URL = "/api/community";
 const { user, accessToken } = useAuthStore();
@@ -49,10 +49,12 @@ const fetchCommunityCates = async()=> {
     console.log(err);
   }
 }
-{categories}
 
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 
+.hoverTag:hover {
+  color: tomato;
+}
 </style>

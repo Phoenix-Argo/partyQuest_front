@@ -37,6 +37,7 @@ onMounted(async ()=>{
 const elapsedText = (date)=>{
   return dateFormat.elapsedText(new Date(date));
 }
+
 </script>
 <template>
   <main id="main">
@@ -48,8 +49,8 @@ const elapsedText = (date)=>{
       <!-- 상단 카테고리 시작 -->
       <div class ="community-body__content">
         <section>
-          <div></div>
           <div class="status">
+            <span style="display : inline-block;">커뮤니티 > <div > {{cateId}}</div></span>
             <router-link to="/communityWrite">
               <button class="btn btn-danger" style="float : right" >
             <span class="posts-container-header__button-text">
