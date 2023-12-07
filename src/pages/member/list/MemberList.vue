@@ -1,10 +1,13 @@
 <script setup>
-import { ref, defineProps } from "vue";
+import {ref, defineProps, onMounted} from "vue";
 import IconSearch from "@/components/icons/IconSearch.vue";
 import MemberBox from "@/components/molecules/member/list/listform/MemberBox.vue";
 import Banner from "@/components/molecules/board/Banner.vue";
-import Paging from "@/components/molecules/study/list/Paging.vue";
 import { useRouter } from "vue-router";
+import Paging from "@/components/molecules/study/list/Paging.vue";
+import {getPagedMembers} from "@/utils/fetch/memberFetch";
+import {useCateStore} from "@/stores/cateStore";
+import {getLocations} from "@/utils/fetch/studyFetch";
 
 const router = useRouter();
 const props = defineProps({
@@ -18,7 +21,47 @@ const curKey = ref({
   major: "",
   middle: ""
 });
+const isFirstFetched = ref(false);
+const dataFetchFlag = ref(0);
+const searchCond = ref({
+  middleCateId: props.middleCateId,
+  smallCateIds: isNaN(props.smallCateIds)? new Set() : new Set([String(props.smallCateIds)]),
+  page: null,
+  title: null,
+  sort: null
+})
+const pageData = ref({});
+const cateStore = useCateStore();
+const smallCates = ref(null)
+/// 지역 리스트 ///
+const selectedLocation = ref("지역 선택");
+const locations = ref([]);
+const fetchLocations = async () => {
+  try {
+    const res = await getLocations();
+    locations.value = res;
+  } catch (error) {
+    console.error(error);
+  }
+};
 
+//// 페이징 ////
+const onPagingHandler = (num)=>{
+  isFirstFetched.value = false;
+  searchCond.value.page = num;
+  console.log('아콩이',searchCond.value, dataFetchFlag.value,pageData.value)
+}
+onMounted(async ()=>{
+  //console.log('내가 요청하는 params',searchCond.value)
+  pageData.value = await getPagedMembers();
+  console.log("PAGE DATA"+ JSON.stringify(pageData.value));
+/*  if(isNaN(searchCond.value.middleCateId)){
+
+  }else{
+    //pageData.value = await searchStudy(searchCond.value);
+  }*/
+
+})
 </script>
 <template>
   <Banner title="파티퀘스트에는 어떤 파티원들이 있을까요?" subTitle="다양한 파티원을 찾고, 직접 채팅까지!" />
@@ -52,15 +95,15 @@ const curKey = ref({
         </div>
       </div>
     </div>
-    <div class="memberGrid">
-      <MemberBox class="memberComponent"></MemberBox>
-      <MemberBox class="memberComponent"></MemberBox>
-      <MemberBox class="memberComponent"></MemberBox>
-      <MemberBox class="memberComponent"></MemberBox>
+    <div class="memberGrid" >
+      <div v-for="data in pageData.content" >
+        <MemberBox :member-info="data" class="memberComponent"></MemberBox>
+      </div>
     </div>
-    <div class="paging-container">
+    <div v-if='pageData!==null' class="paging-container">
       <div class="paging-wrapper">
-        <Paging/>
+        <Paging v-for="num in pageData.totalPages" :pg="num"
+                @click="onPagingHandler(num)"/>
       </div>
     </div>
   </main>
@@ -96,13 +139,14 @@ h1 span{
   border: 1px solid darkgray;
 }
 .memberGrid{
+  margin-top: 20px;
   margin-bottom: 100px;
   display: grid;
   height:auto;
   grid-template-columns: repeat(auto-fit, minmax(285px,1fr));
   grid-template-rows: repeat(4, 1fr);
   grid-column: 2 / 4;
-  gap: 20px;
+  gap: 10px;
 }
 .smTxt {
   margin-top: 50px;
