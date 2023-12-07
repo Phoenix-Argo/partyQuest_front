@@ -15,9 +15,11 @@
     "canvas-confetti": "^1.9.2",
     "dotenv": "^16.3.1",
     "jwt-decode": "^4.0.0",
+    "node-sass": "^9.0.0",
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate": "^3.2.0",
     "qs": "^6.11.2",
+    "sass-loader": "^13.3.2",
     "smart-webcomponents": "^17.0.3",
     "vee-validate": "^4.0.0",
     "vue": "^3.3.4",
@@ -28,6 +30,7 @@
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.4.0",
     "babel-eslint": "^10.1.0",
+    "sass": "^1.69.5",
     "vite": "^4.4.11"
   }
 }

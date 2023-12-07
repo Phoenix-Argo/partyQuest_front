@@ -30,35 +30,34 @@ emit('bio',AVATAR_BIO)
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .out-container {
   display: flex;
   width: 100%;
-}
-.thumb-container {
-  border-radius: 100%;
-}
-.thumb-container img{
-  object-fit: fill;
-  width: 8rem;
-  height: 8rem;
-}
-.name-bio-container{
-  padding-top: .5rem;
-  padding-left: .4rem;
-  height:8rem;
-  overflow-y:hidden;
-}
-.name-div{
-  font-size:2rem;
-}
-.bio-fluid-container{
-  height: 4.5rem;
-  overflow-y: scroll;
-}
-.bio-div{
-  white-space: pre;
-  color:dimgray;
-
+  .thumb-container{
+    border-radius: 100%;
+    img{
+      object-fit: fill;
+      width: 8rem;
+      height: 8rem;
+    }
+  }
+  .name-bio-container{
+    padding-top: .5rem;
+    padding-left: .4rem;
+    height:8rem;
+    overflow-y:hidden;
+    .name-div{
+      font-size:2rem;
+    }
+    .bio-fluid-container{
+      height: 4.5rem;
+      overflow-y: scroll;
+      .bio-div{
+        white-space: pre;
+        color:dimgray;
+      }
+    }
+  }
 }
 </style>
