@@ -16,7 +16,7 @@ const cates = ref({
 
 onMounted(async ()=>{
   await myAxios({
-    url: "api/category/allCate",
+    url: "api/category/cached/allCate",
     method: "get",
     responseType: "json",
   })

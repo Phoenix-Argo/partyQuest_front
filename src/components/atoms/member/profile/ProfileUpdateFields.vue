@@ -1,11 +1,14 @@
 <script setup>
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import HashTagDiv from "@/components/atoms/member/profile/HashTagDiv.vue";
 import IconLink from "@/components/icons/IconLink.vue";
 import ProfileSelectContainer from "@/components/molecules/member/profile/modify/ProfileSelectContainer.vue";
 import { useProfileStore} from "@/stores/memberProfileStore";
+import {useAuthStore} from "@/stores/authStore";
+import {getMbtis, getPartyLocationForUpdateProfile} from "@/utils/fetch/memberFetch";
 
 const profileStore = useProfileStore();
+let authStore = useAuthStore();
 const profileFields = ref({
   favoriteLocations: ['서울특별시','부산광역시'],
   mbtis: ['INTP','INTJ','ENTP','ENTJ'],
@@ -14,14 +17,36 @@ const profileFields = ref({
   link1: '',
   link2: ''
 })
+const onPreLocationChange = (e) => {
+  let value = e.target.value.trim();
+  profileStore.setTmpLocation(value);
+};
+const onMbtiChange = (e) => {
+  let value = e.target.value.trim();
+  profileStore.setTmpMbti(value);
+};
 const onTechDeleteHandler = (hashTag)=>{
-  let target = profileStore.getProfileInfo().value.favoriteTechs;
+  let target = profileStore.getTmpProfileInfo().value.favoriteTechs;
   target.delete(hashTag);
 }
 const onFieldDeleteHandler = (hashTag)=>{
-  let target = profileStore.getProfileInfo().value.favoriteFields;
+  let target = profileStore.getTmpProfileInfo().value.favoriteFields;
   target.delete(hashTag);
 }
+const onLink1ChangeHandler = (e)=>{
+  let value = e.target.value.trim();
+  profileStore.setTmplink1(value);
+}
+const onLink2ChangeHandler = (e)=>{
+  let value = e.target.value.trim();
+  profileStore.setTmplink2(value);
+}
+onMounted(async () => {
+  let locations = await getPartyLocationForUpdateProfile(authStore.getAccessToken());
+  let mbtis = await getMbtis();
+  profileFields.value.favoriteLocations = locations;
+  profileFields.value.mbtis = mbtis;
+});
 </script>
 
 <template>
@@ -29,9 +54,9 @@ const onFieldDeleteHandler = (hashTag)=>{
     <div class="profile-field-container">
       <div class="field-name-div">선호지역</div>
       <div class="field-content-div">
-        <select name="currentLocation" >
-          <option v-for="location in profileFields.favoriteLocations" :value="location">
-            {{location}}
+        <select name="currentLocation" @change="onPreLocationChange">
+          <option :selected="profileStore.getTmpProfileInfo().value.preferredLocation===String(location.id)" v-for="location in profileFields.favoriteLocations" :value="location.id">
+            {{location.locationName}}
           </option>
         </select>
       </div>
@@ -39,8 +64,8 @@ const onFieldDeleteHandler = (hashTag)=>{
     <div class="profile-field-container">
       <div class="field-name-div">MBTI</div>
       <div class="field-content-div">
-        <select name="currentMbti">
-          <option v-for="mbti in profileFields.mbtis" :value="mbti">
+        <select name="currentMbti" @change="onMbtiChange">
+          <option :selected="profileStore.getTmpProfileInfo().value.mbti===String(mbti)" v-for="mbti in profileFields.mbtis" :value="mbti">
             {{mbti}}
           </option>
         </select>
@@ -51,7 +76,7 @@ const onFieldDeleteHandler = (hashTag)=>{
         <div class="field-name-div">나의 관심 분야 <ProfileSelectContainer select-type="middle"/>
         </div>
         <div class="field-content-div">
-          <HashTagDiv v-for="field in profileStore.getProfileInfo().value.favoriteFields" :value="field" color="white" background-color="#008B8B"
+          <HashTagDiv v-for="field in profileStore.getTmpProfileInfo().value.favoriteFields" :value="field" color="white" background-color="#008B8B"
           @click="onFieldDeleteHandler(field)"/>
         </div>
       </div>
@@ -61,7 +86,7 @@ const onFieldDeleteHandler = (hashTag)=>{
         <div class="field-name-div">나의 관심 기술 <ProfileSelectContainer select-type="small"/>
         </div>
         <div class="field-content-div">
-          <HashTagDiv v-for="field in profileStore.getProfileInfo().value.favoriteTechs" :value="field" color="white" background-color="#1CAC78" @click="onTechDeleteHandler(field)"/>
+          <HashTagDiv v-for="field in profileStore.getTmpProfileInfo().value.favoriteTechs" :value="field" color="white" background-color="#1CAC78" @click="onTechDeleteHandler(field)"/>
         </div>
       </div>
     </div>
@@ -69,10 +94,10 @@ const onFieldDeleteHandler = (hashTag)=>{
       <div class="field-name-div">포트폴리오/URL</div>
       <div class="field-content-div">
         <div class="link-content">
-          <IconLink/> <input type="text" v-model="profileFields.link1"/>
+          <IconLink/> <input type="text" @change="onLink1ChangeHandler"/>
         </div>
         <div class="link-content">
-          <IconLink/> <input type="text" v-model="profileFields.link2"/>
+          <IconLink/> <input type="text" @change="onLink2ChangeHandler"/>
         </div>
       </div>
     </div>
