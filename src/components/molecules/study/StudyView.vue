@@ -164,6 +164,7 @@
   <section class="container py-9">
     <div class="row text-left pt-3">
       <div class="col-lg-12 m-auto">
+        <!--
         <p id="title1">비슷한 모임</p>
       </div>
     </div>
@@ -192,7 +193,6 @@
             </div>
           </div>
         </div>
-        <!-- 위의 카드를 4번 복사하여 총 4개의 카드가 있는 행을 생성하세요 -->
         <div class="col">
           <div class="card px-4 py-2">
             <div class="div1 row py-2 px-2">
@@ -260,7 +260,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div>-->
       </div>
     </div>
   </section>
