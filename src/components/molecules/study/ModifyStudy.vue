@@ -12,6 +12,7 @@ import { onBeforeMount } from "vue";
 import { useAuthStore } from "@/stores/authStore";
 import { getValidatedAxios } from "@/utils/globalAxios";
 import { provide } from 'vue';
+import router from "@/router";
 
 
 const BASE_URL = "/api/study";
@@ -161,6 +162,7 @@ const submitForm = async () => {
   );
   modifyStudy.partyOnOff = newStudy_onOff.value;
   modifyStudy.locationId = newStudy_Location.value;
+  modifyStudy.studyEndDate = selectModifyStudy.value.studyEndDate;
   console.log("selectModifyStudy.data : " + JSON.stringify(selectModifyStudy));
 
 
@@ -185,6 +187,7 @@ const submitForm = async () => {
 
     console.log("Upload File Response:", uploadResponse.data);
     alert("수정이 완료 되었습니다.");
+    router.push({ path: `/studyView/${modifyStudyId}` });
   } catch (error) {
     console.error("Error:", error);
     alert("수정 중 오류가 발생했습니다. 다시 시도해주세요.");
@@ -425,7 +428,7 @@ const submitForm = async () => {
                   v-model="switchState.isPnp"
                   @change="()=>handleToggleChange(selectModifyStudy)"
                 />
-                <p>{{ selectModifyStudy.recruitOption }}</p>
+<!--                <p>{{ selectModifyStudy.recruitOption }}</p>-->
               </div>
 
               <div class="party-count">

@@ -72,6 +72,7 @@ const btnDeleteCommunity= async (communityId) =>{
 }
 
 
+
 </script>
 <template>
   <main id="main">
