@@ -4,7 +4,7 @@ import Img from "@/components/molecules/common/Img.vue";
 import CommunityAside from "@/components/molecules/board/CommunityAside.vue";
 import {useAuthStore} from "@/stores/authStore";
 import {useRoute} from "vue-router";
-import {onBeforeMount, onMounted, onUpdated, ref} from "vue";
+import {onBeforeMount, onBeforeUnmount, onMounted, onUnmounted, onUpdated, ref} from "vue";
 import {getValidatedAxios} from "@/utils/globalAxios";
 import dateFormat from "@/modules/community/DateFormat";
 import router from "@/router";
@@ -18,21 +18,28 @@ const route = useRoute();
 
 // 서버 데이터
 const communityList = ref({});
-const myAxios = getValidatedAxios(accessToken);
+const myAxios = getValidatedAxios(accessToken)
+
+const cateName = ref(route.query.cateName);
 
 // update 시 서버에 해당 id json 요청
 onMounted(async ()=>{
-  console.log("onUpdated!!");
+
   // 라우터 파라미터 수신
   const {cateId} = route.params;
   try {
     const response = await myAxios.get(BASE_URL + "/communityList/" + cateId);
 
     communityList.value = response.data;
+
+    // 업데이트가 처리되었음을 플래그로 표시
+
   } catch (err) {
     console.log(err);
   }
 });
+
+
 
 const elapsedText = (date)=>{
   return dateFormat.elapsedText(new Date(date));
@@ -50,7 +57,7 @@ const elapsedText = (date)=>{
       <div class ="community-body__content">
         <section>
           <div class="status">
-            <span style="display : inline-block;">커뮤니티 > <div > {{cateId}}</div></span>
+            <span style="display : inline-block;">커뮤니티 > <span style="color : tomato; font-size : 20px" > {{cateName ? cateName : '자유게시판'}}</span></span>
             <router-link to="/communityWrite">
               <button class="btn btn-danger" style="float : right" >
             <span class="posts-container-header__button-text">
@@ -70,7 +77,8 @@ const elapsedText = (date)=>{
             </div>
             <div class="card-body">
               <blockquote class="blockquote mb-0 ">
-                <p>{{ list.content }}</p>
+                <p>{{ list.content.slice(0, 50) + (list.content.length > 50 ? '...' : '') }}</p>
+
                 <footer class="blockquote-footer">{{ list.writer }} · {{ elapsedText(list.rdate) }}</footer>
               </blockquote>
             </div>
@@ -81,7 +89,7 @@ const elapsedText = (date)=>{
         <!-- Content List 끝-->
 
 
-      <!-- 오른쪽 어사이드 시작-->
+      <!-- 오른쪽 어사이드 시작
       <sec>
         <div class="qnaRightAside">
           <div class="card QRA1" style="width: 18rem;">
@@ -145,7 +153,7 @@ const elapsedText = (date)=>{
         </div>
       </sec>
 
-      <!-- 오른쪽 어사이드 끝-->
+      오른쪽 어사이드 끝-->
     </section>
   </main>
 </template>

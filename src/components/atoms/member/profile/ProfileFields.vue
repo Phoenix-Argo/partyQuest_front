@@ -1,36 +1,31 @@
 <script setup>
-import {ref} from "vue";
 import HashTagDiv from "@/components/atoms/member/profile/HashTagDiv.vue";
 import IconLink from "@/components/icons/IconLink.vue";
+import {useProfileStore} from "@/stores/memberProfileStore";
 
-const profileFields = ref({
-  favoriteLocation: '서울',
-  mbti: 'INTP',
-  favoriteFields: ['백엔드','프론트엔드'],
-  favoriteTechs: ['Spring boot','JPA','Vue']
-})
+let profileStore = useProfileStore();
 </script>
 
 <template>
   <div class="profile-fields-container">
   <div class="profile-field-container">
     <div class="field-name-div">선호지역</div>
-    <div class="field-content-div">{{profileFields.favoriteLocation}}</div>
+    <div class="field-content-div">{{profileStore.getProfileInfo().value.preferredLocation}}</div>
   </div>
   <div class="profile-field-container">
     <div class="field-name-div">MBTI</div>
-    <div class="field-content-div">{{profileFields.mbti}}</div>
+    <div class="field-content-div">{{profileStore.getProfileInfo().value.mbti}}</div>
   </div>
   <div class="profile-field-container">
     <div class="field-name-div">나의 관심 분야</div>
     <div class="field-content-div">
-      <HashTagDiv v-for="field in profileFields.favoriteFields" :value="field" color="white" background-color="#008B8B"/>
+      <HashTagDiv v-for="field in profileStore.getProfileInfo().value.favoriteFields" :value="field" color="white" background-color="#008B8B"/>
     </div>
   </div>
   <div class="profile-field-container">
     <div class="field-name-div">나의 관심 기술</div>
     <div class="field-content-div">
-      <HashTagDiv v-for="field in profileFields.favoriteTechs" :value="field" color="white" background-color="#1CAC78"/>
+      <HashTagDiv v-for="field in profileStore.getProfileInfo().value.favoriteTechs" :value="field" color="white" background-color="#1CAC78"/>
     </div>
   </div>
     <div class="profile-field-container">

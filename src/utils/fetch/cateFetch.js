@@ -5,7 +5,7 @@ export const fetchCates = async () => {
     const cates = {};
     const major = {curMajor: 'none', majors: []}
 
-    await axiClient.get(URLCONST.CATE_ALL_URL)
+    await axiClient.get(URLCONST.CATE_CACHED_ALL_URL)
         .then((response) => {
             response.data.forEach((element) => {
                 const majorKey = element["majorName"];

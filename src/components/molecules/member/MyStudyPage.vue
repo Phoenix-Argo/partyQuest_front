@@ -207,7 +207,8 @@ const BtnMemberList =  (studyId) => {
 const BtnmodifyStudy= (studyId) =>{
   router.push(`/modifyStudy/${studyId}`);
 }
-const BtnDeleteStudy= async (studyId) =>{
+
+/* const BtnDeleteStudy= async (studyId) =>{
   const requestData = {
     hostId : user.hostId,
     studyId : studyId,
@@ -217,6 +218,26 @@ const BtnDeleteStudy= async (studyId) =>{
 
   } catch (err){
     console.error("error : " + err);
+  }
+}*/
+
+const BtnDeleteStudy= async (studyId) =>{
+  // 확인 창 표시
+  const isConfirmed = window.confirm("정말로 삭제하시겠습니까?");
+
+  if (isConfirmed) {
+    const requestData = {
+      hostId: user.hostId,
+      studyId: studyId,
+    };
+
+    try {
+      const response = await myAxios.delete(BASE_URL + "/api/study/deleteStudy/" + studyId, {data: requestData});
+
+      alert("파티가 해체되었습니다 T^T");
+    } catch (err) {
+      console.error("error : " + err);
+    }
   }
 }
 
