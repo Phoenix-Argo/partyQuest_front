@@ -4,13 +4,18 @@ import ProfileAvatarAndBio from "@/components/molecules/member/profile/view/Prof
 import ProfileFields from "@/components/atoms/member/profile/ProfileFields.vue";
 import ProfileAvatarAndBioEdit from "@/components/molecules/member/profile/modify/ProfileAvatarAndBioEdit.vue";
 import {useRouter} from "vue-router";
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import ProfileUpdateFields from "@/components/atoms/member/profile/ProfileUpdateFields.vue";
+import {useProfileStore} from "@/stores/memberProfileStore";
+import {useAuthStore} from "@/stores/authStore";
+import {getPartyLocationForUpdateProfile, getProfile} from "@/utils/fetch/memberFetch";
 
 const router = useRouter();
 const props = defineProps({
   state: String
 });
+let authStore = useAuthStore();
+let profileStore = useProfileStore();
 const updateRequest = ref({
   nickName: '',
   bio: '',
@@ -30,6 +35,13 @@ const onModifyBtnClick = ()=>{
 const onCancelBtnClick = ()=>{
   router.push('/profile')
 }
+const onValid = ()=>{
+  console.log(profileStore.getTmpProfileInfo().value)
+}
+onMounted(async ()=>{
+  let profile = await getProfile(authStore.getAccessToken());
+  profileStore.setProfileInfo(profile);
+})
 </script>
 
 <template>
@@ -42,6 +54,7 @@ const onCancelBtnClick = ()=>{
     <div class="btn-container">
       <div class="myBtn" @click="onModifyBtnClick">업데이트</div>
       <div class="myBtn cancel-btn" @click="onCancelBtnClick">취소하기</div>
+      <div class="myBtn cancel-btn" @click="onValid">확인</div>
     </div>
 
   </div>

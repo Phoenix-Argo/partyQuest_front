@@ -1,5 +1,6 @@
-import {axiClient, axiValid} from "@/utils/globalAxios";
+import {axiClient, axiValid, getValidatedAxios} from "@/utils/globalAxios";
 import {URLCONST} from "@/constants/APIconst";
+import {AUTH_CONST} from "@/constants/authConst";
 
 const SMALL_CATE_IDS = 'smallCateIds';
 export const getLocations = ()=>{
@@ -30,6 +31,25 @@ export const searchStudy = async(params)=>{
         }).catch(err => console.log(err))
 };
 
+export const getPartyLocationForUpdateProfile = async (accessToken) => {
+    let validatedAxios = getValidatedAxios(accessToken);
+    return await validatedAxios.get(URLCONST.PARTY_LOCATION_LIST)
+        .then(res => res.data);
+};
+export const getMbtis = async (accessToken) => {
+    let validatedAxios = getValidatedAxios(accessToken);
+    return await validatedAxios.get(URLCONST.MBTI_LIST)
+        .then(res => res.data);
+};
+
+export const getProfile = async (accessToken) => {
+    return await axiValid.get(URLCONST.PROFILE_GET, {
+        headers: {
+            Authorization: AUTH_CONST.AUTH_BEARER + accessToken,
+            'Content-type': 'application/json; charset=UTF-8',},
+    })
+        .then(res => res.data);
+};
 
 const makeQueryString = (obj) => {
     for (const key of Object.keys(obj)) {

@@ -7,7 +7,12 @@ export const URLCONST = {
     STUDY_IMAGE_URL : "/api/resources/images",
     STUDY_SEARCH_URL : "/api/study/search",
     CATE_ALL_URL: "api/category/allCate",
+    CATE_CACHED_ALL_URL: "api/category/cached/allCate",
     MEMBER_LIST: "api/member/list",
+    PARTY_LOCATION_LIST: "/api/member/cached/locations",
+    MBTI_LIST : "/api/member/cached/mbtis",
+    PROFILE_GET : "/api/member/profile",
+    PROFILE_UPDATE : "/api/member/profile/modify",
 }
 export const CSCONST = {
     NOTICE: 1,
