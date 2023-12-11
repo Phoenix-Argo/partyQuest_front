@@ -109,7 +109,7 @@ const btnDeleteCommunity= async (communityId) =>{
 
             </div>
 
-        </section>
+        </section>g
 
         <section>
           <div class="status" style="margin-top:1%;" v-if="communityView.writeId === user.hostId">
