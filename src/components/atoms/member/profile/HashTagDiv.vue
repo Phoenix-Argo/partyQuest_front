@@ -4,7 +4,8 @@ import {ref} from "vue";
 const props = defineProps({
   value : String,
   color: String,
-  backgroundColor: String
+  backgroundColor: String,
+  mode: String
 });
 const sliceNameFromKeySet = (keySet)=>{
   return keySet.split(" ").slice(0, -1).join(' ');
@@ -14,7 +15,7 @@ const isFocused = ref(false);
 
 <template>
   <div class="hash-tag" @mouseenter="isFocused=true" @mouseleave="isFocused=false">
-    {{sliceNameFromKeySet(props.value)}} <span v-if="isFocused" class="ribbon">삭제</span>
+    {{sliceNameFromKeySet(props.value)}} <span v-if="mode==='edit' &&isFocused" class="ribbon">삭제</span>
   </div>
 </template>
 

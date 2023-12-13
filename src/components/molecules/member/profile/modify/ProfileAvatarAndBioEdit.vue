@@ -16,6 +16,9 @@ const onBioChangeHandler = (e)=>{
   let value = e.target.value.trim();
   profileStore.setTmpNickbio(value);
 }
+const getOrDefaultMsg = () => {
+
+};
 </script>
 
 <template>
@@ -25,10 +28,10 @@ const onBioChangeHandler = (e)=>{
     </div>
     <div class="name-bio-container">
       <div class="name-div">
-        <input type="text" @change="onNickChangeHandler"/>
+        <input type="text" @change="onNickChangeHandler" :placeholder="profileStore.getProfileInfo().value.nickName"/>
       </div>
       <div class="bio-fluid-container">
-        <textarea @change="onBioChangeHandler" />
+        <textarea @change="onBioChangeHandler" :placeholder="profileStore.getProfileInfo().value.bio"/>
       </div>
     </div>
   </div>
