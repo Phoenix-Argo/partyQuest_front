@@ -77,6 +77,7 @@ onMounted(async () => {
         </div>
         <div class="field-content-div">
           <HashTagDiv v-for="field in profileStore.getTmpProfileInfo().value.favoriteFields" :value="field" color="white" background-color="#008B8B"
+                      mode="edit"
           @click="onFieldDeleteHandler(field)"/>
         </div>
       </div>
@@ -86,7 +87,8 @@ onMounted(async () => {
         <div class="field-name-div">나의 관심 기술 <ProfileSelectContainer select-type="small"/>
         </div>
         <div class="field-content-div">
-          <HashTagDiv v-for="field in profileStore.getTmpProfileInfo().value.favoriteTechs" :value="field" color="white" background-color="#1CAC78" @click="onTechDeleteHandler(field)"/>
+          <HashTagDiv v-for="field in profileStore.getTmpProfileInfo().value.favoriteTechs" :value="field" color="white" background-color="#1CAC78" @click="onTechDeleteHandler(field)"
+                      mode="edit"/>
         </div>
       </div>
     </div>
