@@ -13,3 +13,14 @@ const props = defineProps({
   cateKind: String
 });
 </script>
+<style scoped>
+.cate-container{
+  display: flex;
+}
+.cate-container > div {
+  margin-right: 8px;
+}
+.cate-container > div:last-child {
+  margin-right: 0;
+}
+</style>

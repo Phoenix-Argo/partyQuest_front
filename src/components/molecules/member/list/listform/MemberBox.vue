@@ -26,14 +26,16 @@ console.log("[localMemberInfo]"+localMemberInfo.value);
           </div>
         </div>
         <div class="card-role mb-2 text-body-secondary">
-          {{ localMemberInfo.role === 'ROLE_ADMIN' ? 'NPC' : localMemberInfo.role === 'ROLE_USER' ? '파티원' : localMemberInfo.role }}
+          {{ localMemberInfo.role === 'ROLE_ADMIN' ? 'NPC' : localMemberInfo.role === 'ROLE_USER' ? '플레이어' : localMemberInfo.role }}
         </div>
       </div>
       <div class="card-info">
         <div class="card-mbti"><IconMbti class="mbti-icon"></IconMbti> {{localMemberInfo.mbti}}</div>
         <MiddleContainer :cate-list="localMemberInfo.middleCates" cate-kind="middle"></MiddleContainer>
       </div>
-      <div class="card-location"><Location></Location>{{localMemberInfo.preferredLocation.locationName}}</div>
+      <div class="card-location"><Location></Location>
+        {{localMemberInfo.preferredLocation.locationName ? localMemberInfo.preferredLocation.locationName : '없음'}}
+      </div>
       <div class="cate-container">
         <SmallCateButton :cate-list="localMemberInfo.smallCates" cate-kind="small"></SmallCateButton>
       </div>
@@ -81,8 +83,8 @@ console.log("[localMemberInfo]"+localMemberInfo.value);
   grid-area: cate;
 }
 .avatar-img{
-  width: 60px;
-  margin-bottom:20px;
+  width: 73px;
+  margin-bottom:13px;
 }
 
 .dropbtn {
