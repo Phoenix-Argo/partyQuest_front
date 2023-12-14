@@ -23,7 +23,7 @@ export const useAuthStore = defineStore(
     };
     //getter
       const getAccessToken = ()=>{
-          return accessToken;
+          return accessToken.value;
       }
       const getUser = ()=>{
           return user;
@@ -32,11 +32,12 @@ export const useAuthStore = defineStore(
     /**
      * rawAccessToken -> accessToken 처리하고
      * accessToken과 유저 정보를 영속화 한다.
-     * @param accessToken : string
+     * @param rawAccessToken : string
      */
     const accessTokenHandler = (rawAccessToken) => {
       let decode = jwtDecode(rawAccessToken);
       changeUser(decode);
+        console.log("[rawAccess]", rawAccessToken);
       accessToken.value = rawAccessToken;
     };
     const invalidateUser = () => {
@@ -45,10 +46,10 @@ export const useAuthStore = defineStore(
     };
     return {
       user,
+        accessToken,
       changeUser,
       accessTokenHandler,
       invalidateUser,
-        accessToken,
         getAccessToken,
         getUser
     };

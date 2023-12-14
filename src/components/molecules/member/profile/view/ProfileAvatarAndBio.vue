@@ -1,23 +1,25 @@
 <script setup>
 
 import ProfileImg from "@/components/atoms/member/profile/ProfileImg.vue";
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import ProfileFields from "@/components/atoms/member/profile/ProfileFields.vue";
 import {useProfileStore} from "@/stores/memberProfileStore";
 
 let profileStore = useProfileStore();
-const bio = ref("안녕하세요 선생님 우리모두 춤춰요\n안녕 친구야\nㅎㅏ\nㅎㅏ\nㅎㅏ\nㅎㅏ")
+onMounted(()=>{
+  console.log('status: ',profileStore.getProfileInfo().avatarURL)
+})
 </script>
 
 <template>
   <div class="out-container">
     <div class="thumb-container">
-      <ProfileImg/>
+      <ProfileImg :content="profileStore.getProfileInfo().avatarURL === ''? null : profileStore.getProfileInfo().avatarURL"/>
     </div>
     <div class="name-bio-container">
-      <div class="name-div">{{profileStore.getProfileInfo().value.nickName}}</div>
+      <div class="name-div">{{profileStore.getProfileInfo().nickName}}</div>
       <div class="bio-fluid-container">
-        <div class="bio-div">{{profileStore.getProfileInfo().value.bio}}</div>
+        <div class="bio-div">{{profileStore.getProfileInfo().bio}}</div>
       </div>
     </div>
   </div>
@@ -31,7 +33,8 @@ const bio = ref("안녕하세요 선생님 우리모두 춤춰요\n안녕 친구
 .thumb-container {
   border-radius: 100%;
 }
-.thumb-container img{
+.thumb-container img {
+  border-radius: 100%;
   object-fit: fill;
   width: 8rem;
   height: 8rem;

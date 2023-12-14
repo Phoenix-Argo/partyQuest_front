@@ -41,7 +41,6 @@ watch(dataFetchFlag,onSearchCondUpdateHandler)
 const onPagingHandler = (num)=>{
   isFirstFetched.value = false;
   searchCond.value.page = num;
-  console.log('아콩이',searchCond.value, dataFetchFlag.value,pageData.value)
 }
 const findMatchingKey = (targetMajor,targetMiddle) => {
   let majorKeys = Object.keys(cateStore.getCate());

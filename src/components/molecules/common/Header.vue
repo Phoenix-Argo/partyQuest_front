@@ -136,7 +136,7 @@ onMounted(async ()=>{
         </div>
 <!--        LEARN: 바인딩 처리 해주려면 이렇게 직접 참조 하도록 한다.-->
         <div class="flex-fill">
-          <div v-if="auth.accessToken.length >0">
+          <div v-if="auth.getAccessToken().length >0">
             <AuthenticatedHeader :member="auth.user"/>
           </div>
           <div v-else class="">

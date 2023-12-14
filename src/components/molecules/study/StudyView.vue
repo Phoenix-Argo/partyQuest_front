@@ -328,7 +328,6 @@ const updateLike = async () => {
   };
   try {
     const response = await myAxios.put(`${BASE_URL}/updateLike`, requestData);
-    alert("하트 공격!");
 
   } catch (error) {
     console.error(error);
@@ -349,7 +348,6 @@ const applyStudy = async () => {
         StudyMemberJoinRequest
       );
       console.log(response.data);
-      alert(response.data);
     } catch (error) {
       console.error(error);
       alert("신청이 되지 않았습니다.");

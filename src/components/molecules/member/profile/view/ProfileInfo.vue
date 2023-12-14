@@ -4,11 +4,11 @@ import ProfileAvatarAndBio from "@/components/molecules/member/profile/view/Prof
 import ProfileFields from "@/components/atoms/member/profile/ProfileFields.vue";
 import ProfileAvatarAndBioEdit from "@/components/molecules/member/profile/modify/ProfileAvatarAndBioEdit.vue";
 import {useRouter} from "vue-router";
-import {onMounted, ref} from "vue";
+import {onBeforeMount, onMounted, ref} from "vue";
 import ProfileUpdateFields from "@/components/atoms/member/profile/ProfileUpdateFields.vue";
 import {useProfileStore} from "@/stores/memberProfileStore";
 import {useAuthStore} from "@/stores/authStore";
-import {getPartyLocationForUpdateProfile, getProfile} from "@/utils/fetch/memberFetch";
+import {getPartyLocationForUpdateProfile, getProfile, updateAvatar, updateProfile} from "@/utils/fetch/memberFetch";
 
 const router = useRouter();
 const props = defineProps({
@@ -29,17 +29,35 @@ const updateRequest = ref({
 const onModifyRouteBtnClick = ()=>{
   router.push('/profile/update');
 }
-const onModifyBtnClick = ()=>{
+const onModifyBtnClick = async ()=>{
+  let curData = await profileStore.getTmpProfileInfo().value;
+  let toUpdate = {...curData}
+  toUpdate.favoriteFields = [];
+  toUpdate.favoriteTechs = [];
+  if(profileStore.getIsMiddleChanged()) toUpdate.favoriteFields = Array.from(curData.favoriteFields).map(el=>mapToId(el));
+  if(profileStore.getIsSmallChanged()) toUpdate.favoriteTechs = Array.from(curData.favoriteTechs).map(el=>mapToId(el));
 
+  delete toUpdate.preferredLocation; // 프로필 업데이트시 불필요한 필드라서 삭제처리한다.
+  await updateProfile(toUpdate, authStore.getAccessToken());
+  if(profileStore.getTmpAvatar() !== null){
+    const formData = new FormData();
+    formData.append('avatar', profileStore.getTmpAvatar());
+    await updateAvatar(formData,authStore.getAccessToken())
+  }
+  await router.push("/profile")
 }
 const onCancelBtnClick = ()=>{
   router.push('/profile')
 }
 const onValid = ()=>{
-  console.log(profileStore.getTmpProfileInfo().value)
 }
-onMounted(async ()=>{
+const mapToId = (data)=>{
+  let splitted = data.split(" ");
+  return Number(splitted[splitted.length-1]);
+}
+onBeforeMount(async ()=>{
   let profile = await getProfile(authStore.getAccessToken());
+  console.log(profile)
   profileStore.setProfileInfo(profile);
 })
 </script>
@@ -69,6 +87,8 @@ onMounted(async ()=>{
 
 <style scoped>
 .profile-main-container{
+  margin-top: 1rem;
+  margin-bottom: 3rem;
   padding-left: 2rem;
 }
 .btn-container{
