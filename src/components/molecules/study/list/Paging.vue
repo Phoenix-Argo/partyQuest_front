@@ -17,7 +17,11 @@ const props = defineProps({
     height: 30px;
     padding: 10px;
     border-radius: 3px;
-    color: white;
-    background-color: #ce0f38;
+    color: black;
+    border:1px solid darkgray;
+
+  }
+  .paging-div:hover{
+    background-color:tomato;
   }
 </style>

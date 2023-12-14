@@ -7,7 +7,6 @@ const props = defineProps({
   cateName:String,
 })
 
-console.log("props :"+ props.cateName);
 </script>
 <style scoped>
 .btn{
