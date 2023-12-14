@@ -1,5 +1,5 @@
 <script setup>
-import {onMounted, ref} from "vue";
+import {onMounted, onUnmounted, ref} from "vue";
 import HashTagDiv from "@/components/atoms/member/profile/HashTagDiv.vue";
 import IconLink from "@/components/icons/IconLink.vue";
 import ProfileSelectContainer from "@/components/molecules/member/profile/modify/ProfileSelectContainer.vue";
@@ -28,10 +28,12 @@ const onMbtiChange = (e) => {
 const onTechDeleteHandler = (hashTag)=>{
   let target = profileStore.getTmpProfileInfo().value.favoriteTechs;
   target.delete(hashTag);
+  profileStore.setIsSmallChanged(true);
 }
 const onFieldDeleteHandler = (hashTag)=>{
   let target = profileStore.getTmpProfileInfo().value.favoriteFields;
   target.delete(hashTag);
+  profileStore.setIsMiddleChanged(true);
 }
 const onLink1ChangeHandler = (e)=>{
   let value = e.target.value.trim();
@@ -41,12 +43,20 @@ const onLink2ChangeHandler = (e)=>{
   let value = e.target.value.trim();
   profileStore.setTmplink2(value);
 }
+const getLinkOrDefault = (data)=>{
+  if(data === null) return "포트폴리오, 블로그등의 링크를 공유하세요"
+  return data;
+}
 onMounted(async () => {
   let locations = await getPartyLocationForUpdateProfile(authStore.getAccessToken());
   let mbtis = await getMbtis();
   profileFields.value.favoriteLocations = locations;
   profileFields.value.mbtis = mbtis;
 });
+onUnmounted(()=>{
+  profileStore.setIsMiddleChanged(false);
+  profileStore.setIsSmallChanged(false);
+})
 </script>
 
 <template>
@@ -55,7 +65,7 @@ onMounted(async () => {
       <div class="field-name-div">선호지역</div>
       <div class="field-content-div">
         <select name="currentLocation" @change="onPreLocationChange">
-          <option :selected="profileStore.getTmpProfileInfo().value.preferredLocation===String(location.id)" v-for="location in profileFields.favoriteLocations" :value="location.id">
+          <option :selected="profileStore.getTmpProfileInfo().value.preferredLocation===String(location.locationName)" v-for="location in profileFields.favoriteLocations" :value="location.id">
             {{location.locationName}}
           </option>
         </select>
@@ -96,10 +106,10 @@ onMounted(async () => {
       <div class="field-name-div">포트폴리오/URL</div>
       <div class="field-content-div">
         <div class="link-content">
-          <IconLink/> <input type="text" @change="onLink1ChangeHandler"/>
+          <IconLink/> <input type="text" @change="onLink1ChangeHandler" :placeholder="getLinkOrDefault(profileStore.getTmpProfileInfo().value.link1)"/>
         </div>
         <div class="link-content">
-          <IconLink/> <input type="text" @change="onLink2ChangeHandler"/>
+          <IconLink/> <input type="text" @change="onLink2ChangeHandler" :placeholder="getLinkOrDefault(profileStore.getTmpProfileInfo().value.link2)"/>/>
         </div>
       </div>
     </div>

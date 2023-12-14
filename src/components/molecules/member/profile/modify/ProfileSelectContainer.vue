@@ -27,12 +27,16 @@ const onMiddleChange = (e) => {
   middle.value.curMiddle = curMiddle;
   small.value.smalls =
       cates.value[major.value.curMajor][middle.value.curMiddle];
-  if(props.selectType==='middle')profileStore.addField(curMiddle);
+  if(props.selectType==='middle'){
+    profileStore.addField(curMiddle);
+    if(!profileStore.isFieldContain(curMiddle)) profileStore.setIsMiddleChanged(true);
+  }
 };
 const onSmallSelected = (e) => {
   const curSmall = e.target.value.trim();
   small.value.curSmall = curSmall;
   profileStore.addTech(curSmall);
+  if(!profileStore.isTechContain(curSmall)) profileStore.setIsSmallChanged(true);
 };
 
 onMounted(async ()=>{

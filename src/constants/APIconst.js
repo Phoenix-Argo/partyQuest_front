@@ -13,6 +13,7 @@ export const URLCONST = {
     MBTI_LIST : "/api/member/cached/mbtis",
     PROFILE_GET : "/api/member/profile",
     PROFILE_UPDATE : "/api/member/profile/modify",
+    AVATAR_UPDATE : "/api/member/profile/modify/avatar"
 }
 export const CSCONST = {
     NOTICE: 1,

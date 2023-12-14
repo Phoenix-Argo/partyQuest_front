@@ -43,6 +43,7 @@ export const getMbtis = async (accessToken) => {
 };
 
 export const getProfile = async (accessToken) => {
+    console.log('[get profile called]')
     return await axiValid.get(URLCONST.PROFILE_GET, {
         headers: {
             Authorization: AUTH_CONST.AUTH_BEARER + accessToken,
@@ -51,6 +52,24 @@ export const getProfile = async (accessToken) => {
         .then(res => res.data);
 };
 
+export const updateProfile = async (data,accessToken) => {
+    let validatedAxios = getValidatedAxios(accessToken);
+    return await validatedAxios.post(URLCONST.PROFILE_UPDATE, data,{
+        headers:{
+            'Content-type': 'application/json; charset=UTF-8'
+        }
+    })
+        .then(res => res.data);
+};
+export const updateAvatar = async (data, accessToken) => {
+    let validatedAxios = getValidatedAxios(accessToken);
+    return await validatedAxios.post(URLCONST.AVATAR_UPDATE, data,{
+        headers:{
+            "Content-Type": "multipart/form-data",
+        }
+    })
+        .then(res => res.data);
+};
 const makeQueryString = (obj) => {
     for (const key of Object.keys(obj)) {
         if (obj[key] === null || obj[key].length === 0) {
